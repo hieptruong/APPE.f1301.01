@@ -1,0 +1,15 @@
+
+Änderungen gegenüber Original von Checkstyle
+============================================
+
+Hiddenfield: 
+   <property name="ignoreConstructorParameter" value="true" />
+   <property name="ignoreSetter" value="true" />
+	
+JavaDocVariable: 
+   <property name="excludeScope" value="private" />
+   
+LineLength:
+   <property name="max" value="120" />
+   
+
