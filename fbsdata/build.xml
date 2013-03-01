@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 -->
-<project name="template"
+<project name="fbsdata"
          default="build"
          basedir="."
          xmlns:jacoco="antlib:org.jacoco.ant">
