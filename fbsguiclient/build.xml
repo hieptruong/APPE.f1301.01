@@ -158,7 +158,18 @@
    <!-- ================================================================== -->
    <target name="jar" depends="compile" description="create jar">
       <mkdir dir="${target}/lib" />
-      <jar jarfile="${target}/lib/${distname}.jar" basedir="${classes}">
+      <jar jarfile="${target}/lib/${distname}.jar" basedir="${classes}" includes="**/*" excludes="**/shared/">
+         <manifest>
+            <attribute name="Implementation-Title" value="${proj.name}" />
+            <attribute name="Implementation-Version" value="${proj.version}" />
+            <attribute name="Implementation-Vendor" value="HSLU" />
+            <attribute name="Implementation-User" value="${proj.autor}" />
+            <attribute name="Built-By" value="${proj.autor}" />
+            <attribute name="Sealed" value="false" />
+            <attribute name="Main-Class" value="${proj.startclass}" />
+         </manifest>
+      </jar>
+      <jar jarfile="${target}/lib/${distname}.shared.jar" basedir="${classes}" includes="**/shared/*">
          <manifest>
             <attribute name="Implementation-Title" value="${proj.name}" />
             <attribute name="Implementation-Version" value="${proj.version}" />
