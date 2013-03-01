@@ -63,6 +63,7 @@
 
    <!-- calculated properties -->
    <property name="distname" value="${proj.name}-${proj.version}" />
+   <property name="distname.shared" value="${proj.name}-${proj.shared.version}.shared" />
    <property name="coverage.data" value="${coverage}/jacoco.exec" />
    <property name="checkstyle.config.file" value="${libdev}/checkstyle/cfg/checkstyle_hslu.xml" />
    <property name="pmd.config.file" value="${libdev}/pmd/cfg/pmd_hslu.xml" />
@@ -169,17 +170,20 @@
             <attribute name="Main-Class" value="${proj.startclass}" />
          </manifest>
       </jar>
-      <jar jarfile="${target}/lib/${distname}.shared.jar" basedir="${classes}" includes="**/shared/*">
-         <manifest>
-            <attribute name="Implementation-Title" value="${proj.name}" />
-            <attribute name="Implementation-Version" value="${proj.version}" />
-            <attribute name="Implementation-Vendor" value="HSLU" />
-            <attribute name="Implementation-User" value="${proj.autor}" />
-            <attribute name="Built-By" value="${proj.autor}" />
-            <attribute name="Sealed" value="false" />
-            <attribute name="Main-Class" value="${proj.startclass}" />
-         </manifest>
-      </jar>
+   </target>
+   <target name="jar_shared" depends="compile" description="create shared jar">
+     <mkdir dir="${target}/lib" />
+     <jar jarfile="${target}/lib/${distname.shared}.jar" basedir="${classes}" includes="**/shared/*" whenmanifestonly="skip">
+       <manifest>
+         <attribute name="Implementation-Title" value="${proj.name}" />
+         <attribute name="Implementation-Version" value="${proj.version}" />
+         <attribute name="Implementation-Vendor" value="HSLU" />
+         <attribute name="Implementation-User" value="${proj.autor}" />
+         <attribute name="Built-By" value="${proj.autor}" />
+         <attribute name="Sealed" value="false" />
+         <attribute name="Main-Class" value="${proj.startclass}" />
+       </manifest>
+     </jar>
    </target>
 
    <!-- ================================================================== -->
@@ -367,9 +371,18 @@
    <!-- ================================================================== -->
    <!-- Target: build -->
    <!-- ================================================================== -->
-   <target name="build" depends="jar, test" description="complete build">
+   <target name="build" depends="jar, jar_shared, test, link" description="complete build">
    </target>
-
+   
+   <!-- ================================================================== -->
+   <!-- Target: link -->
+   <!-- ================================================================== -->
+   <target name="link" depends="jar, jar_shared" description="link it in the right folder.">
+     <copy todir="${basedir}/deployment/">
+       <fileset dir="${target}/lib/" includes="*.jar" />
+     </copy>
+   </target>
+   
    <!-- ****************************************************************** -->
    <!-- * MACROS  -->
    <!-- ****************************************************************** -->
