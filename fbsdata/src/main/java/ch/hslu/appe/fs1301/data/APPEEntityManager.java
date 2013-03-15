@@ -15,21 +15,12 @@ import ch.hslu.appe.fs1301.data.shared.iAPPEEntityManager;
  */
 public class APPEEntityManager implements iAPPEEntityManager  {
 	
-	private static APPEEntityManager fMyFactory = null;
-	
 	private EntityManagerFactory fEntityManagerFactory;
 	private EntityManager fEntityManager;
 	
-	private APPEEntityManager() {
+	public APPEEntityManager() {
 		fEntityManagerFactory = Persistence.createEntityManagerFactory("fbsdata");
 		fEntityManager = fEntityManagerFactory.createEntityManager();
-	}
-	
-	public static APPEEntityManager getInstance() {
-		if (fMyFactory == null) {
-			fMyFactory = new APPEEntityManager();
-		}
-		return fMyFactory;
 	}
 	
 	public<T> T getEntityObject(Class<T> entityType, int id) {

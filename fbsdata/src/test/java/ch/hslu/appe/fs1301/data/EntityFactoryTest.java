@@ -1,6 +1,8 @@
 package ch.hslu.appe.fs1301.data;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.Date;
 
@@ -8,60 +10,61 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ch.hslu.appe.fs1301.data.shared.Person;
+import ch.hslu.appe.fs1301.data.shared.iAPPEEntityManager;
 
 
 public class EntityFactoryTest extends BaseTestClass {
 	
-	private APPEEntityManager fEntityFactory;
-
+	private iAPPEEntityManager manager;
+	
 	@Override
 	@Before
-	public void setUp() {
-		fEntityFactory = APPEEntityManager.getInstance();
+	public void setUp() {	
+		manager = new APPEEntityManager();
 	}
 	
 	@Test
 	public void TestCreateEntity() throws InstantiationException, IllegalAccessException {
-		Person person = fEntityFactory.createEntityObject(Person.class);
+		Person person = manager.createEntityObject(Person.class);
 		fillPerson(person);
 		
-		fEntityFactory.saveEntityObject(person);
+		manager.saveEntityObject(person);
 		assertNotEquals(0, person.getId());
 		
-		fEntityFactory.deleteEntityObject(person);
+		manager.deleteEntityObject(person);
 	}
 	
 	@Test
 	public void TestUpdateEntity() throws InstantiationException, IllegalAccessException {
-		Person person = fEntityFactory.createEntityObject(Person.class);
+		Person person = manager.createEntityObject(Person.class);
 		fillPerson(person);
 		
-		fEntityFactory.saveEntityObject(person);
+		manager.saveEntityObject(person);
 		int id = person.getId();
 		assertNotEquals(0, id);
 		
 		person.setEMail("Thomas.bomatter@bluewin.ch");
-		fEntityFactory.saveEntityObject(person);
+		manager.saveEntityObject(person);
 		
-		Person person2 = fEntityFactory.getEntityObject(Person.class, person.getId());
+		Person person2 = manager.getEntityObject(Person.class, person.getId());
 		assertEquals(person.getEMail(), person2.getEMail());
 		assertEquals(id, person2.getId());
 		
-		fEntityFactory.deleteEntityObject(person2);
+		manager.deleteEntityObject(person2);
 	}
 	
 	@Test
 	public void TestDeleteEntity() throws InstantiationException, IllegalAccessException {
-		Person person = fEntityFactory.createEntityObject(Person.class);
+		Person person = manager.createEntityObject(Person.class);
 		fillPerson(person);	
 		
-		fEntityFactory.saveEntityObject(person);
+		manager.saveEntityObject(person);
 		int id = person.getId();
 		assertNotEquals(0, id);
 		
-		fEntityFactory.deleteEntityObject(person);
+		manager.deleteEntityObject(person);
 		
-		Person person2 = fEntityFactory.getEntityObject(Person.class, person.getId());
+		Person person2 = manager.getEntityObject(Person.class, person.getId());
 		assertNull(person2);
 	}
 	
