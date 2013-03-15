@@ -74,7 +74,12 @@
          <include name="*.jar" />
       </fileset>
    </path>
-
+   <path id="libset.junolib">
+   	  <fileset dir="${basedir}/../libraries/EclipseLink 2.4.1 - Juno/eclipselink/">
+   	  	 <include name="**.jar" />
+   	  </fileset>
+   </path>
+	
    <!-- define test libraries -->
    <path id="libset.test">
       <fileset dir="${libdev}">
