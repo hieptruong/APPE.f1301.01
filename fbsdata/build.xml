@@ -59,7 +59,7 @@
    <property name="pmd" location="${target}/pmd" />
 
    <!-- setting general properties -->
-   <property name="proj.java.version" value="1.7" />
+   <property name="proj.java.version" value="1.6" />
 
    <!-- calculated properties -->
    <property name="distname" value="${proj.name}-${proj.version}" />
@@ -76,7 +76,7 @@
    </path>
    <path id="libset.junolib">
    	  <fileset dir="${basedir}/../libraries/EclipseLink 2.4.1 - Juno/eclipselink/">
-   	  	 <include name="**.jar" />
+   	  	 <include name="**/*.jar" />
    	  </fileset>
    </path>
 	
@@ -142,6 +142,7 @@
          <src path="${generated}" />
          <classpath>
             <path refid="libset.runtime" />
+         	<path refid="libset.junolib" />
          </classpath>
       </javac>
       <copy todir="${classes}">
