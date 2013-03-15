@@ -1,4 +1,4 @@
-package ch.hslu.appe.fs1301.data;
+package ch.hslu.appe.fs1301.data.shared;
 
 import java.io.Serializable;
 import javax.persistence.*;
