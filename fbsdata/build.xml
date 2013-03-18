@@ -71,7 +71,7 @@
    <!-- define runtime libraries -->
    <path id="libset.runtime">
       <fileset dir="${lib}">
-         <include name="*.jar" />
+         <include name="**/*.jar" />
       </fileset>
    </path>
    <path id="libset.junolib">
@@ -156,6 +156,7 @@
             <pathelement path="${classes}" />
             <path refid="libset.test" />
             <path refid="libset.runtime" />
+         	<path refid="libset.junolib" />
          </classpath>
       </javac>
    </target>
@@ -190,6 +191,7 @@
          <attribute name="Main-Class" value="${proj.startclass}" />
        </manifest>
      </jar>
+   	<copy file="${target}/lib/${distname.shared}.jar" tofile="${basedir}/../fbsservice/lib/fbsdata/${distname.shared}.jar"></copy>   	
    </target>
    
    <!-- ================================================================== -->
@@ -216,6 +218,7 @@
             <path location="${classes}" />
             <path refid="libset.test" />
             <path refid="libset.runtime" />
+         	<path refid="libset.junolib" />
          </classpath>
       </junit>
       <!-- junit.report / -->

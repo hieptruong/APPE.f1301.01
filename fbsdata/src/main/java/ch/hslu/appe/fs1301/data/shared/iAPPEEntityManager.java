@@ -1,6 +1,5 @@
 package ch.hslu.appe.fs1301.data.shared;
 
-import java.util.List;
 
 /**
  * @author Thomas Bomatter
@@ -21,6 +20,4 @@ public interface iAPPEEntityManager {
 	public void commitTransaction();
 	
 	public void rollbackTransaction();
-	
-	public<T> List<T> executeQuery(Class<T> entityType, String query);
 }

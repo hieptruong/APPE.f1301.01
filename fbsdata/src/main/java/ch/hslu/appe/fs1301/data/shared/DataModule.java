@@ -1,5 +1,6 @@
 package ch.hslu.appe.fs1301.data.shared;
 
+
 import ch.hslu.appe.fs1301.data.APPEEntityManager;
 
 import com.google.inject.AbstractModule;

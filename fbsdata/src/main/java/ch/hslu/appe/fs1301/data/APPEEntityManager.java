@@ -1,13 +1,11 @@
 package ch.hslu.appe.fs1301.data;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
 
 import ch.hslu.appe.fs1301.data.shared.iAPPEEntityManager;
+
 
 /**
  * @author Thomas Bomatter
@@ -53,10 +51,5 @@ public class APPEEntityManager implements iAPPEEntityManager  {
 	
 	public void rollbackTransaction() {
 		fEntityManager.getTransaction().rollback();
-	}
-	
-	public<T> List<T> executeQuery(Class<T> entityType, String query) {
-		TypedQuery<T> createQuery = fEntityManager.createQuery(query, entityType);
-		return createQuery.getResultList();		
 	}
 }
