@@ -71,7 +71,7 @@
    <!-- define runtime libraries -->
    <path id="libset.runtime">
       <fileset dir="${lib}">
-         <include name="*.jar" />
+         <include name="**/*.jar" />
       </fileset>
    	  <fileset dir="${basedir}/plugins">
    	  	<include name="*.jar"/>

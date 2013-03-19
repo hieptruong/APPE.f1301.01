@@ -71,10 +71,16 @@
    <!-- define runtime libraries -->
    <path id="libset.runtime">
       <fileset dir="${lib}">
-         <include name="*.jar" />
+         <include name="**/*.jar" />
       </fileset>
    </path>
 
+   <path id="libset.junolib">
+   	  <fileset dir="${basedir}/../libraries/EclipseLink 2.4.1 - Juno/eclipselink/">
+   	  	 <include name="**/*.jar" />
+   	  </fileset>
+   </path>
+	
    <!-- define test libraries -->
    <path id="libset.test">
       <fileset dir="${libdev}">
@@ -137,6 +143,7 @@
          <src path="${generated}" />
          <classpath>
             <path refid="libset.runtime" />
+         	<path refid="libset.junolib" />
          </classpath>
       </javac>
       <copy todir="${classes}">
@@ -150,6 +157,7 @@
             <pathelement path="${classes}" />
             <path refid="libset.test" />
             <path refid="libset.runtime" />
+         	<path refid="libset.junolib" />
          </classpath>
       </javac>
    </target>
@@ -182,7 +190,11 @@
          <attribute name="Built-By" value="${proj.autor}" />
          <attribute name="Sealed" value="false" />
          <attribute name="Main-Class" value="${proj.startclass}" />
-       </manifest>
+       </manifest>     	
+       <zipgroupfileset dir="${basedir}/lib/fbsdata/" includes="**/*.jar"/>
+       <fileset dir="${basedir}/src/main/java/" >
+     	 <include name="**"/>
+       </fileset>
      </jar>
    	<copy file="${target}/lib/${distname.shared}.jar" tofile="${basedir}/../fbsguiclient/lib/fbsservice/${distname.shared}.jar"></copy>
    </target>
@@ -211,6 +223,7 @@
             <path location="${classes}" />
             <path refid="libset.test" />
             <path refid="libset.runtime" />
+         	<path refid="libset.junolib" />
          </classpath>
       </junit>
       <!-- junit.report / -->

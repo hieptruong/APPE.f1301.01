@@ -190,7 +190,14 @@
          <attribute name="Sealed" value="false" />
          <attribute name="Main-Class" value="${proj.startclass}" />
        </manifest>
-     </jar>
+       <zipgroupfileset dir="${basedir}/lib/eclipselink/" includes="**/*.jar"/>
+       <zipgroupfileset dir="${basedir}/lib/guice/" includes="**/*.jar"/>
+       <zipgroupfileset dir="${basedir}/lib/SQL/" includes="**/*.jar"/>
+       <fileset dir="${basedir}/src/main/java/" >
+         <include name="**"/>
+       </fileset>
+     </jar>   	
+   	
    	<copy file="${target}/lib/${distname.shared}.jar" tofile="${basedir}/../fbsservice/lib/fbsdata/${distname.shared}.jar"></copy>   	
    </target>
    

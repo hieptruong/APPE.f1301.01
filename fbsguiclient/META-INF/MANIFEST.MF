@@ -3,9 +3,16 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Fbsguiclient
 Bundle-SymbolicName: ch.hslu.appe.fs1303.fbsguiclient; singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: ch.hslu.appe.fs1303.gui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: org.junit
+Bundle-ClassPath: lib/fbsservice/appe_fbsservice-0.0.0.0.shared.jar,
+ .,
+ lib/dev/checkstyle/checkstyle-5.6-all.jar,
+ lib/dev/classycle/classycle.jar,
+ lib/dev/jacoco/jacocoant.jar,
+ lib/dev/pmd/asm-3.2.jar,
+ lib/dev/pmd/jaxen-1.1.1.jar,
+ lib/dev/pmd/pmd-5.0.2.jar,
+ lib/dev/qsreporter/qsreporter-1.0.1.jar

@@ -9,6 +9,7 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.hslu.appe.fs1301.data.shared.APPEEntityManager;
 import ch.hslu.appe.fs1301.data.shared.Person;
 import ch.hslu.appe.fs1301.data.shared.iAPPEEntityManager;
 

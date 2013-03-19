@@ -7,7 +7,13 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
+import ch.hslu.appe.fs1301.business.shared.ServiceModule;
+import ch.hslu.appe.fs1301.business.shared.iSessionAPI;
+import ch.hslu.appe.fs1301.data.shared.DataModule;
 import ch.hslu.appe.fs1303.gui.dialogs.LoginDialog;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 /**
  * This class controls all aspects of the application's execution
@@ -17,22 +23,25 @@ public class Application implements IApplication {
 	/* (non-Javadoc)
 	 * @see org.eclipse.equinox.app.IApplication#start(org.eclipse.equinox.app.IApplicationContext)
 	 */
-	public Object start(IApplicationContext context) {
-		Display display = PlatformUI.createDisplay();		
+	public Object start(IApplicationContext context) {		
+		Display display = PlatformUI.createDisplay();
+		
+		Injector injector = Guice.createInjector(new ServiceModule(), new DataModule());
+		iSessionAPI sessionAPI = injector.getInstance(iSessionAPI.class);
 		
 		LoginDialog loginDialog = new LoginDialog(null);
-		if (loginDialog.open() == Window.OK) {
-			// TODO: Authenticate			
-			
-			try {
-				int returnCode = PlatformUI.createAndRunWorkbench(display, new ApplicationWorkbenchAdvisor());
-				if (returnCode == PlatformUI.RETURN_RESTART) {
-					return IApplication.EXIT_RESTART;
+		while (loginDialog.open() != Window.CANCEL) {
+			if (sessionAPI.authenticate(loginDialog.getUser(), loginDialog.getPassword())); {
+				try {
+					int returnCode = PlatformUI.createAndRunWorkbench(display, new ApplicationWorkbenchAdvisor());
+					if (returnCode == PlatformUI.RETURN_RESTART) {
+						return IApplication.EXIT_RESTART;
+					}
+					return IApplication.EXIT_OK;
+				} finally {
+					display.dispose();
 				}
-				return IApplication.EXIT_OK;
-			} finally {
-				display.dispose();
-			}
+			}			
 		}		
 		
 		return IApplication.EXIT_OK;
