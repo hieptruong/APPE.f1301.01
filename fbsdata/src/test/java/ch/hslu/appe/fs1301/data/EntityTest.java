@@ -131,7 +131,7 @@ public class EntityTest extends BaseTestClass {
 		
 		assertEquals(1, prod.getId());
 		assertEquals(ArrayList.class, prod.getBestellpositions().getClass());
-		assertEquals(String.class, prod.getBezeichnung());
+		assertEquals(String.class, prod.getBezeichnung().getClass());
 		assertEquals(5, prod.getLagerbestand());
 		assertEquals(3, prod.getMinimalMenge());
 		assertEquals(2000, prod.getPreis());
