@@ -18,7 +18,7 @@ import ch.hslu.appe.fs1301.data.shared.Rechnung;
 
 /**
  * @author Thomas Bomatter
- * EntityTest. These are completly useless and are only here to satisfy code coverage :D
+ * EntityTest. These are completely useless and are only here to satisfy code coverage :D
  */
 public class EntityTest extends BaseTestClass {
 
@@ -42,7 +42,9 @@ public class EntityTest extends BaseTestClass {
 		Bestellung bestellung = new Bestellung();
 		bestellung.setId(1);
 		bestellung.setRechnungs(new ArrayList<Rechnung>());
+		bestellung.addRechnung(new Rechnung());
 		bestellung.setBestellpositions(new ArrayList<Bestellposition>());
+		bestellung.addBestellposition(new Bestellposition());
 		bestellung.setBestelldatum(new Date());
 		bestellung.setLiefertermin_Ist(new Date());
 		bestellung.setLiefertermin_Soll(new Date());
@@ -124,6 +126,7 @@ public class EntityTest extends BaseTestClass {
 		Produkt prod = new Produkt();
 		prod.setId(1);
 		prod.setBestellpositions(new ArrayList<Bestellposition>());
+		prod.addBestellposition(new Bestellposition());
 		prod.setBezeichnung("Test");
 		prod.setLagerbestand(5);
 		prod.setMinimalMenge(3);
