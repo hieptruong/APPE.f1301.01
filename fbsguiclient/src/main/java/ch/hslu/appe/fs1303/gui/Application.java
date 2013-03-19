@@ -41,7 +41,9 @@ public class Application implements IApplication {
 				} finally {
 					display.dispose();
 				}
-			}			
+			} else {
+				loginDialog.showLoginError(true);
+			}
 		}		
 		
 		return IApplication.EXIT_OK;

@@ -3,6 +3,7 @@ package ch.hslu.appe.fs1303.gui.dialogs;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -19,6 +20,8 @@ public class LoginDialog extends Dialog {
 	private Text passwordText;
 	private String user = "";
 	private String password = "";
+	private boolean showLoginError = false;
+	private Label loginErrorLabel;
 	
 	public LoginDialog(Shell parentShell) {
 		super(parentShell);
@@ -48,6 +51,12 @@ public class LoginDialog extends Dialog {
 	    passwordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
 	    passwordText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 	    passwordText.setText(password);
+	    
+	    loginErrorLabel = new Label(container, SWT.NONE);
+	    loginErrorLabel.setText("Invalid User / Password");
+	    loginErrorLabel.setForeground(new Color(null, 255, 0, 0)); // Red
+	    loginErrorLabel.setVisible(showLoginError);
+	    
 	    return container;
 	}
 	
@@ -59,7 +68,7 @@ public class LoginDialog extends Dialog {
 
 	@Override
 	protected Point getInitialSize() {
-		return new Point(450, 150);
+		return new Point(450, showLoginError ? 160 : 140);
 	}
 
 	@Override
@@ -74,6 +83,10 @@ public class LoginDialog extends Dialog {
 	    return user;
 	}
 
+	public void showLoginError(boolean visible) {
+		this.showLoginError = visible;
+	}
+	
 	public void setUser(String user) {
 	    this.user = user;
 	}
