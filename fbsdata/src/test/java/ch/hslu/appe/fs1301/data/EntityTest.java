@@ -20,7 +20,7 @@ import ch.hslu.appe.fs1301.data.shared.Rechnung;
  * @author Thomas Bomatter
  * EntityTest. These are completly useless and are only here to satisfy code coverage :D
  */
-public class EntityTests extends BaseTestClass {
+public class EntityTest extends BaseTestClass {
 
 	@Test
 	public void TestBestellposition() {
