@@ -7,6 +7,10 @@ import com.google.inject.Inject;
 import ch.hslu.appe.fs1301.data.shared.Person;
 import ch.hslu.appe.fs1301.data.shared.iAPPEEntityManager;
 
+/**
+ * @author Thomas Bomatter
+ * SessionAPI handles Login and provides the User after login.
+ */
 public class SessionAPI implements iSessionAPI {
 
 	@Inject

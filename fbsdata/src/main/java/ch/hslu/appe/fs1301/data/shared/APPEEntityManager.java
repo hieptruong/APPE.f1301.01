@@ -8,7 +8,6 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 
-
 /**
  * @author Thomas Bomatter
  * APPEEntityManager handles access to database

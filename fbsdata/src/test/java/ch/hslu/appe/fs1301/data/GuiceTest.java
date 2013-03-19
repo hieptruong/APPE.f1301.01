@@ -9,6 +9,10 @@ import ch.hslu.appe.fs1301.data.shared.iAPPEEntityManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+/**
+ * @author Thomas Bomatter
+ * Guice injection test
+ */
 public class GuiceTest extends BaseTestClass {
 
 	@Test

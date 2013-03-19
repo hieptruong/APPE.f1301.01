@@ -1,7 +1,10 @@
 package ch.hslu.appe.fs1301.data.shared;
 
 
-
+/**
+ * @author Thomas Bomatter
+ * Guice binding modul for injections
+ */
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 

@@ -13,7 +13,10 @@ import ch.hslu.appe.fs1301.data.shared.APPEEntityManager;
 import ch.hslu.appe.fs1301.data.shared.Person;
 import ch.hslu.appe.fs1301.data.shared.iAPPEEntityManager;
 
-
+/**
+ * @author Thomas Bomatter
+ * Tests for the EntityFactor
+ */
 public class EntityFactoryTest extends BaseTestClass {
 	
 	private iAPPEEntityManager manager;
