@@ -31,7 +31,7 @@ public class Application implements IApplication {
 		
 		LoginDialog loginDialog = new LoginDialog(null);
 		while (loginDialog.open() != Window.CANCEL) {
-			if (sessionAPI.authenticate(loginDialog.getUser(), loginDialog.getPassword())); {
+			if (sessionAPI.authenticate(loginDialog.getUser(), loginDialog.getPassword())) {
 				try {
 					int returnCode = PlatformUI.createAndRunWorkbench(display, new ApplicationWorkbenchAdvisor());
 					if (returnCode == PlatformUI.RETURN_RESTART) {
