@@ -4,7 +4,7 @@ package ch.hslu.appe.fs1301.business.shared;
  * @author Thomas Bomatter
  * UserRole Flags
  */
-public class UserRole {
+public final class UserRole {
 	public static final int NONE = 0;
 	public static final int CUSTOMER = 1;
 	public static final int SYSUSER = 1 << 1;

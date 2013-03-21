@@ -15,9 +15,13 @@ import ch.hslu.appe.fs1301.data.shared.iAPPEEntityManager;
  */
 public class SessionAPI implements iSessionAPI {
 
-	@Inject
 	private iAPPEEntityManager fEntityManager;
 	private Person fPerson;
+	
+	@Inject	
+	public SessionAPI(iAPPEEntityManager entityManager) {
+		fEntityManager = entityManager;
+	}
 	
 	@Override
 	public boolean isAuthenticated() {

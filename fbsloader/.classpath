@@ -32,7 +32,7 @@
 	<classpathentry kind="lib" path="plugins/runtime_registry_compatibility.jar"/>
 	<classpathentry kind="lib" path="lib/fbsdata/appe_fbsdata-0.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/fbsdata/appe_fbsdata-0.0.0.shared.jar"/>
-	<classpathentry kind="lib" path="lib/fbsguiclient/appe_fbsguiclient-0.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/fbsguiclient/appe_fbsguiclient-0.0.0.jar" sourcepath="/fbsguiclient"/>
 	<classpathentry kind="lib" path="lib/fbsservice/appe_fbsservice-0.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

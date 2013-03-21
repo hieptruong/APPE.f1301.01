@@ -23,6 +23,7 @@ public class Application implements IApplication {
 	 */
 	public Object start(IApplicationContext context) {		
 		Injector injector = Guice.createInjector(new GuiModule(), new ServiceModule(), new DataModule());
+		GuiModule.injector = injector;
 		
 		fGuiClient = injector.getInstance(iGuiClient.class);
 		return fGuiClient.start();
