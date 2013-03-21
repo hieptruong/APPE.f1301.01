@@ -188,7 +188,7 @@
          <attribute name="Main-Class" value="${proj.startclass}" />
        </manifest>
      </jar>
-     <!--<copy file="${target}/lib/${distname.shared}.jar" tofile="${basedir}/../fbsloader/lib/fbsguiclient/${distname.shared}.jar"/>-->
+     <copy file="${target}/lib/${distname.shared}.jar" tofile="${basedir}/../fbsloader/lib/fbsguiclient/${distname.shared}.jar"/>
    </target>
 
    <!-- ================================================================== -->
