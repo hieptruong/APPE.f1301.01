@@ -13,7 +13,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 public class View extends ViewPart {
-	public static final String ID = "ch.hslu.appe.fs1303.fbsguiclient.view";
+	public static final String ID = "ch.hslu.appe.fs1303.views.view";
 
 	private TableViewer viewer;
 

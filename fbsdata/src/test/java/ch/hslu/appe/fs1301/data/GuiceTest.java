@@ -2,8 +2,6 @@ package ch.hslu.appe.fs1301.data;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import ch.hslu.appe.fs1301.data.shared.APPEEntityManager;
-import ch.hslu.appe.fs1301.data.shared.DataModule;
 import ch.hslu.appe.fs1301.data.shared.iAPPEEntityManager;
 
 import com.google.inject.Guice;
