@@ -1,4 +1,4 @@
-package ch.hslu.appe.fs1303.loader;
+package ch.hslu.appe.fs1303.gui;
 
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.application.ActionBarAdvisor;

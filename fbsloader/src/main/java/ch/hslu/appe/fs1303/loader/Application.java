@@ -10,6 +10,7 @@ import org.eclipse.ui.PlatformUI;
 import ch.hslu.appe.fs1301.business.ServiceModule;
 import ch.hslu.appe.fs1301.business.shared.iSessionAPI;
 import ch.hslu.appe.fs1301.data.DataModule;
+import ch.hslu.appe.fs1303.gui.ApplicationWorkbenchAdvisor;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

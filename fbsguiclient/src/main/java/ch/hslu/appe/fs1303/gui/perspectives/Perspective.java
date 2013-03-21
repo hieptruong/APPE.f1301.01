@@ -1,4 +1,4 @@
-package ch.hslu.appe.fs1303.loader;
+package ch.hslu.appe.fs1303.gui.perspectives;
 
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;

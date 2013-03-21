@@ -14,17 +14,18 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            name="Perspective"
-            class="ch.hslu.appe.fs1303.loader.Perspective"
-            id="ch.hslu.appe.fs1303.fbsloader.perspective">
+            class="ch.hslu.appe.fs1303.gui.perspectives.Perspective"
+            id="ch.hslu.appe.fs1303.loader.perspective"
+            name="Perspective">
       </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.views">
       <view
-            name="View"
             class="ch.hslu.appe.fs1303.gui.views.View"
-            id="ch.hslu.appe.fs1303.fbsguiclient.view">
+            id="ch.hslu.appe.fs1303.views.view"
+            name="StartUpView"
+            restorable="true">
       </view>
    </extension>
    <extension
@@ -36,7 +37,7 @@
                minimized="false"
                relative="org.eclipse.ui.editorss"
                relationship="left"
-               id="ch.hslu.appe.fs1303.fbsguiclient.view">
+               id="ch.hslu.appe.fs1303.views.view">
          </view>
       </perspectiveExtension>
    </extension>
