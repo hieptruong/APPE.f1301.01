@@ -24,13 +24,15 @@ public class EntityTest extends BaseTestClass {
 
 	@Test
 	public void TestBestellposition() {
+		final int expectedId = 1;
+		
 		Bestellposition position = new Bestellposition();
-		position.setId(1);
+		position.setId(expectedId);
 		position.setAnzahl(25);
 		position.setProdukt(new Produkt());
 		position.setRabatt(20);
 		
-		assertEquals(1, position.getId());
+		assertEquals(expectedId, position.getId());
 		assertEquals(25, position.getAnzahl());
 		assertEquals(Produkt.class, position.getProdukt().getClass());
 		assertEquals(20, position.getRabatt());		

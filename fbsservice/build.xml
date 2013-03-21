@@ -178,6 +178,7 @@
             <attribute name="Main-Class" value="${proj.startclass}" />
          </manifest>
       </jar>
+      <copy file="${target}/lib/${distname}.jar" tofile="${basedir}/../fbsloader/lib/fbsservice/${distname}.jar" />
    </target>
    <target name="jar_shared" depends="compile" description="create shared jar">
      <mkdir dir="${target}/lib" />
@@ -197,6 +198,7 @@
        </fileset>
      </jar>
    	<copy file="${target}/lib/${distname.shared}.jar" tofile="${basedir}/../fbsguiclient/lib/fbsservice/${distname.shared}.jar"></copy>
+   	<copy file="${target}/lib/${distname.shared}.jar" tofile="${basedir}/../fbsloader/lib/fbsservice/${distname.shared}.jar" />
    </target>
 
    <!-- ================================================================== -->
