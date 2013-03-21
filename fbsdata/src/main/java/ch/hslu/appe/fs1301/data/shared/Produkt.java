@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="Produkt")
-public class Produkt implements Serializable {
+public class Produkt extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String bezeichnung;

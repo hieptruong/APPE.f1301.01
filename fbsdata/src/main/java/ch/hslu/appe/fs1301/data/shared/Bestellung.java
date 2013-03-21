@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="Bestellung")
-public class Bestellung implements Serializable {
+public class Bestellung extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private Date bestelldatum;

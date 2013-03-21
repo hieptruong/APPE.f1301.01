@@ -106,6 +106,16 @@ public class EntityTest extends BaseTestClass {
 		person.setStrasse("Test");
 		person.setPasswort("Test");
 		person.setAktiv(0);
+		person.addKorrespondenzs1(new Korrespondenz());
+		person.addKorrespondenzs2(new Korrespondenz());
+		person.setKorrespondenzs1(new ArrayList<Korrespondenz>());
+		person.setKorrespondenzs2(new ArrayList<Korrespondenz>());
+		person.addBestellungs1(new Bestellung());
+		person.addBestellungs2(new Bestellung());
+		person.setBestellungs1(new ArrayList<Bestellung>());
+		person.setBestellungs2(new ArrayList<Bestellung>());
+		person.addRechnung(new Rechnung());
+		person.setRechnungs(new ArrayList<Rechnung>());
 		
 		assertEquals(1, person.getId());
 		assertEquals(String.class, person.getEMail().getClass());
@@ -119,6 +129,11 @@ public class EntityTest extends BaseTestClass {
 		assertEquals(String.class, person.getStrasse().getClass());
 		assertEquals(String.class, person.getPasswort().getClass());
 		assertEquals(0, person.getAktiv());
+		assertEquals(ArrayList.class, person.getKorrespondenzs1().getClass());
+		assertEquals(ArrayList.class, person.getKorrespondenzs2().getClass());
+		assertEquals(ArrayList.class, person.getBestellungs1().getClass());
+		assertEquals(ArrayList.class, person.getBestellungs1().getClass());
+		assertEquals(ArrayList.class, person.getRechnungs().getClass());
 	}
 	
 	@Test

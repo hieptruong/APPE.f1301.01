@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="KorrespondenzTemplate")
-public class KorrespondenzTemplate implements Serializable {
+public class KorrespondenzTemplate extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String inhalt;

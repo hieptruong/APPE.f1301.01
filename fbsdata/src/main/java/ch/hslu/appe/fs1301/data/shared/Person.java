@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="Person")
-public class Person implements Serializable {
+public class Person extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private int aktiv;

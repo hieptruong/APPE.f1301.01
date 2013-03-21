@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="Rechnung")
-public class Rechnung implements Serializable {
+public class Rechnung extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private int betrag;

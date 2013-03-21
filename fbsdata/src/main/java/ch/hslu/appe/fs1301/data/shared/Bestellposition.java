@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="Bestellposition")
-public class Bestellposition implements Serializable {
+public class Bestellposition extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private int anzahl;
