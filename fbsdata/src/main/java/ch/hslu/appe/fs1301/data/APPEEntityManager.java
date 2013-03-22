@@ -61,4 +61,9 @@ public class APPEEntityManager implements iAPPEEntityManager  {
 		Query createQuery = fEntityManager.createQuery(query);
 		return (List<T>)createQuery.getResultList();
 	}
+
+	@Override
+	public void persist(Object obj) {
+		fEntityManager.persist(obj);
+	}
 }

@@ -125,7 +125,7 @@ public class EntityTest extends BaseTestClass {
 		person.addBestellungs1(bestellung);
 		person.removeBestellungs1(bestellung);
 		person.addBestellungs2(bestellung);
-		person.removeBestellungs1(bestellung);
+		person.removeBestellungs2(bestellung);
 		person.setBestellungs1(new ArrayList<Bestellung>());
 		person.setBestellungs2(new ArrayList<Bestellung>());
 		Rechnung rechnung = new Rechnung();
