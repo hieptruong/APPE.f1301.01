@@ -26,6 +26,12 @@ public class LoginDialog extends Dialog {
 	public LoginDialog(Shell parentShell) {
 		super(parentShell);
 	}
+	
+	@Override
+	protected void configureShell(Shell newShell) {
+		super.configureShell(newShell);
+		newShell.setText("APPE RCP Login");
+	}
 
 	@Override
 	protected Control createDialogArea(Composite parent) {

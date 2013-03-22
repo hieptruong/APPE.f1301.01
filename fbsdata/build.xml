@@ -176,6 +176,8 @@
             <attribute name="Sealed" value="false" />
             <attribute name="Main-Class" value="${proj.startclass}" />
          </manifest>
+       <zipgroupfileset dir="${basedir}/lib/eclipselink/" includes="**/*.jar"/>
+       <zipgroupfileset dir="${basedir}/lib/SQL/" includes="**/*.jar"/>
       </jar>
    	  <copy file="${target}/lib/${distname}.jar" tofile="${basedir}/../fbsloader/lib/fbsdata/${distname}.jar" />
    </target>
@@ -191,9 +193,9 @@
          <attribute name="Sealed" value="false" />
          <attribute name="Main-Class" value="${proj.startclass}" />
        </manifest>
-       <zipgroupfileset dir="${basedir}/lib/eclipselink/" includes="**/*.jar"/>
+       
        <zipgroupfileset dir="${basedir}/lib/guice/" includes="**/*.jar"/>
-       <zipgroupfileset dir="${basedir}/lib/SQL/" includes="**/*.jar"/>
+       
        <fileset dir="${basedir}/src/main/java/" >
          <include name="**"/>
        </fileset>
