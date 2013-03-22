@@ -31,11 +31,13 @@ public class EntityTest extends BaseTestClass {
 		position.setAnzahl(25);
 		position.setProdukt(new Produkt());
 		position.setRabatt(20);
+		position.setBestellung(new Bestellung());
 		
 		assertEquals(expectedId, position.getId());
 		assertEquals(25, position.getAnzahl());
 		assertEquals(Produkt.class, position.getProdukt().getClass());
 		assertEquals(20, position.getRabatt());		
+		assertEquals(Bestellung.class, position.getBestellung().getClass());
 		assertNotNull(position);
 	}
 	
