@@ -82,6 +82,6 @@ public class EntityFactoryTest extends BaseTestClass {
 		person.setRolle(0);
 		person.setStrasse("Gartenstrasse 16");
 		person.setPasswort("uhehwempti");
-		person.setAktiv(0);
+		person.setAktiv(false);
 	}
 }

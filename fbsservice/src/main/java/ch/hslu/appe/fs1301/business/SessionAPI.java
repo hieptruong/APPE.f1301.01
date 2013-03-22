@@ -60,7 +60,7 @@ public class SessionAPI implements iSessionAPI {
 			return false;
 		} else {
 			fPerson = resultList.get(0);
-			if (hasRole(UserRole.ADMIN | UserRole.SYSUSER) && fPerson.getAktiv() > 0) {
+			if (hasRole(UserRole.ADMIN | UserRole.SYSUSER) && fPerson.getAktiv()) {
 				return true;
 			} else {
 				fPerson = null;
