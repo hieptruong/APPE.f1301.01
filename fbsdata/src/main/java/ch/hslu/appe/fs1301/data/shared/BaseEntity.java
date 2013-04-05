@@ -18,9 +18,7 @@ public class BaseEntity {
 					String methodName = "set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1);
 					Method method = getClass().getMethod(methodName, List.class);
 					method.invoke(this, ArrayList.class.newInstance());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				} catch (Exception e) {	}
 			}
 		}
 	}

@@ -19,6 +19,7 @@ public class Produkt extends BaseEntity implements Serializable {
 	private int minimalMenge;
 	private int preis;
 	private List<Bestellposition> bestellpositions;
+	private List<ZentrallagerBestellung> zentrallagerBestellungs;
 
 	public Produkt() {
 	}
@@ -98,6 +99,31 @@ public class Produkt extends BaseEntity implements Serializable {
 		bestellposition.setProdukt(null);
 
 		return bestellposition;
+	}
+
+
+	//bi-directional many-to-one association to ZentrallagerBestellung
+	@OneToMany(mappedBy="produkt")
+	public List<ZentrallagerBestellung> getZentrallagerBestellungs() {
+		return this.zentrallagerBestellungs;
+	}
+
+	public void setZentrallagerBestellungs(List<ZentrallagerBestellung> zentrallagerBestellungs) {
+		this.zentrallagerBestellungs = zentrallagerBestellungs;
+	}
+
+	public ZentrallagerBestellung addZentrallagerBestellung(ZentrallagerBestellung zentrallagerBestellung) {
+		getZentrallagerBestellungs().add(zentrallagerBestellung);
+		zentrallagerBestellung.setProdukt(this);
+
+		return zentrallagerBestellung;
+	}
+
+	public ZentrallagerBestellung removeZentrallagerBestellung(ZentrallagerBestellung zentrallagerBestellung) {
+		getZentrallagerBestellungs().remove(zentrallagerBestellung);
+		zentrallagerBestellung.setProdukt(null);
+
+		return zentrallagerBestellung;
 	}
 
 }

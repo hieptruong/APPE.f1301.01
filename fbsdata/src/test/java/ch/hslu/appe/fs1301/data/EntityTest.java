@@ -15,6 +15,7 @@ import ch.hslu.appe.fs1301.data.shared.KorrespondenzTemplate;
 import ch.hslu.appe.fs1301.data.shared.Person;
 import ch.hslu.appe.fs1301.data.shared.Produkt;
 import ch.hslu.appe.fs1301.data.shared.Rechnung;
+import ch.hslu.appe.fs1301.data.shared.ZentrallagerBestellung;
 
 /**
  * @author Thomas Bomatter
@@ -30,12 +31,14 @@ public class EntityTest extends BaseTestClass {
 		position.setId(expectedId);
 		position.setAnzahl(25);
 		position.setProdukt(new Produkt());
-		position.setRabatt(20);
+		position.setStueckpreis(20);
+		position.setBestellung(new Bestellung());
 		
 		assertEquals(expectedId, position.getId());
 		assertEquals(25, position.getAnzahl());
 		assertEquals(Produkt.class, position.getProdukt().getClass());
-		assertEquals(20, position.getRabatt());		
+		assertEquals(20, position.getStueckpreis());		
+		assertEquals(Bestellung.class, position.getBestellung().getClass());
 		assertNotNull(position);
 	}
 	
@@ -165,6 +168,10 @@ public class EntityTest extends BaseTestClass {
 		prod.setLagerbestand(5);
 		prod.setMinimalMenge(3);
 		prod.setPreis(2000);
+		prod.setZentrallagerBestellungs(new ArrayList<ZentrallagerBestellung>());
+		ZentrallagerBestellung bestellung = new ZentrallagerBestellung();
+		prod.addZentrallagerBestellung(bestellung);
+		prod.removeZentrallagerBestellung(bestellung);
 		
 		assertEquals(1, prod.getId());
 		assertEquals(ArrayList.class, prod.getBestellpositions().getClass());
@@ -172,6 +179,7 @@ public class EntityTest extends BaseTestClass {
 		assertEquals(5, prod.getLagerbestand());
 		assertEquals(3, prod.getMinimalMenge());
 		assertEquals(2000, prod.getPreis());
+		assertEquals(ArrayList.class, prod.getBestellpositions().getClass());
 	}
 	
 	@Test
@@ -192,5 +200,19 @@ public class EntityTest extends BaseTestClass {
 		assertEquals(0, bill.getMahnstufe());
 		assertEquals(Person.class, bill.getPerson().getClass());
 		assertEquals(Date.class, bill.getZahlbarBis().getClass());
+	}
+	
+	@Test 
+	public void TestZentrallagerBestellung() {
+		ZentrallagerBestellung bestellung = new ZentrallagerBestellung();
+		bestellung.setId(1);
+		bestellung.setAnzahl(20);
+		bestellung.setLiefertermin(new Date());
+		bestellung.setProdukt(new Produkt());
+		
+		assertEquals(1, bestellung.getId());
+		assertEquals(20, bestellung.getAnzahl());
+		assertEquals(Date.class, bestellung.getLiefertermin().getClass());
+		assertEquals(Produkt.class, bestellung.getProdukt().getClass());	
 	}
 }

@@ -48,6 +48,7 @@ public class Person extends BaseEntity implements Serializable {
 	}
 
 
+	@Column(nullable=false)
 	public boolean getAktiv() {
 		return this.aktiv;
 	}
@@ -57,7 +58,7 @@ public class Person extends BaseEntity implements Serializable {
 	}
 
 
-	@Column(nullable=false, length=1000)
+	@Column(length=1000)
 	public String getBenutzername() {
 		return this.benutzername;
 	}
@@ -108,7 +109,7 @@ public class Person extends BaseEntity implements Serializable {
 	}
 
 
-	@Column(nullable=false, length=1000)
+	@Column(length=1000)
 	public String getPasswort() {
 		return this.passwort;
 	}

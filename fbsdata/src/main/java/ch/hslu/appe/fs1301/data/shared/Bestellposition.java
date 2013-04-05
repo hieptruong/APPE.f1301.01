@@ -14,7 +14,7 @@ public class Bestellposition extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private int anzahl;
-	private int rabatt;
+	private int stueckpreis;
 	private Bestellung bestellung;
 	private Produkt produkt;
 
@@ -45,12 +45,12 @@ public class Bestellposition extends BaseEntity implements Serializable {
 
 
 	@Column(nullable=false)
-	public int getRabatt() {
-		return this.rabatt;
+	public int getStueckpreis() {
+		return this.stueckpreis;
 	}
 
-	public void setRabatt(int rabatt) {
-		this.rabatt = rabatt;
+	public void setStueckpreis(int stueckpreis) {
+		this.stueckpreis = stueckpreis;
 	}
 
 
