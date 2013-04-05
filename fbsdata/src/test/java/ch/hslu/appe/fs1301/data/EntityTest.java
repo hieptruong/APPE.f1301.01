@@ -31,11 +31,13 @@ public class EntityTest extends BaseTestClass {
 		position.setAnzahl(25);
 		position.setProdukt(new Produkt());
 		position.setRabatt(20);
+		position.setBestellung(new Bestellung());
 		
 		assertEquals(expectedId, position.getId());
 		assertEquals(25, position.getAnzahl());
 		assertEquals(Produkt.class, position.getProdukt().getClass());
 		assertEquals(20, position.getRabatt());		
+		assertEquals(Bestellung.class, position.getBestellung().getClass());
 		assertNotNull(position);
 	}
 	
@@ -44,14 +46,19 @@ public class EntityTest extends BaseTestClass {
 		Bestellung bestellung = new Bestellung();
 		bestellung.setId(1);
 		bestellung.setRechnungs(new ArrayList<Rechnung>());
-		bestellung.addRechnung(new Rechnung());
+		Rechnung rechnung = new Rechnung();
+		bestellung.addRechnung(rechnung);
+		bestellung.removeRechnung(rechnung);
 		bestellung.setBestellpositions(new ArrayList<Bestellposition>());
-		bestellung.addBestellposition(new Bestellposition());
+		Bestellposition bestellposition = new Bestellposition();
+		bestellung.addBestellposition(bestellposition);
+		bestellung.removeBestellposition(bestellposition);
 		bestellung.setBestelldatum(new Date());
 		bestellung.setLiefertermin_Ist(new Date());
 		bestellung.setLiefertermin_Soll(new Date());
 		bestellung.setPerson1(new Person());
 		bestellung.setPerson2(new Person());
+		bestellung.setQuelle(1);
 		
 		assertEquals(1, bestellung.getId());
 		assertEquals(ArrayList.class, bestellung.getRechnungs().getClass());
@@ -61,6 +68,7 @@ public class EntityTest extends BaseTestClass {
 		assertEquals(Date.class, bestellung.getLiefertermin_Soll().getClass());
 		assertEquals(Person.class, bestellung.getPerson1().getClass());
 		assertEquals(Person.class, bestellung.getPerson2().getClass());		
+		assertEquals(1, bestellung.getQuelle());
 		assertNotNull(bestellung);
 	}
 	
@@ -107,16 +115,25 @@ public class EntityTest extends BaseTestClass {
 		person.setRolle(0);
 		person.setStrasse("Test");
 		person.setPasswort("Test");
-		person.setAktiv(0);
-		person.addKorrespondenzs1(new Korrespondenz());
-		person.addKorrespondenzs2(new Korrespondenz());
+		person.setAktiv(false);
+		Korrespondenz korrespondenz = new Korrespondenz();
+		person.addKorrespondenzs1(korrespondenz);
+		person.addKorrespondenzs2(korrespondenz);
+		person.removeKorrespondenzs1(korrespondenz);
+		person.removeKorrespondenzs2(korrespondenz);
 		person.setKorrespondenzs1(new ArrayList<Korrespondenz>());
 		person.setKorrespondenzs2(new ArrayList<Korrespondenz>());
-		person.addBestellungs1(new Bestellung());
-		person.addBestellungs2(new Bestellung());
+		Bestellung bestellung = new Bestellung();
+		person.addBestellungs1(bestellung);
+		person.removeBestellungs1(bestellung);
+		person.addBestellungs2(bestellung);
+		person.removeBestellungs2(bestellung);
 		person.setBestellungs1(new ArrayList<Bestellung>());
 		person.setBestellungs2(new ArrayList<Bestellung>());
-		person.addRechnung(new Rechnung());
+		Rechnung rechnung = new Rechnung();
+		person.addRechnung(rechnung);
+		person.removeRechnung(rechnung);
+		
 		person.setRechnungs(new ArrayList<Rechnung>());
 		
 		assertEquals(1, person.getId());
@@ -130,7 +147,7 @@ public class EntityTest extends BaseTestClass {
 		assertEquals(0, person.getRolle());
 		assertEquals(String.class, person.getStrasse().getClass());
 		assertEquals(String.class, person.getPasswort().getClass());
-		assertEquals(0, person.getAktiv());
+		assertEquals(false, person.getAktiv());
 		assertEquals(ArrayList.class, person.getKorrespondenzs1().getClass());
 		assertEquals(ArrayList.class, person.getKorrespondenzs2().getClass());
 		assertEquals(ArrayList.class, person.getBestellungs1().getClass());
@@ -143,7 +160,9 @@ public class EntityTest extends BaseTestClass {
 		Produkt prod = new Produkt();
 		prod.setId(1);
 		prod.setBestellpositions(new ArrayList<Bestellposition>());
-		prod.addBestellposition(new Bestellposition());
+		Bestellposition bestellposition = new Bestellposition();
+		prod.addBestellposition(bestellposition);
+		prod.removeBestellposition(bestellposition);
 		prod.setBezeichnung("Test");
 		prod.setLagerbestand(5);
 		prod.setMinimalMenge(3);

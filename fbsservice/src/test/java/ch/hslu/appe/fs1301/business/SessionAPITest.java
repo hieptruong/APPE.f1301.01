@@ -43,7 +43,7 @@ public class SessionAPITest {
 		Person person = new Person();
 		person.setBenutzername(expectedUserName);
 		person.setRolle(UserRole.ADMIN);
-		person.setAktiv(1);
+		person.setAktiv(true);
 		
 		setupReturnValueOfQuery(person);
 		
@@ -57,7 +57,7 @@ public class SessionAPITest {
 		
 		Person person = new Person();
 		person.setRolle(UserRole.ADMIN);
-		person.setAktiv(1);
+		person.setAktiv(true);
 		
 		setupReturnValueOfQuery(person);
 		
@@ -72,7 +72,7 @@ public class SessionAPITest {
 		
 		Person person = new Person();
 		person.setRolle(UserRole.SYSUSER);
-		person.setAktiv(1);
+		person.setAktiv(true);
 		
 		setupReturnValueOfQuery(person);
 		
@@ -87,7 +87,7 @@ public class SessionAPITest {
 		
 		Person person = new Person();
 		person.setRolle(UserRole.CUSTOMER);
-		person.setAktiv(1);
+		person.setAktiv(true);
 		
 		setupReturnValueOfQuery(person);
 		
@@ -102,7 +102,7 @@ public class SessionAPITest {
 		
 		Person person = new Person();
 		person.setRolle(UserRole.ADMIN);
-		person.setAktiv(0);
+		person.setAktiv(false);
 		
 		setupReturnValueOfQuery(person);
 		
@@ -117,7 +117,7 @@ public class SessionAPITest {
 		
 		Person person = new Person();
 		person.setRolle(UserRole.NONE);
-		person.setAktiv(0);
+		person.setAktiv(false);
 		
 		setupReturnValueOfQuery(person);
 		

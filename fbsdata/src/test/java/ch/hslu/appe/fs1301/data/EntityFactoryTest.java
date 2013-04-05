@@ -2,13 +2,16 @@ package ch.hslu.appe.fs1301.data;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.hslu.appe.fs1301.data.shared.KorrespondenzTemplate;
 import ch.hslu.appe.fs1301.data.shared.Person;
 import ch.hslu.appe.fs1301.data.shared.iAPPEEntityManager;
 
@@ -71,6 +74,26 @@ public class EntityFactoryTest extends BaseTestClass {
 		assertNull(person2);
 	}
 	
+	@Test
+	public void TestCustomQuery() {
+		String query = "SELECT p FROM Person p";
+		List<Person> personList = manager.executeQuery(query, Person.class);		
+		assertNotNull(personList);		
+	}
+	
+	@Test
+	public void TestRollback() {
+		KorrespondenzTemplate template = new KorrespondenzTemplate();
+		template.setInhalt("Test");
+		template.setTyp(1);
+		manager.startTransaction();
+		manager.persist(template);
+		manager.rollbackTransaction();
+		
+		KorrespondenzTemplate object = manager.getEntityObject(KorrespondenzTemplate.class,template.getId());
+		assertNull(object);
+	}
+	
 	public void fillPerson(Person person) {
 		person.setEMail("Stefan.bachmann@lolz.ch");
 		person.setName("Bachmann");
@@ -82,6 +105,6 @@ public class EntityFactoryTest extends BaseTestClass {
 		person.setRolle(0);
 		person.setStrasse("Gartenstrasse 16");
 		person.setPasswort("uhehwempti");
-		person.setAktiv(0);
+		person.setAktiv(false);
 	}
 }

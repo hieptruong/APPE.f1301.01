@@ -15,7 +15,7 @@ import java.util.List;
 public class Person extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
-	private int aktiv;
+	private boolean aktiv;
 	private String benutzername;
 	private String EMail;
 	private Date geburtstag;
@@ -48,12 +48,11 @@ public class Person extends BaseEntity implements Serializable {
 	}
 
 
-	@Column(nullable=false)
-	public int getAktiv() {
+	public boolean getAktiv() {
 		return this.aktiv;
 	}
 
-	public void setAktiv(int aktiv) {
+	public void setAktiv(boolean aktiv) {
 		this.aktiv = aktiv;
 	}
 

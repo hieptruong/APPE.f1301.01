@@ -17,6 +17,8 @@ public interface iAPPEEntityManager {
 	
 	public void deleteEntityObject(Object obj);
 	
+	public void persist(Object obj);
+	
 	public void startTransaction();
 	
 	public void commitTransaction();

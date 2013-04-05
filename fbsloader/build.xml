@@ -186,6 +186,10 @@
          <attribute name="Sealed" value="false" />
          <attribute name="Main-Class" value="${proj.startclass}" />
        </manifest>
+     	
+        <fileset dir="${basedir}/src/main/java/" >
+          <include name="**"/>
+        </fileset>
      </jar>
    </target>
 
