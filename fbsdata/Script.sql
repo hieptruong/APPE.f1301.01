@@ -5,11 +5,14 @@
 -- -----------------------------------------------------------
 -- Entity Designer DDL Script for MySQL Server 4.1 and higher
 -- -----------------------------------------------------------
--- Date Created: 03/14/2013 16:06:25
+-- Date Created: 04/05/2013 15:22:58
 -- Generated from EDMX file: C:\Users\bollha\Documents\HSLU\DMG\Semester\ConsoleApplication1\ConsoleApplication1\Model1.edmx
 -- Target version: 2.0.0.0
 -- --------------------------------------------------
 
+DROP DATABASE IF EXISTS `grp01`;
+CREATE DATABASE `grp01`;
+USE `grp01`;
 
 -- --------------------------------------------------
 -- Dropping existing FOREIGN KEY constraints
@@ -71,7 +74,7 @@ ALTER TABLE `Bestellung` ADD PRIMARY KEY (ID);
 CREATE TABLE `Bestellposition`(
 	`ID` int NOT NULL AUTO_INCREMENT UNIQUE, 
 	`Anzahl` int NOT NULL, 
-	`Rabatt` int NOT NULL, 
+	`Stueckpreis` int NOT NULL, 
 	`Produkt_ID` int NOT NULL, 
 	`Bestellung_ID` int NOT NULL);
 
@@ -101,10 +104,10 @@ CREATE TABLE `Person`(
 	`Geburtstag` datetime NOT NULL, 
 	`PLZ` int NOT NULL, 
 	`EMail` nvarchar (1000) NOT NULL, 
-	`Passwort` nvarchar (1000) NOT NULL, 
+	`Passwort` nvarchar (1000), 
 	`Rolle` int NOT NULL, 
-	`Benutzername` nvarchar (1000) NOT NULL, 
-	`Aktiv` int NOT NULL);
+	`Benutzername` nvarchar (1000), 
+	`Aktiv` bool NOT NULL);
 
 ALTER TABLE `Person` ADD PRIMARY KEY (ID);
 
@@ -131,6 +134,17 @@ CREATE TABLE `KorrespondenzTemplate`(
 	`Typ` int NOT NULL);
 
 ALTER TABLE `KorrespondenzTemplate` ADD PRIMARY KEY (ID);
+
+
+
+
+CREATE TABLE `ZentrallagerBestellung`(
+	`ID` int NOT NULL AUTO_INCREMENT UNIQUE, 
+	`Anzahl` int NOT NULL, 
+	`Liefertermin` datetime NOT NULL, 
+	`Produkt_ID` int NOT NULL);
+
+ALTER TABLE `ZentrallagerBestellung` ADD PRIMARY KEY (ID);
 
 
 
@@ -260,6 +274,21 @@ ADD CONSTRAINT `FK_PersonBestellung1`
 CREATE INDEX `IX_FK_PersonBestellung1` 
     ON `Bestellung`
     (`Verkaeufer_ID`);
+
+-- Creating foreign key on `Produkt_ID` in table 'ZentrallagerBestellung'
+
+ALTER TABLE `ZentrallagerBestellung`
+ADD CONSTRAINT `FK_ProduktZentrallagerBestellung`
+    FOREIGN KEY (`Produkt_ID`)
+    REFERENCES `Produkt`
+        (`ID`)
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ProduktZentrallagerBestellung'
+
+CREATE INDEX `IX_FK_ProduktZentrallagerBestellung` 
+    ON `ZentrallagerBestellung`
+    (`Produkt_ID`);
 
 -- --------------------------------------------------
 -- Script has ended
