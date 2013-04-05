@@ -140,7 +140,7 @@ ALTER TABLE `KorrespondenzTemplate` ADD PRIMARY KEY (ID);
 
 CREATE TABLE `ZentrallagerBestellung`(
 	`ID` int NOT NULL AUTO_INCREMENT UNIQUE, 
-	`Anzahl` varchar (1000) NOT NULL, 
+	`Anzahl` int NOT NULL, 
 	`Liefertermin` datetime NOT NULL, 
 	`Produkt_ID` int NOT NULL);
 
