@@ -8,17 +8,14 @@ import org.eclipse.ui.PlatformUI;
 import ch.hslu.appe.fs1303.gui.presenter.LoginPresenter;
 import ch.hslu.appe.fs1303.gui.shared.iGuiClient;
 
-import com.google.inject.Inject;
-
 public final class GuiClient implements iGuiClient {
 	
 	private LoginPresenter fLoginPresenter;
-
-	@Inject
-	public GuiClient(LoginPresenter loginPresenter) {
-		fLoginPresenter = loginPresenter;
+	
+	public GuiClient() {
+		fLoginPresenter = new LoginPresenter();
 	}
-
+	
 	public int start() {
 		Display display = PlatformUI.createDisplay();
 		

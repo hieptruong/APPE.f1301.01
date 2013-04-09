@@ -30,7 +30,7 @@ public class EntityFactoryTest extends BaseTestClass {
 	}
 	
 	@Test
-	public void TestCreateEntity() throws InstantiationException, IllegalAccessException {
+	public void TestCreateEntity() throws InstantiationException, IllegalAccessException {				
 		Person person = manager.createEntityObject(Person.class);
 		fillPerson(person);
 		

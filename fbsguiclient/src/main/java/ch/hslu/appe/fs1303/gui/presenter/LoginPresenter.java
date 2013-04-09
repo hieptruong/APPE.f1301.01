@@ -7,14 +7,15 @@ import com.google.inject.Inject;
 import ch.hslu.appe.fs1301.business.shared.iSessionAPI;
 import ch.hslu.appe.fs1303.gui.dialogs.LoginDialog;
 
-public class LoginPresenter {
+public class LoginPresenter extends BasePresenter {
 
 	private LoginDialog fLoginDialog;
+	
 	@Inject
 	private iSessionAPI fSessionAPI;
 
 	
-	public LoginPresenter() {
+	public LoginPresenter() {	
 		fLoginDialog = new LoginDialog(null);
 	}
 	
