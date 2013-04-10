@@ -7,7 +7,7 @@ import ch.hslu.appe.fs1301.data.shared.Person;
 
 /**
 * Auto-Generated DTOs
-* Wed Apr 10 10:39:53 CEST 2013
+* Wed Apr 10 11:21:47 CEST 2013
 */
 public class DTORechnung {
 	private int fId;
@@ -19,10 +19,10 @@ public class DTORechnung {
 	private DTOPerson fPerson;
 
 	public DTORechnung() {
-		
 	}
 
 	public DTORechnung(Rechnung rechnung) {
+		this();
 		fId = rechnung.getId();
 		fBetrag = rechnung.getBetrag();
 		fBezahlter_Betrag = rechnung.getBezahlter_Betrag();

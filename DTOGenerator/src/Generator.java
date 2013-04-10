@@ -85,12 +85,21 @@ public class Generator {
 
 	private void writeConstructor(String entity, BufferedWriter writer, List<Field> fields, String[] entities)
 			throws IOException {
-		writer.write("\tpublic " + PREFIX + entity + "() {\n\t\t\n\t}\n\n");
-		
-		writer.write("\tpublic " + PREFIX + entity + "(" + entity + " " + entity.toLowerCase() + ") {\n");
+		writer.write("\tpublic " + PREFIX + entity + "() {\n");
 		for (Field field : fields) {
 			if (field.getType().equals("List")) {
-				
+				writer.write(String.format("\t\t%s = new ArrayList<%s>();\n", field.getAttributeName(), checkPrefixNeeded(entities, field.getGenericType()) ? PREFIX + field.getGenericType() : field.getGenericType()));
+			}
+		}
+		writer.write("\t}\n\n");
+		
+		writer.write("\tpublic " + PREFIX + entity + "(" + entity + " " + entity.toLowerCase() + ") {\n");
+		writer.write("\t\tthis();\n");
+		for (Field field : fields) {
+			if (field.getType().equals("List") && checkPrefixNeeded(entities, field.getGenericType())) {
+				writer.write(String.format("\t\tfor (%s %s : %s.get%s()) {\n", field.getGenericType(), field.getGenericType().toLowerCase(), entity.toLowerCase(), field.getNameWithCapitalFirstLetter()));
+				writer.write(String.format("\t\t\t%s.add(new %s(%s));\n", field.getAttributeName(), PREFIX + field.getGenericType(), field.getGenericType().toLowerCase()));
+				writer.write("\t\t}\n");
 			} else if (checkPrefixNeeded(entities, field.getType())) {
 				writer.write(String.format("\t\t%s = new %s(%s.get%s());\n", field.getAttributeName(), PREFIX + field.getType(), entity.toLowerCase(), field.getNameWithCapitalFirstLetter()));
 			} else {
@@ -144,6 +153,7 @@ public class Generator {
 		for (Field field : fields) {
 			if (field.getType().equals("List")) {
 				writer.write("import java.util.List;\n");
+				writer.write("import java.util.ArrayList;\n");
 				break;
 			}
 		}

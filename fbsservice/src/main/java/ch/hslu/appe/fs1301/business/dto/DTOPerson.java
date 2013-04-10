@@ -2,6 +2,7 @@ package ch.hslu.appe.fs1301.business.dto;
 
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 import ch.hslu.appe.fs1301.data.shared.Person;
 import ch.hslu.appe.fs1301.data.shared.Bestellung;
 import ch.hslu.appe.fs1301.data.shared.Korrespondenz;
@@ -9,7 +10,7 @@ import ch.hslu.appe.fs1301.data.shared.Rechnung;
 
 /**
 * Auto-Generated DTOs
-* Wed Apr 10 10:39:53 CEST 2013
+* Wed Apr 10 11:21:47 CEST 2013
 */
 public class DTOPerson {
 	private int fId;
@@ -31,10 +32,15 @@ public class DTOPerson {
 	private List<DTORechnung> fRechnungs;
 
 	public DTOPerson() {
-		
+		fBestellungs1 = new ArrayList<DTOBestellung>();
+		fBestellungs2 = new ArrayList<DTOBestellung>();
+		fKorrespondenzs1 = new ArrayList<DTOKorrespondenz>();
+		fKorrespondenzs2 = new ArrayList<DTOKorrespondenz>();
+		fRechnungs = new ArrayList<DTORechnung>();
 	}
 
 	public DTOPerson(Person person) {
+		this();
 		fId = person.getId();
 		fAktiv = person.getAktiv();
 		fBenutzername = person.getBenutzername();
@@ -47,6 +53,21 @@ public class DTOPerson {
 		fRolle = person.getRolle();
 		fStrasse = person.getStrasse();
 		fVorname = person.getVorname();
+		for (Bestellung bestellung : person.getBestellungs1()) {
+			fBestellungs1.add(new DTOBestellung(bestellung));
+		}
+		for (Bestellung bestellung : person.getBestellungs2()) {
+			fBestellungs2.add(new DTOBestellung(bestellung));
+		}
+		for (Korrespondenz korrespondenz : person.getKorrespondenzs1()) {
+			fKorrespondenzs1.add(new DTOKorrespondenz(korrespondenz));
+		}
+		for (Korrespondenz korrespondenz : person.getKorrespondenzs2()) {
+			fKorrespondenzs2.add(new DTOKorrespondenz(korrespondenz));
+		}
+		for (Rechnung rechnung : person.getRechnungs()) {
+			fRechnungs.add(new DTORechnung(rechnung));
+		}
 	}
 
 	public int getId() {

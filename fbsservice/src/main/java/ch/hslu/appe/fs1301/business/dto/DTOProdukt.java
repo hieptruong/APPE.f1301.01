@@ -1,13 +1,14 @@
 package ch.hslu.appe.fs1301.business.dto;
 
 import java.util.List;
+import java.util.ArrayList;
 import ch.hslu.appe.fs1301.data.shared.Produkt;
 import ch.hslu.appe.fs1301.data.shared.Bestellposition;
 import ch.hslu.appe.fs1301.data.shared.ZentrallagerBestellung;
 
 /**
 * Auto-Generated DTOs
-* Wed Apr 10 10:39:53 CEST 2013
+* Wed Apr 10 11:21:47 CEST 2013
 */
 public class DTOProdukt {
 	private int fId;
@@ -19,15 +20,23 @@ public class DTOProdukt {
 	private List<DTOZentrallagerBestellung> fZentrallagerBestellungs;
 
 	public DTOProdukt() {
-		
+		fBestellpositions = new ArrayList<DTOBestellposition>();
+		fZentrallagerBestellungs = new ArrayList<DTOZentrallagerBestellung>();
 	}
 
 	public DTOProdukt(Produkt produkt) {
+		this();
 		fId = produkt.getId();
 		fBezeichnung = produkt.getBezeichnung();
 		fLagerbestand = produkt.getLagerbestand();
 		fMinimalMenge = produkt.getMinimalMenge();
 		fPreis = produkt.getPreis();
+		for (Bestellposition bestellposition : produkt.getBestellpositions()) {
+			fBestellpositions.add(new DTOBestellposition(bestellposition));
+		}
+		for (ZentrallagerBestellung zentrallagerbestellung : produkt.getZentrallagerBestellungs()) {
+			fZentrallagerBestellungs.add(new DTOZentrallagerBestellung(zentrallagerbestellung));
+		}
 	}
 
 	public int getId() {

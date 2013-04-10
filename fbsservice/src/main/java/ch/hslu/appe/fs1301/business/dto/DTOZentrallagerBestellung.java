@@ -6,7 +6,7 @@ import ch.hslu.appe.fs1301.data.shared.Produkt;
 
 /**
 * Auto-Generated DTOs
-* Wed Apr 10 10:39:53 CEST 2013
+* Wed Apr 10 11:21:47 CEST 2013
 */
 public class DTOZentrallagerBestellung {
 	private int fId;
@@ -15,10 +15,10 @@ public class DTOZentrallagerBestellung {
 	private DTOProdukt fProdukt;
 
 	public DTOZentrallagerBestellung() {
-		
 	}
 
 	public DTOZentrallagerBestellung(ZentrallagerBestellung zentrallagerbestellung) {
+		this();
 		fId = zentrallagerbestellung.getId();
 		fAnzahl = zentrallagerbestellung.getAnzahl();
 		fLiefertermin = zentrallagerbestellung.getLiefertermin();

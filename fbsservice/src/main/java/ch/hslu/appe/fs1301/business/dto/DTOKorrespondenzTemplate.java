@@ -4,7 +4,7 @@ import ch.hslu.appe.fs1301.data.shared.KorrespondenzTemplate;
 
 /**
 * Auto-Generated DTOs
-* Wed Apr 10 10:39:53 CEST 2013
+* Wed Apr 10 11:21:47 CEST 2013
 */
 public class DTOKorrespondenzTemplate {
 	private int fId;
@@ -12,10 +12,10 @@ public class DTOKorrespondenzTemplate {
 	private int fTyp;
 
 	public DTOKorrespondenzTemplate() {
-		
 	}
 
 	public DTOKorrespondenzTemplate(KorrespondenzTemplate korrespondenztemplate) {
+		this();
 		fId = korrespondenztemplate.getId();
 		fInhalt = korrespondenztemplate.getInhalt();
 		fTyp = korrespondenztemplate.getTyp();
