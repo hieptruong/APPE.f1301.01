@@ -1,10 +1,12 @@
 package ch.hslu.appe.fs1301.business.dto;
 
 import java.util.Date;
+import ch.hslu.appe.fs1301.data.shared.ZentrallagerBestellung;
+import ch.hslu.appe.fs1301.data.shared.Produkt;
 
 /**
 * Auto-Generated DTOs
-* Wed Apr 10 09:57:59 CEST 2013
+* Wed Apr 10 10:39:53 CEST 2013
 */
 public class DTOZentrallagerBestellung {
 	private int fId;
@@ -14,6 +16,13 @@ public class DTOZentrallagerBestellung {
 
 	public DTOZentrallagerBestellung() {
 		
+	}
+
+	public DTOZentrallagerBestellung(ZentrallagerBestellung zentrallagerbestellung) {
+		fId = zentrallagerbestellung.getId();
+		fAnzahl = zentrallagerbestellung.getAnzahl();
+		fLiefertermin = zentrallagerbestellung.getLiefertermin();
+		fProdukt = new DTOProdukt(zentrallagerbestellung.getProdukt());
 	}
 
 	public int getId() {

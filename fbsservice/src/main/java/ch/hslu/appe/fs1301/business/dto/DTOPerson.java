@@ -2,10 +2,14 @@ package ch.hslu.appe.fs1301.business.dto;
 
 import java.util.Date;
 import java.util.List;
+import ch.hslu.appe.fs1301.data.shared.Person;
+import ch.hslu.appe.fs1301.data.shared.Bestellung;
+import ch.hslu.appe.fs1301.data.shared.Korrespondenz;
+import ch.hslu.appe.fs1301.data.shared.Rechnung;
 
 /**
 * Auto-Generated DTOs
-* Wed Apr 10 09:57:59 CEST 2013
+* Wed Apr 10 10:39:53 CEST 2013
 */
 public class DTOPerson {
 	private int fId;
@@ -28,6 +32,21 @@ public class DTOPerson {
 
 	public DTOPerson() {
 		
+	}
+
+	public DTOPerson(Person person) {
+		fId = person.getId();
+		fAktiv = person.getAktiv();
+		fBenutzername = person.getBenutzername();
+		fEMail = person.getEMail();
+		fGeburtstag = person.getGeburtstag();
+		fName = person.getName();
+		fOrt = person.getOrt();
+		fPasswort = person.getPasswort();
+		fPlz = person.getPlz();
+		fRolle = person.getRolle();
+		fStrasse = person.getStrasse();
+		fVorname = person.getVorname();
 	}
 
 	public int getId() {

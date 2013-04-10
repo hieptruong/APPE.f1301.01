@@ -12,6 +12,7 @@ import java.util.Scanner;
 public class Generator {
 
 	private final String PREFIX = "DTO";
+	private final String ENTITY_PACKAGE = "ch.hslu.appe.fs1301.data.shared.";
 	
 	public void generate(String[] entities, String srcPath, String destPath) {
 		
@@ -23,9 +24,9 @@ public class Generator {
 				BufferedWriter writer = createClassFile(destPath, entity);
 				
 				writer.write("package ch.hslu.appe.fs1301.business.dto;\n");
-				writer.write("\n");
+				writer.write("\n");				
 				
-				writeImports(fields, writer);								
+				writeImports(fields, writer, entities, entity);								
 				
 				writeClassDescription(writer);
 				
@@ -33,7 +34,7 @@ public class Generator {
 				
 				writeField(entities, fields, writer);
 		
-				writeConstructor(entity, writer);
+				writeConstructor(entity, writer, fields, entities);
 				
 				for (Field field : fields) {
 					writeGetter(entities, writer, field);	
@@ -82,9 +83,21 @@ public class Generator {
 		}
 	}
 
-	private void writeConstructor(String entity, BufferedWriter writer)
+	private void writeConstructor(String entity, BufferedWriter writer, List<Field> fields, String[] entities)
 			throws IOException {
 		writer.write("\tpublic " + PREFIX + entity + "() {\n\t\t\n\t}\n\n");
+		
+		writer.write("\tpublic " + PREFIX + entity + "(" + entity + " " + entity.toLowerCase() + ") {\n");
+		for (Field field : fields) {
+			if (field.getType().equals("List")) {
+				
+			} else if (checkPrefixNeeded(entities, field.getType())) {
+				writer.write(String.format("\t\t%s = new %s(%s.get%s());\n", field.getAttributeName(), PREFIX + field.getType(), entity.toLowerCase(), field.getNameWithCapitalFirstLetter()));
+			} else {
+				writer.write(String.format("\t\t%s = %s.get%s();\n", field.getAttributeName(), entity.toLowerCase(), field.getNameWithCapitalFirstLetter()));
+			}
+		}
+		writer.write("\t}\n\n");
 	}
 
 	private void writeField(String[] entities, List<Field> fields,
@@ -119,7 +132,7 @@ public class Generator {
 		writer.write("*/\n");
 	}
 
-	private void writeImports(List<Field> fields, BufferedWriter writer)
+	private void writeImports(List<Field> fields, BufferedWriter writer, String[] entities, String creatingEntity)
 			throws IOException {
 		for (Field field : fields) {
 			if (field.getType().equals("Date")) {
@@ -132,6 +145,26 @@ public class Generator {
 			if (field.getType().equals("List")) {
 				writer.write("import java.util.List;\n");
 				break;
+			}
+		}
+		
+		List<String> addedImports = new ArrayList<String>();
+		writer.write("import " + ENTITY_PACKAGE + creatingEntity + ";\n");
+		addedImports.add(creatingEntity);
+		
+		for (Field field : fields) {
+			for (String entity : entities) {
+				if (addedImports.contains(entity)) continue;
+				
+				if (field.getType().equals(entity)) {
+					writer.write("import " + ENTITY_PACKAGE + entity + ";\n");
+					addedImports.add(entity);
+				} else if (field.getGenericType() != null) {
+					if (field.getGenericType().equals(entity)) {
+						writer.write("import " + ENTITY_PACKAGE + entity + ";\n");
+						addedImports.add(entity);
+					}
+				}				
 			}
 		}
 		

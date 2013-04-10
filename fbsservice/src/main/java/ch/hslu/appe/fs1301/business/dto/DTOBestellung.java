@@ -2,10 +2,14 @@ package ch.hslu.appe.fs1301.business.dto;
 
 import java.util.Date;
 import java.util.List;
+import ch.hslu.appe.fs1301.data.shared.Bestellung;
+import ch.hslu.appe.fs1301.data.shared.Bestellposition;
+import ch.hslu.appe.fs1301.data.shared.Person;
+import ch.hslu.appe.fs1301.data.shared.Rechnung;
 
 /**
 * Auto-Generated DTOs
-* Wed Apr 10 09:57:59 CEST 2013
+* Wed Apr 10 10:39:53 CEST 2013
 */
 public class DTOBestellung {
 	private int fId;
@@ -20,6 +24,16 @@ public class DTOBestellung {
 
 	public DTOBestellung() {
 		
+	}
+
+	public DTOBestellung(Bestellung bestellung) {
+		fId = bestellung.getId();
+		fBestelldatum = bestellung.getBestelldatum();
+		fLiefertermin_Ist = bestellung.getLiefertermin_Ist();
+		fLiefertermin_Soll = bestellung.getLiefertermin_Soll();
+		fQuelle = bestellung.getQuelle();
+		fPerson1 = new DTOPerson(bestellung.getPerson1());
+		fPerson2 = new DTOPerson(bestellung.getPerson2());
 	}
 
 	public int getId() {

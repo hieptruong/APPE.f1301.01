@@ -1,9 +1,10 @@
 package ch.hslu.appe.fs1301.business.dto;
 
+import ch.hslu.appe.fs1301.data.shared.KorrespondenzTemplate;
 
 /**
 * Auto-Generated DTOs
-* Wed Apr 10 09:57:59 CEST 2013
+* Wed Apr 10 10:39:53 CEST 2013
 */
 public class DTOKorrespondenzTemplate {
 	private int fId;
@@ -12,6 +13,12 @@ public class DTOKorrespondenzTemplate {
 
 	public DTOKorrespondenzTemplate() {
 		
+	}
+
+	public DTOKorrespondenzTemplate(KorrespondenzTemplate korrespondenztemplate) {
+		fId = korrespondenztemplate.getId();
+		fInhalt = korrespondenztemplate.getInhalt();
+		fTyp = korrespondenztemplate.getTyp();
 	}
 
 	public int getId() {

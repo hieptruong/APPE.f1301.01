@@ -1,10 +1,13 @@
 package ch.hslu.appe.fs1301.business.dto;
 
 import java.util.Date;
+import ch.hslu.appe.fs1301.data.shared.Rechnung;
+import ch.hslu.appe.fs1301.data.shared.Bestellung;
+import ch.hslu.appe.fs1301.data.shared.Person;
 
 /**
 * Auto-Generated DTOs
-* Wed Apr 10 09:57:59 CEST 2013
+* Wed Apr 10 10:39:53 CEST 2013
 */
 public class DTORechnung {
 	private int fId;
@@ -17,6 +20,16 @@ public class DTORechnung {
 
 	public DTORechnung() {
 		
+	}
+
+	public DTORechnung(Rechnung rechnung) {
+		fId = rechnung.getId();
+		fBetrag = rechnung.getBetrag();
+		fBezahlter_Betrag = rechnung.getBezahlter_Betrag();
+		fMahnstufe = rechnung.getMahnstufe();
+		fZahlbarBis = rechnung.getZahlbarBis();
+		fBestellung = new DTOBestellung(rechnung.getBestellung());
+		fPerson = new DTOPerson(rechnung.getPerson());
 	}
 
 	public int getId() {
