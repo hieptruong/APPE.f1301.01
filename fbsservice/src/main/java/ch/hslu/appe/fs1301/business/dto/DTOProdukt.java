@@ -1,113 +1,78 @@
 package ch.hslu.appe.fs1301.business.dto;
 
-import java.util.Date;
 import java.util.List;
 
 /**
 * Auto-Generated DTOs
-* Tue Apr 09 13:33:55 CEST 2013
+* Wed Apr 10 09:57:59 CEST 2013
 */
 public class DTOProdukt {
-	private int id;
-	private String bezeichnung;
-	private int lagerbestand;
-	private int minimalMenge;
-	private int preis;
-	private List<DTOBestellposition> bestellpositions;
-	private List<DTOZentrallagerBestellung> zentrallagerBestellungs;
+	private int fId;
+	private String fBezeichnung;
+	private int fLagerbestand;
+	private int fMinimalMenge;
+	private int fPreis;
+	private List<DTOBestellposition> fBestellpositions;
+	private List<DTOZentrallagerBestellung> fZentrallagerBestellungs;
 
 	public DTOProdukt() {
+		
 	}
 
-
 	public int getId() {
-		return this.id;
+		return fId;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		fId = id;
 	}
 
-
 	public String getBezeichnung() {
-		return this.bezeichnung;
+		return fBezeichnung;
 	}
 
 	public void setBezeichnung(String bezeichnung) {
-		this.bezeichnung = bezeichnung;
+		fBezeichnung = bezeichnung;
 	}
 
-
 	public int getLagerbestand() {
-		return this.lagerbestand;
+		return fLagerbestand;
 	}
 
 	public void setLagerbestand(int lagerbestand) {
-		this.lagerbestand = lagerbestand;
+		fLagerbestand = lagerbestand;
 	}
 
-
 	public int getMinimalMenge() {
-		return this.minimalMenge;
+		return fMinimalMenge;
 	}
 
 	public void setMinimalMenge(int minimalMenge) {
-		this.minimalMenge = minimalMenge;
+		fMinimalMenge = minimalMenge;
 	}
 
-
 	public int getPreis() {
-		return this.preis;
+		return fPreis;
 	}
 
 	public void setPreis(int preis) {
-		this.preis = preis;
+		fPreis = preis;
 	}
 
-
 	public List<DTOBestellposition> getBestellpositions() {
-		return this.bestellpositions;
+		return fBestellpositions;
 	}
 
 	public void setBestellpositions(List<DTOBestellposition> bestellpositions) {
-		this.bestellpositions = bestellpositions;
+		fBestellpositions = bestellpositions;
 	}
-
-	public DTOBestellposition addBestellposition(DTOBestellposition bestellposition) {
-		getBestellpositions().add(bestellposition);
-		bestellposition.setProdukt(this);
-
-		return bestellposition;
-	}
-
-	public DTOBestellposition removeBestellposition(DTOBestellposition bestellposition) {
-		getBestellpositions().remove(bestellposition);
-		bestellposition.setProdukt(null);
-
-		return bestellposition;
-	}
-
 
 	public List<DTOZentrallagerBestellung> getZentrallagerBestellungs() {
-		return this.zentrallagerBestellungs;
+		return fZentrallagerBestellungs;
 	}
 
 	public void setZentrallagerBestellungs(List<DTOZentrallagerBestellung> zentrallagerBestellungs) {
-		this.zentrallagerBestellungs = zentrallagerBestellungs;
-	}
-
-	public DTOZentrallagerBestellung addZentrallagerBestellung(DTOZentrallagerBestellung zentrallagerBestellung) {
-		getZentrallagerBestellungs().add(zentrallagerBestellung);
-		zentrallagerBestellung.setProdukt(this);
-
-		return zentrallagerBestellung;
-	}
-
-	public DTOZentrallagerBestellung removeZentrallagerBestellung(DTOZentrallagerBestellung zentrallagerBestellung) {
-		getZentrallagerBestellungs().remove(zentrallagerBestellung);
-		zentrallagerBestellung.setProdukt(null);
-
-		return zentrallagerBestellung;
+		fZentrallagerBestellungs = zentrallagerBestellungs;
 	}
 
 }

@@ -1,45 +1,41 @@
 package ch.hslu.appe.fs1301.business.dto;
 
-import java.util.Date;
-import java.util.List;
 
 /**
 * Auto-Generated DTOs
-* Tue Apr 09 13:33:55 CEST 2013
+* Wed Apr 10 09:57:59 CEST 2013
 */
 public class DTOKorrespondenzTemplate {
-	private int id;
-	private String inhalt;
-	private int typ;
+	private int fId;
+	private String fInhalt;
+	private int fTyp;
 
 	public DTOKorrespondenzTemplate() {
+		
 	}
 
-
 	public int getId() {
-		return this.id;
+		return fId;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		fId = id;
 	}
 
-
 	public String getInhalt() {
-		return this.inhalt;
+		return fInhalt;
 	}
 
 	public void setInhalt(String inhalt) {
-		this.inhalt = inhalt;
+		fInhalt = inhalt;
 	}
 
-
 	public int getTyp() {
-		return this.typ;
+		return fTyp;
 	}
 
 	public void setTyp(int typ) {
-		this.typ = typ;
+		fTyp = typ;
 	}
 
 }

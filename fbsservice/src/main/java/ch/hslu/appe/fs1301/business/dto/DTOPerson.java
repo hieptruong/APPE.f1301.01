@@ -5,251 +5,165 @@ import java.util.List;
 
 /**
 * Auto-Generated DTOs
-* Tue Apr 09 13:33:55 CEST 2013
+* Wed Apr 10 09:57:59 CEST 2013
 */
 public class DTOPerson {
-	private int id;
-	private boolean aktiv;
-	private String benutzername;
-	private String EMail;
-	private Date geburtstag;
-	private String name;
-	private String ort;
-	private String passwort;
-	private int plz;
-	private int rolle;
-	private String strasse;
-	private String vorname;
-	private List<DTOBestellung> bestellungs1;
-	private List<DTOBestellung> bestellungs2;
-	private List<DTOKorrespondenz> korrespondenzs1;
-	private List<DTOKorrespondenz> korrespondenzs2;
-	private List<DTORechnung> rechnungs;
+	private int fId;
+	private boolean fAktiv;
+	private String fBenutzername;
+	private String fEMail;
+	private Date fGeburtstag;
+	private String fName;
+	private String fOrt;
+	private String fPasswort;
+	private int fPlz;
+	private int fRolle;
+	private String fStrasse;
+	private String fVorname;
+	private List<DTOBestellung> fBestellungs1;
+	private List<DTOBestellung> fBestellungs2;
+	private List<DTOKorrespondenz> fKorrespondenzs1;
+	private List<DTOKorrespondenz> fKorrespondenzs2;
+	private List<DTORechnung> fRechnungs;
 
 	public DTOPerson() {
+		
 	}
 
-
 	public int getId() {
-		return this.id;
+		return fId;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		fId = id;
 	}
 
-
 	public boolean getAktiv() {
-		return this.aktiv;
+		return fAktiv;
 	}
 
 	public void setAktiv(boolean aktiv) {
-		this.aktiv = aktiv;
+		fAktiv = aktiv;
 	}
 
-
 	public String getBenutzername() {
-		return this.benutzername;
+		return fBenutzername;
 	}
 
 	public void setBenutzername(String benutzername) {
-		this.benutzername = benutzername;
+		fBenutzername = benutzername;
 	}
 
-
 	public String getEMail() {
-		return this.EMail;
+		return fEMail;
 	}
 
 	public void setEMail(String EMail) {
-		this.EMail = EMail;
+		fEMail = EMail;
 	}
 
-
 	public Date getGeburtstag() {
-		return this.geburtstag;
+		return fGeburtstag;
 	}
 
 	public void setGeburtstag(Date geburtstag) {
-		this.geburtstag = geburtstag;
+		fGeburtstag = geburtstag;
 	}
 
-
 	public String getName() {
-		return this.name;
+		return fName;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		fName = name;
 	}
 
-
 	public String getOrt() {
-		return this.ort;
+		return fOrt;
 	}
 
 	public void setOrt(String ort) {
-		this.ort = ort;
+		fOrt = ort;
 	}
 
-
 	public String getPasswort() {
-		return this.passwort;
+		return fPasswort;
 	}
 
 	public void setPasswort(String passwort) {
-		this.passwort = passwort;
+		fPasswort = passwort;
 	}
 
-
 	public int getPlz() {
-		return this.plz;
+		return fPlz;
 	}
 
 	public void setPlz(int plz) {
-		this.plz = plz;
+		fPlz = plz;
 	}
 
-
 	public int getRolle() {
-		return this.rolle;
+		return fRolle;
 	}
 
 	public void setRolle(int rolle) {
-		this.rolle = rolle;
+		fRolle = rolle;
 	}
 
-
 	public String getStrasse() {
-		return this.strasse;
+		return fStrasse;
 	}
 
 	public void setStrasse(String strasse) {
-		this.strasse = strasse;
+		fStrasse = strasse;
 	}
 
-
 	public String getVorname() {
-		return this.vorname;
+		return fVorname;
 	}
 
 	public void setVorname(String vorname) {
-		this.vorname = vorname;
+		fVorname = vorname;
 	}
 
-
 	public List<DTOBestellung> getBestellungs1() {
-		return this.bestellungs1;
+		return fBestellungs1;
 	}
 
 	public void setBestellungs1(List<DTOBestellung> bestellungs1) {
-		this.bestellungs1 = bestellungs1;
+		fBestellungs1 = bestellungs1;
 	}
-
-	public DTOBestellung addBestellungs1(DTOBestellung bestellungs1) {
-		getBestellungs1().add(bestellungs1);
-		bestellungs1.setPerson1(this);
-
-		return bestellungs1;
-	}
-
-	public DTOBestellung removeBestellungs1(DTOBestellung bestellungs1) {
-		getBestellungs1().remove(bestellungs1);
-		bestellungs1.setPerson1(null);
-
-		return bestellungs1;
-	}
-
 
 	public List<DTOBestellung> getBestellungs2() {
-		return this.bestellungs2;
+		return fBestellungs2;
 	}
 
 	public void setBestellungs2(List<DTOBestellung> bestellungs2) {
-		this.bestellungs2 = bestellungs2;
+		fBestellungs2 = bestellungs2;
 	}
-
-	public DTOBestellung addBestellungs2(DTOBestellung bestellungs2) {
-		getBestellungs2().add(bestellungs2);
-		bestellungs2.setPerson2(this);
-
-		return bestellungs2;
-	}
-
-	public DTOBestellung removeBestellungs2(DTOBestellung bestellungs2) {
-		getBestellungs2().remove(bestellungs2);
-		bestellungs2.setPerson2(null);
-
-		return bestellungs2;
-	}
-
 
 	public List<DTOKorrespondenz> getKorrespondenzs1() {
-		return this.korrespondenzs1;
+		return fKorrespondenzs1;
 	}
 
 	public void setKorrespondenzs1(List<DTOKorrespondenz> korrespondenzs1) {
-		this.korrespondenzs1 = korrespondenzs1;
+		fKorrespondenzs1 = korrespondenzs1;
 	}
-
-	public DTOKorrespondenz addKorrespondenzs1(DTOKorrespondenz korrespondenzs1) {
-		getKorrespondenzs1().add(korrespondenzs1);
-		korrespondenzs1.setPerson1(this);
-
-		return korrespondenzs1;
-	}
-
-	public DTOKorrespondenz removeKorrespondenzs1(DTOKorrespondenz korrespondenzs1) {
-		getKorrespondenzs1().remove(korrespondenzs1);
-		korrespondenzs1.setPerson1(null);
-
-		return korrespondenzs1;
-	}
-
 
 	public List<DTOKorrespondenz> getKorrespondenzs2() {
-		return this.korrespondenzs2;
+		return fKorrespondenzs2;
 	}
 
 	public void setKorrespondenzs2(List<DTOKorrespondenz> korrespondenzs2) {
-		this.korrespondenzs2 = korrespondenzs2;
+		fKorrespondenzs2 = korrespondenzs2;
 	}
-
-	public DTOKorrespondenz addKorrespondenzs2(DTOKorrespondenz korrespondenzs2) {
-		getKorrespondenzs2().add(korrespondenzs2);
-		korrespondenzs2.setPerson2(this);
-
-		return korrespondenzs2;
-	}
-
-	public DTOKorrespondenz removeKorrespondenzs2(DTOKorrespondenz korrespondenzs2) {
-		getKorrespondenzs2().remove(korrespondenzs2);
-		korrespondenzs2.setPerson2(null);
-
-		return korrespondenzs2;
-	}
-
 
 	public List<DTORechnung> getRechnungs() {
-		return this.rechnungs;
+		return fRechnungs;
 	}
 
 	public void setRechnungs(List<DTORechnung> rechnungs) {
-		this.rechnungs = rechnungs;
-	}
-
-	public DTORechnung addRechnung(DTORechnung rechnung) {
-		getRechnungs().add(rechnung);
-		rechnung.setPerson(this);
-
-		return rechnung;
-	}
-
-	public DTORechnung removeRechnung(DTORechnung rechnung) {
-		getRechnungs().remove(rechnung);
-		rechnung.setPerson(null);
-
-		return rechnung;
+		fRechnungs = rechnungs;
 	}
 
 }

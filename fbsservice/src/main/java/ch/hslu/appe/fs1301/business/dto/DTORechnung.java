@@ -1,85 +1,78 @@
 package ch.hslu.appe.fs1301.business.dto;
 
 import java.util.Date;
-import java.util.List;
 
 /**
 * Auto-Generated DTOs
-* Tue Apr 09 13:33:55 CEST 2013
+* Wed Apr 10 09:57:59 CEST 2013
 */
 public class DTORechnung {
-	private int id;
-	private int betrag;
-	private int bezahlter_Betrag;
-	private int mahnstufe;
-	private Date zahlbarBis;
-	private DTOBestellung bestellung;
-	private DTOPerson person;
+	private int fId;
+	private int fBetrag;
+	private int fBezahlter_Betrag;
+	private int fMahnstufe;
+	private Date fZahlbarBis;
+	private DTOBestellung fBestellung;
+	private DTOPerson fPerson;
 
 	public DTORechnung() {
+		
 	}
 
-
 	public int getId() {
-		return this.id;
+		return fId;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		fId = id;
 	}
 
-
 	public int getBetrag() {
-		return this.betrag;
+		return fBetrag;
 	}
 
 	public void setBetrag(int betrag) {
-		this.betrag = betrag;
+		fBetrag = betrag;
 	}
 
-
 	public int getBezahlter_Betrag() {
-		return this.bezahlter_Betrag;
+		return fBezahlter_Betrag;
 	}
 
 	public void setBezahlter_Betrag(int bezahlter_Betrag) {
-		this.bezahlter_Betrag = bezahlter_Betrag;
+		fBezahlter_Betrag = bezahlter_Betrag;
 	}
 
-
 	public int getMahnstufe() {
-		return this.mahnstufe;
+		return fMahnstufe;
 	}
 
 	public void setMahnstufe(int mahnstufe) {
-		this.mahnstufe = mahnstufe;
+		fMahnstufe = mahnstufe;
 	}
 
-
 	public Date getZahlbarBis() {
-		return this.zahlbarBis;
+		return fZahlbarBis;
 	}
 
 	public void setZahlbarBis(Date zahlbarBis) {
-		this.zahlbarBis = zahlbarBis;
+		fZahlbarBis = zahlbarBis;
 	}
 
-
 	public DTOBestellung getBestellung() {
-		return this.bestellung;
+		return fBestellung;
 	}
 
 	public void setBestellung(DTOBestellung bestellung) {
-		this.bestellung = bestellung;
+		fBestellung = bestellung;
 	}
 
-
 	public DTOPerson getPerson() {
-		return this.person;
+		return fPerson;
 	}
 
 	public void setPerson(DTOPerson person) {
-		this.person = person;
+		fPerson = person;
 	}
 
 }

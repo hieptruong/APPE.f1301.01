@@ -1,65 +1,59 @@
 package ch.hslu.appe.fs1301.business.dto;
 
-import java.util.Date;
-import java.util.List;
 
 /**
 * Auto-Generated DTOs
-* Tue Apr 09 13:33:55 CEST 2013
+* Wed Apr 10 09:57:59 CEST 2013
 */
 public class DTOBestellposition {
-	private int id;
-	private int anzahl;
-	private int stueckpreis;
-	private DTOBestellung bestellung;
-	private DTOProdukt produkt;
+	private int fId;
+	private int fAnzahl;
+	private int fStueckpreis;
+	private DTOBestellung fBestellung;
+	private DTOProdukt fProdukt;
 
 	public DTOBestellposition() {
+		
 	}
 
-
 	public int getId() {
-		return this.id;
+		return fId;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		fId = id;
 	}
 
-
 	public int getAnzahl() {
-		return this.anzahl;
+		return fAnzahl;
 	}
 
 	public void setAnzahl(int anzahl) {
-		this.anzahl = anzahl;
+		fAnzahl = anzahl;
 	}
 
-
 	public int getStueckpreis() {
-		return this.stueckpreis;
+		return fStueckpreis;
 	}
 
 	public void setStueckpreis(int stueckpreis) {
-		this.stueckpreis = stueckpreis;
+		fStueckpreis = stueckpreis;
 	}
 
-
 	public DTOBestellung getBestellung() {
-		return this.bestellung;
+		return fBestellung;
 	}
 
 	public void setBestellung(DTOBestellung bestellung) {
-		this.bestellung = bestellung;
+		fBestellung = bestellung;
 	}
 
-
 	public DTOProdukt getProdukt() {
-		return this.produkt;
+		return fProdukt;
 	}
 
 	public void setProdukt(DTOProdukt produkt) {
-		this.produkt = produkt;
+		fProdukt = produkt;
 	}
 
 }
