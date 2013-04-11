@@ -1,11 +1,11 @@
 package ch.hslu.appe.fs1301.business.dto;
 
 import java.util.Date;
-import ch.hslu.appe.fs1301.data.shared.Rechnung;
+import ch.hslu.appe.fs1301.data.shared.entityRechnung;
 
 /**
 * Auto-Generated DTOs
-* Thu Apr 11 13:15:54 CEST 2013
+* Thu Apr 11 13:59:53 CEST 2013
 */
 public class DTORechnung {
 	private int fId;

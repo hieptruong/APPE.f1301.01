@@ -1,10 +1,10 @@
 package ch.hslu.appe.fs1301.business.dto;
 
-import ch.hslu.appe.fs1301.data.shared.KorrespondenzTemplate;
+import ch.hslu.appe.fs1301.data.shared.entityKorrespondenzTemplate;
 
 /**
 * Auto-Generated DTOs
-* Thu Apr 11 13:15:54 CEST 2013
+* Thu Apr 11 13:59:53 CEST 2013
 */
 public class DTOKorrespondenzTemplate {
 	private int fId;

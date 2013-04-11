@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Generator {
 
 	private final String PREFIX = "DTO";
-	private final String ENTITY_PACKAGE = "ch.hslu.appe.fs1301.data.shared.";
+	private final String ENTITY_PACKAGE = "ch.hslu.appe.fs1301.data.shared.entity";
 	
 	public void generate(String[] entities, String srcPath, String destPath) {
 		
