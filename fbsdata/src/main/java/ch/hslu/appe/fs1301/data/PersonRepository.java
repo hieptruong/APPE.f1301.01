@@ -30,7 +30,7 @@ public class PersonRepository extends BaseRepository<Person> implements iPersonR
 	}
 
 	@Override
-	public List<Person> getPersonsByNames(String... names) {
+	public List<Person> getPersonsByNames(String... names) throws IllegalArgumentException {
 		if (names.length == 0)
 			throw new IllegalArgumentException("names");
 		

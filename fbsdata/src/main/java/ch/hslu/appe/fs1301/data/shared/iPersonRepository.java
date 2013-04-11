@@ -24,5 +24,5 @@ public interface iPersonRepository extends iRepository<Person> {
 	 * @return The resultlist of the search.
 	 * @throws IllegalArgumentException If no name is provided.
 	 */
-	public List<Person> getPersonsByNames(String... names);
+	public List<Person> getPersonsByNames(String... names) throws IllegalArgumentException;
 }
