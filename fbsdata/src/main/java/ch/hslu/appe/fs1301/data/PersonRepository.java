@@ -16,12 +16,12 @@ public class PersonRepository extends BaseRepository<Person> implements iPersonR
 	}
 
 	public Person getPersonByUsernameAndPassword(String username, String password) {
-		StringBuilder query = new StringBuilder();
+		StringBuilder query = new StringBuilder(100);
 		query.append("SELECT p FROM Person p WHERE p.benutzername = '");
 		query.append(username);
 		query.append("' and p.passwort = '");
 		query.append(password);
-		query.append("'");
+		query.append('\'');
 		
 		List<Person> resultList = executeQuery(query);
 		
