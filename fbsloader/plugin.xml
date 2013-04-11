@@ -3,7 +3,7 @@
 <plugin>
 
    <extension
-         id="application"
+         id="Application1"
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
@@ -14,32 +14,20 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="ch.hslu.appe.fs1303.gui.perspectives.Perspective"
-            id="ch.hslu.appe.fs1303.loader.perspective"
-            name="Perspective">
+            class="ch.hslu.appe.fs1303.gui.perspectives.APPEPerspective"
+            id="ch.hslu.appe.fs1303.gui.perspectives.APPEPerspective"
+            name="RCP Perspective">
       </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="ch.hslu.appe.fs1303.gui.views.View"
-            id="ch.hslu.appe.fs1303.views.view"
-            name="StartUpView"
+            allowMultiple="false"
+            class="ch.hslu.appe.fs1303.gui.presenter.PersonSearchPresenter"
+            id="ch.hslu.appe.fs1303.gui.presenter.PersonSearchPresenter"
+            name="PersonSearchPresenter"
             restorable="true">
       </view>
-   </extension>
-   <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="*">
-         <view
-               standalone="true"
-               minimized="false"
-               relative="org.eclipse.ui.editorss"
-               relationship="left"
-               id="ch.hslu.appe.fs1303.views.view">
-         </view>
-      </perspectiveExtension>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -54,5 +42,4 @@
          </menu>
       </menuContribution>
    </extension>
-
 </plugin>

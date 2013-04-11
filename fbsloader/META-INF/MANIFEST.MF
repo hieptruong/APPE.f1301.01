@@ -19,5 +19,4 @@ Bundle-ClassPath: .,
  lib/fbsdata/appe_fbsdata-0.0.0.shared.jar,
  lib/fbsguiclient/appe_fbsguiclient-0.0.0.jar,
  lib/fbsservice/appe_fbsservice-0.0.0.jar,
- lib/fbsservice/appe_fbsservice-0.0.0.0.shared.jar,
- lib/fbsguiclient/appe_fbsguiclient-0.0.0.shared.jar
+ lib/fbsservice/appe_fbsservice-0.0.0.0.shared.jar
