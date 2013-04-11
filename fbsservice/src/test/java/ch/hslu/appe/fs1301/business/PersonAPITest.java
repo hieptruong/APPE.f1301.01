@@ -1,6 +1,7 @@
 package ch.hslu.appe.fs1301.business;
 
 import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.expect;
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -25,6 +26,29 @@ public class PersonAPITest {
 	public void setUp() {	
 		fPersonRepositoryMock = PowerMock.createMock(iPersonRepository.class);
 		fTestee = new PersonAPI(fPersonRepositoryMock);		
+	}
+	
+	@Test
+	public void returnsPerson_OnGetCustomerById() {
+		final int ExpectedId = 10;
+		Person returnedPerson = new Person();
+		returnedPerson.setId(ExpectedId);
+		
+		expect(fPersonRepositoryMock.getById(eq(ExpectedId))).andReturn(returnedPerson);
+		PowerMock.replayAll();
+		
+		DTOPerson result = fTestee.getCustomerById(ExpectedId);
+		assertThat(result.getId()).isSameAs(ExpectedId);
+	}
+	
+	@Test
+	public void returnsNull_OnGetCustomerById_WhenNullIsReturnedByRepo() {
+		final int Id = 10;
+		expect(fPersonRepositoryMock.getById(eq(Id))).andReturn(null);
+		PowerMock.replayAll();
+		
+		DTOPerson result = fTestee.getCustomerById(Id);
+		assertThat(result).isNull();
 	}
 	
 	@Test

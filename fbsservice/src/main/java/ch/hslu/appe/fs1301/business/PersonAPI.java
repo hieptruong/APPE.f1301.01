@@ -21,6 +21,12 @@ public class PersonAPI implements iPersonAPI {
 	}
 	
 	@Override
+	public DTOPerson getCustomerById(int id) {
+		Person person = fPersonRepository.getById(id);
+		return person != null ? new DTOPerson(person) : null;
+	}
+	
+	@Override
 	public List<DTOPerson> getCustomersByName(String name) {
 		List<Person> searchList;
 		try {

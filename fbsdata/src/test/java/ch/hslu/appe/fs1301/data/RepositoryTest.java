@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.Date;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,6 +20,12 @@ public class RepositoryTest extends BaseTestClass {
 	@Before
 	public void setUp() {
 		personRepo = new PersonRepository(new APPEEntityManager());
+	}
+	
+	@Test
+	public void returnsNull_WhenIdIsNotFound() {
+		Person person = personRepo.getById(Integer.MAX_VALUE);
+		assertThat(person).isNull();
 	}
 	
 	@Test
