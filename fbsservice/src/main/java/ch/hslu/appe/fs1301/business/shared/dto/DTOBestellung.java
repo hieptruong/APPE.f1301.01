@@ -1,15 +1,15 @@
-package ch.hslu.appe.fs1301.business.dto;
+package ch.hslu.appe.fs1301.business.shared.dto;
 
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
-import ch.hslu.appe.fs1301.data.shared.entityBestellung;
-import ch.hslu.appe.fs1301.data.shared.entityBestellposition;
-import ch.hslu.appe.fs1301.data.shared.entityRechnung;
+import ch.hslu.appe.fs1301.data.shared.entity.Bestellung;
+import ch.hslu.appe.fs1301.data.shared.entity.Bestellposition;
+import ch.hslu.appe.fs1301.data.shared.entity.Rechnung;
 
 /**
 * Auto-Generated DTOs
-* Thu Apr 11 13:59:53 CEST 2013
+* Thu Apr 11 14:03:18 CEST 2013
 */
 public class DTOBestellung {
 	private int fId;

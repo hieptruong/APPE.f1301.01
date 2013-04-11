@@ -1,11 +1,11 @@
-package ch.hslu.appe.fs1301.business.dto;
+package ch.hslu.appe.fs1301.business.shared.dto;
 
 import java.util.Date;
-import ch.hslu.appe.fs1301.data.shared.entityZentrallagerBestellung;
+import ch.hslu.appe.fs1301.data.shared.entity.ZentrallagerBestellung;
 
 /**
 * Auto-Generated DTOs
-* Thu Apr 11 13:59:53 CEST 2013
+* Thu Apr 11 14:03:18 CEST 2013
 */
 public class DTOZentrallagerBestellung {
 	private int fId;

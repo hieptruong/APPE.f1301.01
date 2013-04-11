@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Generator {
 
 	private final String PREFIX = "DTO";
-	private final String ENTITY_PACKAGE = "ch.hslu.appe.fs1301.data.shared.entity";
+	private final String ENTITY_PACKAGE = "ch.hslu.appe.fs1301.data.shared.entity.";
 	
 	public void generate(String[] entities, String srcPath, String destPath) {
 		
@@ -23,7 +23,7 @@ public class Generator {
 			try {				
 				BufferedWriter writer = createClassFile(destPath, entity);
 				
-				writer.write("package ch.hslu.appe.fs1301.business.dto;\n");
+				writer.write("package ch.hslu.appe.fs1301.business.shared.dto;\n");
 				writer.write("\n");				
 				
 				writeImports(fields, writer, entities, entity);								
