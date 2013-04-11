@@ -1,6 +1,7 @@
 package ch.hslu.appe.fs1303.gui.presenter;
 
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Inject;
 
@@ -13,11 +14,6 @@ public class LoginPresenter extends BasePresenter {
 	
 	@Inject
 	private iSessionAPI fSessionAPI;
-
-	
-	public LoginPresenter() {	
-		fLoginDialog = new LoginDialog(null);
-	}
 	
 	public boolean login() {
 		while (fLoginDialog.open() != Window.CANCEL) {
@@ -28,5 +24,15 @@ public class LoginPresenter extends BasePresenter {
 			}
 		}	
 		return false;
+	}
+
+	@Override
+	public void createPartControl(Composite parent) {
+		fLoginDialog = new LoginDialog(null);
+	}
+
+	@Override
+	public void setFocus() {
+		
 	}
 }
