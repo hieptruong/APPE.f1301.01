@@ -432,10 +432,14 @@
             </executiondata>
             <structure name="${distname}">
                <classfiles>
-                  <fileset dir="${classes}" />
+                  <fileset dir="${classes}">
+                  	<exclude name="**/DTO*.class" />
+                  </fileset>
                </classfiles>
                <sourcefiles encoding="${proj.encoding}">
-                  <fileset dir="${src.main}" />
+                  <fileset dir="${src.main}">
+                  	<exclude name="**/DTO*.java" />
+                  </fileset>
                </sourcefiles>
             </structure>
             <html destdir="${coverage}" footer="HSLU - Modul ${proj.modul}" />
