@@ -5,7 +5,7 @@ import ch.hslu.appe.fs1301.data.shared.entity.Rechnung;
 
 /**
 * Auto-Generated DTOs
-* Thu Apr 11 14:03:18 CEST 2013
+* Thu Apr 11 23:17:20 CEST 2013
 */
 public class DTORechnung {
 	private int fId;

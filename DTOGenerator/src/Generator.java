@@ -13,44 +13,91 @@ public class Generator {
 
 	private final String PREFIX = "DTO";
 	private final String ENTITY_PACKAGE = "ch.hslu.appe.fs1301.data.shared.entity.";
+	private String currentPath;
+	
+	public Generator(){
+		currentPath = getClass().getClassLoader().getResource(".").getPath();
+	}
 	
 	public void generate(String[] entities, String srcPath, String destPath) {
-		
-		for (String entity : entities) {
-					
-			List<Field> fields = retrieveClassFields(srcPath, entity);
+		try {
+			BufferedWriter dtoWriter = createClassFile(currentPath + destPath + "DTOConverter.java");
+			dtoWriter.write("package ch.hslu.appe.fs1301.business.shared.dto;\n\n");
+			writeConvertorImports(dtoWriter, entities);
+			writeClassDescription(dtoWriter);
+			dtoWriter.write("public class DTOConverter {\n");				
+			
+			for (String entity : entities) {
 						
-			try {				
-				BufferedWriter writer = createClassFile(destPath, entity);
-				
-				writer.write("package ch.hslu.appe.fs1301.business.shared.dto;\n");
-				writer.write("\n");				
-				
-				writeImports(fields, writer, entities, entity);								
-				
-				writeClassDescription(writer);
-				
-				writer.write("public class " + PREFIX + entity + " {\n");
-				
-				writeField(entities, fields, writer);
-		
-				writeConstructor(entity, writer, fields, entities);
-				
-				for (Field field : fields) {
-					writeGetter(entities, writer, field);	
-					
-					writeSetter(entities, writer, field);	
+				List<Field> fields = retrieveClassFields(srcPath, entity);
+							
+				try {				
+					generateDTO(entities, destPath, entity, fields);
+					generateNewConverterMethod(dtoWriter, entity);
+				} catch (IOException e) {			
+					System.out.println(e.getMessage());
 				}
-				
-				writer.write("}");
-				
-				writer.flush();
-				writer.close();
-				
-			} catch (IOException e) {			
-				System.out.println(e.getMessage());
 			}
-		}			
+			
+			dtoWriter.write("}");
+			dtoWriter.flush();
+			dtoWriter.close();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	private void writeConvertorImports(BufferedWriter writer, String[] entities) throws IOException {
+		writer.write("import java.util.List;\n");
+		writer.write("import java.util.ArrayList;\n");
+		for(String entity : entities) {
+			writer.write("import " + ENTITY_PACKAGE + entity + ";\n");
+		}
+		writer.write("\n");
+	}
+
+	private void generateNewConverterMethod(BufferedWriter writer, String entity) throws IOException {
+		String entityListName = entity.toLowerCase() + "List";
+		String dtoListName = PREFIX.toLowerCase() + entity + "List";
+		String dtoClass = PREFIX + entity;
+		
+		writer.write("\n");
+		writer.write("\tpublic static List<" + dtoClass + "> convert" + entity + "(List<" + entity + "> " + entityListName + ") {\n");
+		writer.write("\t\tList<" + dtoClass + "> " + dtoListName + " = new ArrayList<" + dtoClass + ">();\n");
+		writer.write("\t\tfor(" + entity + " " + entity.toLowerCase() + " : " + entityListName + ") {\n");
+		writer.write("\t\t\t" + dtoClass + " " + (PREFIX).toLowerCase() + entity + " = new " + dtoClass + "(" + entity.toLowerCase() + ");\n");
+		writer.write("\t\t\t" + dtoListName + ".add(" + (PREFIX).toLowerCase() + entity + ");\n");
+		writer.write("\t\t}\n");
+		writer.write("\t\treturn " + dtoListName + ";\n");
+		writer.write("\t}\n");
+	}
+	
+	private void generateDTO(String[] entities, String destPath, String entity,	List<Field> fields) throws IOException {
+		BufferedWriter writer = createClassFile(destPath, entity);
+		
+		writer.write("package ch.hslu.appe.fs1301.business.shared.dto;\n");
+		writer.write("\n");				
+		
+		writeImports(fields, writer, entities, entity);								
+		
+		writeClassDescription(writer);
+		
+		writer.write("public class " + PREFIX + entity + " {\n");
+		
+		writeField(entities, fields, writer);
+
+		writeConstructor(entity, writer, fields, entities);
+		
+		for (Field field : fields) {
+			writeGetter(entities, writer, field);	
+			
+			writeSetter(entities, writer, field);	
+		}
+		
+		writer.write("}");
+		
+		writer.flush();
+		writer.close();
 	}
 
 	private void writeSetter(String[] entities, BufferedWriter writer, Field field)
@@ -178,22 +225,25 @@ public class Generator {
 		writer.write("\n");
 	}
 
-	private BufferedWriter createClassFile(String destPath, String entity) throws IOException {
-		File file = new File(destPath + PREFIX + entity + ".java");
+	private BufferedWriter createClassFile(String destPath) throws IOException {
+		File file = new File(destPath);
 		if (file.exists()) file.delete();
 		file.getParentFile().mkdirs();
 		file.createNewFile();
 				
-		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-		return writer;
+		return new BufferedWriter(new FileWriter(file));
+	}
+	private BufferedWriter createClassFile(String destPath, String entity) throws IOException {
+		return createClassFile(currentPath + destPath + PREFIX + entity + ".java");
 	}
 
 	private List<Field> retrieveClassFields(String srcPath, String entity) {
-		File srcFile = new File(srcPath + entity + ".java");
+		File srcFile = new File(currentPath + srcPath + entity + ".java");
 		List<Field> classFields = new ArrayList<Field>();
 		
+		Scanner scanner = null;
 		try {
-			Scanner scanner = new Scanner(srcFile);
+			scanner = new Scanner(srcFile);
 		
 			// Remove all line until the class starts
 			while (scanner.hasNextLine()) {					
@@ -227,6 +277,9 @@ public class Generator {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if (scanner != null)
+				scanner.close();
 		}
 		
 		return classFields;
