@@ -58,4 +58,9 @@ public class SessionAPI implements iSessionAPI {
 			}			
 		}
 	}
+	
+	@Override
+	public void logout() {
+		fUser = null;
+	}
 }

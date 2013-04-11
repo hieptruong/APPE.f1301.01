@@ -116,6 +116,28 @@ public class SessionAPITest {
 		assertThat(fTestee.isAuthenticated()).isFalse();
 	}
 	
+	@Test
+	public void doesNothing_WhenLogoutWithoutAuthenticatedUser() {
+		fTestee.logout();
+		
+		assertThat(fTestee.isAuthenticated()).isFalse();
+	}
+	
+	@Test
+	public void logsout_WhenUserWasAuthenticated(){
+		Person person = getPersonFor("", UserRole.ADMIN, true);
+		setupReturnValueOfRepo(person);
+		PowerMock.replayAll();
+
+		fTestee.authenticate("", "");
+		
+		assertThat(fTestee.isAuthenticated()).isTrue();
+		
+		fTestee.logout();
+		
+		assertThat(fTestee.isAuthenticated()).isFalse();
+	}
+	
 	private Person getPersonFor(String username, int role, boolean active) {
 		Person person = new Person();
 		person.setBenutzername(username);
