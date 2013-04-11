@@ -6,12 +6,14 @@ import org.eclipse.ui.IPerspectiveFactory;
 
 import ch.hslu.appe.fs1303.gui.presenter.PersonSearchPresenter;
 
-public class Perspective implements IPerspectiveFactory {
+public class APPEPerspective implements IPerspectiveFactory {
 
+	public static final String ID= "ch.hslu.appe.fs1303.gui.perspectives.APPEPerspective";
+	
 	public void createInitialLayout(IPageLayout layout) {
 		
 		String editorArea= layout.getEditorArea();
-		
+		System.out.println("Perspective");
 		IFolderLayout leftViews= layout.createFolder("left.view.folder", IPageLayout.LEFT, 0.27f, editorArea); //$NON-NLS-1$
 		leftViews.addView(PersonSearchPresenter.ID);
 		

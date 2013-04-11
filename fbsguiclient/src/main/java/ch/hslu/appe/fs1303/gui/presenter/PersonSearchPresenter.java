@@ -11,7 +11,7 @@ public class PersonSearchPresenter extends BasePresenter {
 		
 	}
 	
-	public static final String ID= "ch.hslu.appe.fs.1303.gui.views.PersonSearchPresenter";
+	public static final String ID= "ch.hslu.appe.fs1303.gui.presenter.PersonSearchPresenter";
 	
 	private Display fView; 
 	
