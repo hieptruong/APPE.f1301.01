@@ -10,7 +10,7 @@ import ch.hslu.appe.fs1301.data.shared.Rechnung;
 
 /**
 * Auto-Generated DTOs
-* Wed Apr 10 11:21:47 CEST 2013
+* Thu Apr 11 13:15:54 CEST 2013
 */
 public class DTOPerson {
 	private int fId;
@@ -25,18 +25,18 @@ public class DTOPerson {
 	private int fRolle;
 	private String fStrasse;
 	private String fVorname;
-	private List<DTOBestellung> fBestellungs1;
-	private List<DTOBestellung> fBestellungs2;
-	private List<DTOKorrespondenz> fKorrespondenzs1;
-	private List<DTOKorrespondenz> fKorrespondenzs2;
-	private List<DTORechnung> fRechnungs;
+	private List<Integer> fBestellungs1;
+	private List<Integer> fBestellungs2;
+	private List<Integer> fKorrespondenzs1;
+	private List<Integer> fKorrespondenzs2;
+	private List<Integer> fRechnungs;
 
 	public DTOPerson() {
-		fBestellungs1 = new ArrayList<DTOBestellung>();
-		fBestellungs2 = new ArrayList<DTOBestellung>();
-		fKorrespondenzs1 = new ArrayList<DTOKorrespondenz>();
-		fKorrespondenzs2 = new ArrayList<DTOKorrespondenz>();
-		fRechnungs = new ArrayList<DTORechnung>();
+		fBestellungs1 = new ArrayList<Integer>();
+		fBestellungs2 = new ArrayList<Integer>();
+		fKorrespondenzs1 = new ArrayList<Integer>();
+		fKorrespondenzs2 = new ArrayList<Integer>();
+		fRechnungs = new ArrayList<Integer>();
 	}
 
 	public DTOPerson(Person person) {
@@ -54,19 +54,19 @@ public class DTOPerson {
 		fStrasse = person.getStrasse();
 		fVorname = person.getVorname();
 		for (Bestellung bestellung : person.getBestellungs1()) {
-			fBestellungs1.add(new DTOBestellung(bestellung));
+			fBestellungs1.add(bestellung.getId());
 		}
 		for (Bestellung bestellung : person.getBestellungs2()) {
-			fBestellungs2.add(new DTOBestellung(bestellung));
+			fBestellungs2.add(bestellung.getId());
 		}
 		for (Korrespondenz korrespondenz : person.getKorrespondenzs1()) {
-			fKorrespondenzs1.add(new DTOKorrespondenz(korrespondenz));
+			fKorrespondenzs1.add(korrespondenz.getId());
 		}
 		for (Korrespondenz korrespondenz : person.getKorrespondenzs2()) {
-			fKorrespondenzs2.add(new DTOKorrespondenz(korrespondenz));
+			fKorrespondenzs2.add(korrespondenz.getId());
 		}
 		for (Rechnung rechnung : person.getRechnungs()) {
-			fRechnungs.add(new DTORechnung(rechnung));
+			fRechnungs.add(rechnung.getId());
 		}
 	}
 
@@ -166,43 +166,43 @@ public class DTOPerson {
 		fVorname = vorname;
 	}
 
-	public List<DTOBestellung> getBestellungs1() {
+	public List<Integer> getBestellungs1() {
 		return fBestellungs1;
 	}
 
-	public void setBestellungs1(List<DTOBestellung> bestellungs1) {
+	public void setBestellungs1(List<Integer> bestellungs1) {
 		fBestellungs1 = bestellungs1;
 	}
 
-	public List<DTOBestellung> getBestellungs2() {
+	public List<Integer> getBestellungs2() {
 		return fBestellungs2;
 	}
 
-	public void setBestellungs2(List<DTOBestellung> bestellungs2) {
+	public void setBestellungs2(List<Integer> bestellungs2) {
 		fBestellungs2 = bestellungs2;
 	}
 
-	public List<DTOKorrespondenz> getKorrespondenzs1() {
+	public List<Integer> getKorrespondenzs1() {
 		return fKorrespondenzs1;
 	}
 
-	public void setKorrespondenzs1(List<DTOKorrespondenz> korrespondenzs1) {
+	public void setKorrespondenzs1(List<Integer> korrespondenzs1) {
 		fKorrespondenzs1 = korrespondenzs1;
 	}
 
-	public List<DTOKorrespondenz> getKorrespondenzs2() {
+	public List<Integer> getKorrespondenzs2() {
 		return fKorrespondenzs2;
 	}
 
-	public void setKorrespondenzs2(List<DTOKorrespondenz> korrespondenzs2) {
+	public void setKorrespondenzs2(List<Integer> korrespondenzs2) {
 		fKorrespondenzs2 = korrespondenzs2;
 	}
 
-	public List<DTORechnung> getRechnungs() {
+	public List<Integer> getRechnungs() {
 		return fRechnungs;
 	}
 
-	public void setRechnungs(List<DTORechnung> rechnungs) {
+	public void setRechnungs(List<Integer> rechnungs) {
 		fRechnungs = rechnungs;
 	}
 

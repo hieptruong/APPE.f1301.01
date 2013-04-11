@@ -1,18 +1,17 @@
 package ch.hslu.appe.fs1301.business.dto;
 
 import ch.hslu.appe.fs1301.data.shared.Korrespondenz;
-import ch.hslu.appe.fs1301.data.shared.Person;
 
 /**
 * Auto-Generated DTOs
-* Wed Apr 10 11:21:47 CEST 2013
+* Thu Apr 11 13:15:54 CEST 2013
 */
 public class DTOKorrespondenz {
 	private int fId;
 	private String fInhalt;
 	private int fTyp;
-	private DTOPerson fPerson1;
-	private DTOPerson fPerson2;
+	private int fPerson1;
+	private int fPerson2;
 
 	public DTOKorrespondenz() {
 	}
@@ -22,8 +21,8 @@ public class DTOKorrespondenz {
 		fId = korrespondenz.getId();
 		fInhalt = korrespondenz.getInhalt();
 		fTyp = korrespondenz.getTyp();
-		fPerson1 = new DTOPerson(korrespondenz.getPerson1());
-		fPerson2 = new DTOPerson(korrespondenz.getPerson2());
+		fPerson1 = korrespondenz.getPerson1().getId();
+		fPerson2 = korrespondenz.getPerson2().getId();
 	}
 
 	public int getId() {
@@ -50,19 +49,19 @@ public class DTOKorrespondenz {
 		fTyp = typ;
 	}
 
-	public DTOPerson getPerson1() {
+	public int getPerson1() {
 		return fPerson1;
 	}
 
-	public void setPerson1(DTOPerson person1) {
+	public void setPerson1(int person1) {
 		fPerson1 = person1;
 	}
 
-	public DTOPerson getPerson2() {
+	public int getPerson2() {
 		return fPerson2;
 	}
 
-	public void setPerson2(DTOPerson person2) {
+	public void setPerson2(int person2) {
 		fPerson2 = person2;
 	}
 

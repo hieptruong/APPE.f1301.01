@@ -8,7 +8,7 @@ import ch.hslu.appe.fs1301.data.shared.ZentrallagerBestellung;
 
 /**
 * Auto-Generated DTOs
-* Wed Apr 10 11:21:47 CEST 2013
+* Thu Apr 11 13:15:54 CEST 2013
 */
 public class DTOProdukt {
 	private int fId;
@@ -16,12 +16,12 @@ public class DTOProdukt {
 	private int fLagerbestand;
 	private int fMinimalMenge;
 	private int fPreis;
-	private List<DTOBestellposition> fBestellpositions;
-	private List<DTOZentrallagerBestellung> fZentrallagerBestellungs;
+	private List<Integer> fBestellpositions;
+	private List<Integer> fZentrallagerBestellungs;
 
 	public DTOProdukt() {
-		fBestellpositions = new ArrayList<DTOBestellposition>();
-		fZentrallagerBestellungs = new ArrayList<DTOZentrallagerBestellung>();
+		fBestellpositions = new ArrayList<Integer>();
+		fZentrallagerBestellungs = new ArrayList<Integer>();
 	}
 
 	public DTOProdukt(Produkt produkt) {
@@ -32,10 +32,10 @@ public class DTOProdukt {
 		fMinimalMenge = produkt.getMinimalMenge();
 		fPreis = produkt.getPreis();
 		for (Bestellposition bestellposition : produkt.getBestellpositions()) {
-			fBestellpositions.add(new DTOBestellposition(bestellposition));
+			fBestellpositions.add(bestellposition.getId());
 		}
 		for (ZentrallagerBestellung zentrallagerbestellung : produkt.getZentrallagerBestellungs()) {
-			fZentrallagerBestellungs.add(new DTOZentrallagerBestellung(zentrallagerbestellung));
+			fZentrallagerBestellungs.add(zentrallagerbestellung.getId());
 		}
 	}
 
@@ -79,19 +79,19 @@ public class DTOProdukt {
 		fPreis = preis;
 	}
 
-	public List<DTOBestellposition> getBestellpositions() {
+	public List<Integer> getBestellpositions() {
 		return fBestellpositions;
 	}
 
-	public void setBestellpositions(List<DTOBestellposition> bestellpositions) {
+	public void setBestellpositions(List<Integer> bestellpositions) {
 		fBestellpositions = bestellpositions;
 	}
 
-	public List<DTOZentrallagerBestellung> getZentrallagerBestellungs() {
+	public List<Integer> getZentrallagerBestellungs() {
 		return fZentrallagerBestellungs;
 	}
 
-	public void setZentrallagerBestellungs(List<DTOZentrallagerBestellung> zentrallagerBestellungs) {
+	public void setZentrallagerBestellungs(List<Integer> zentrallagerBestellungs) {
 		fZentrallagerBestellungs = zentrallagerBestellungs;
 	}
 

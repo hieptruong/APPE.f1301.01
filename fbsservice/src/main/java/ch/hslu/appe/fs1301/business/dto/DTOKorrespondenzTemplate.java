@@ -4,7 +4,7 @@ import ch.hslu.appe.fs1301.data.shared.KorrespondenzTemplate;
 
 /**
 * Auto-Generated DTOs
-* Wed Apr 10 11:21:47 CEST 2013
+* Thu Apr 11 13:15:54 CEST 2013
 */
 public class DTOKorrespondenzTemplate {
 	private int fId;

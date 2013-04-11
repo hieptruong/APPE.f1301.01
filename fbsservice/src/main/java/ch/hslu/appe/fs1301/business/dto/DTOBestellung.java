@@ -5,12 +5,11 @@ import java.util.List;
 import java.util.ArrayList;
 import ch.hslu.appe.fs1301.data.shared.Bestellung;
 import ch.hslu.appe.fs1301.data.shared.Bestellposition;
-import ch.hslu.appe.fs1301.data.shared.Person;
 import ch.hslu.appe.fs1301.data.shared.Rechnung;
 
 /**
 * Auto-Generated DTOs
-* Wed Apr 10 11:21:47 CEST 2013
+* Thu Apr 11 13:15:54 CEST 2013
 */
 public class DTOBestellung {
 	private int fId;
@@ -18,14 +17,14 @@ public class DTOBestellung {
 	private Date fLiefertermin_Ist;
 	private Date fLiefertermin_Soll;
 	private int fQuelle;
-	private List<DTOBestellposition> fBestellpositions;
-	private DTOPerson fPerson1;
-	private DTOPerson fPerson2;
-	private List<DTORechnung> fRechnungs;
+	private List<Integer> fBestellpositions;
+	private int fPerson1;
+	private int fPerson2;
+	private List<Integer> fRechnungs;
 
 	public DTOBestellung() {
-		fBestellpositions = new ArrayList<DTOBestellposition>();
-		fRechnungs = new ArrayList<DTORechnung>();
+		fBestellpositions = new ArrayList<Integer>();
+		fRechnungs = new ArrayList<Integer>();
 	}
 
 	public DTOBestellung(Bestellung bestellung) {
@@ -36,12 +35,12 @@ public class DTOBestellung {
 		fLiefertermin_Soll = bestellung.getLiefertermin_Soll();
 		fQuelle = bestellung.getQuelle();
 		for (Bestellposition bestellposition : bestellung.getBestellpositions()) {
-			fBestellpositions.add(new DTOBestellposition(bestellposition));
+			fBestellpositions.add(bestellposition.getId());
 		}
-		fPerson1 = new DTOPerson(bestellung.getPerson1());
-		fPerson2 = new DTOPerson(bestellung.getPerson2());
+		fPerson1 = bestellung.getPerson1().getId();
+		fPerson2 = bestellung.getPerson2().getId();
 		for (Rechnung rechnung : bestellung.getRechnungs()) {
-			fRechnungs.add(new DTORechnung(rechnung));
+			fRechnungs.add(rechnung.getId());
 		}
 	}
 
@@ -85,35 +84,35 @@ public class DTOBestellung {
 		fQuelle = quelle;
 	}
 
-	public List<DTOBestellposition> getBestellpositions() {
+	public List<Integer> getBestellpositions() {
 		return fBestellpositions;
 	}
 
-	public void setBestellpositions(List<DTOBestellposition> bestellpositions) {
+	public void setBestellpositions(List<Integer> bestellpositions) {
 		fBestellpositions = bestellpositions;
 	}
 
-	public DTOPerson getPerson1() {
+	public int getPerson1() {
 		return fPerson1;
 	}
 
-	public void setPerson1(DTOPerson person1) {
+	public void setPerson1(int person1) {
 		fPerson1 = person1;
 	}
 
-	public DTOPerson getPerson2() {
+	public int getPerson2() {
 		return fPerson2;
 	}
 
-	public void setPerson2(DTOPerson person2) {
+	public void setPerson2(int person2) {
 		fPerson2 = person2;
 	}
 
-	public List<DTORechnung> getRechnungs() {
+	public List<Integer> getRechnungs() {
 		return fRechnungs;
 	}
 
-	public void setRechnungs(List<DTORechnung> rechnungs) {
+	public void setRechnungs(List<Integer> rechnungs) {
 		fRechnungs = rechnungs;
 	}
 
