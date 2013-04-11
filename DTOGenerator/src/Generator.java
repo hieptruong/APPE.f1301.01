@@ -58,11 +58,11 @@ public class Generator {
 		if (field.getGenericType() != null) {
 			boolean usePrefix = checkPrefixNeeded(entities, field.getGenericType());
 			
-			writer.write(String.format("\tpublic void set%s(%s<%s> %s) {\n", field.getNameWithCapitalFirstLetter(), field.getType(), usePrefix ? PREFIX + field.getGenericType() : field.getGenericType(), field.getName()));
+			writer.write(String.format("\tpublic void set%s(%s<%s> %s) {\n", field.getNameWithCapitalFirstLetter(), field.getType(), usePrefix ? "Integer" : field.getGenericType(), field.getName()));
 			writer.write(String.format("\t\t%s = %s;\n", field.getAttributeName(), field.getName()));
 			writer.write("\t}\n\n");
 		} else {
-			writer.write(String.format("\tpublic void set%s(%s %s) {\n", field.getNameWithCapitalFirstLetter(), checkPrefixNeeded(entities, field.getType()) ? PREFIX + field.getType() : field.getType(), field.getName()));
+			writer.write(String.format("\tpublic void set%s(%s %s) {\n", field.getNameWithCapitalFirstLetter(), checkPrefixNeeded(entities, field.getType()) ? "int" : field.getType(), field.getName()));
 			writer.write(String.format("\t\t%s = %s;\n", field.getAttributeName(), field.getName()));
 			writer.write("\t}\n\n");
 		}
@@ -73,11 +73,11 @@ public class Generator {
 		if (field.getGenericType() != null) {
 			boolean usePrefix = checkPrefixNeeded(entities, field.getGenericType());
 			
-			writer.write(String.format("\tpublic %s<%s> get%s() {\n", checkPrefixNeeded(entities, field.getType()) ? PREFIX + field.getType() : field.getType(), usePrefix ? PREFIX + field.getGenericType() : field.getGenericType(), field.getNameWithCapitalFirstLetter()));
+			writer.write(String.format("\tpublic %s<%s> get%s() {\n", checkPrefixNeeded(entities, field.getType()) ? PREFIX + field.getType() : field.getType(), usePrefix ? "Integer" : field.getGenericType(), field.getNameWithCapitalFirstLetter()));
 			writer.write(String.format("\t\treturn %s;\n", field.getAttributeName()));
 			writer.write("\t}\n\n");
 		} else {
-			writer.write(String.format("\tpublic %s get%s() {\n", checkPrefixNeeded(entities, field.getType()) ? PREFIX + field.getType() : field.getType(), field.getNameWithCapitalFirstLetter()));
+			writer.write(String.format("\tpublic %s get%s() {\n", checkPrefixNeeded(entities, field.getType()) ? "int" : field.getType(), field.getNameWithCapitalFirstLetter()));
 			writer.write(String.format("\t\treturn %s;\n", field.getAttributeName()));
 			writer.write("\t}\n\n");
 		}
@@ -88,7 +88,7 @@ public class Generator {
 		writer.write("\tpublic " + PREFIX + entity + "() {\n");
 		for (Field field : fields) {
 			if (field.getType().equals("List")) {
-				writer.write(String.format("\t\t%s = new ArrayList<%s>();\n", field.getAttributeName(), checkPrefixNeeded(entities, field.getGenericType()) ? PREFIX + field.getGenericType() : field.getGenericType()));
+				writer.write(String.format("\t\t%s = new ArrayList<%s>();\n", field.getAttributeName(), checkPrefixNeeded(entities, field.getGenericType()) ? "Integer" : field.getGenericType()));
 			}
 		}
 		writer.write("\t}\n\n");
@@ -98,10 +98,10 @@ public class Generator {
 		for (Field field : fields) {
 			if (field.getType().equals("List") && checkPrefixNeeded(entities, field.getGenericType())) {
 				writer.write(String.format("\t\tfor (%s %s : %s.get%s()) {\n", field.getGenericType(), field.getGenericType().toLowerCase(), entity.toLowerCase(), field.getNameWithCapitalFirstLetter()));
-				writer.write(String.format("\t\t\t%s.add(new %s(%s));\n", field.getAttributeName(), PREFIX + field.getGenericType(), field.getGenericType().toLowerCase()));
+				writer.write(String.format("\t\t\t%s.add(%s.getId());\n", field.getAttributeName(), field.getGenericType().toLowerCase()));
 				writer.write("\t\t}\n");
 			} else if (checkPrefixNeeded(entities, field.getType())) {
-				writer.write(String.format("\t\t%s = new %s(%s.get%s());\n", field.getAttributeName(), PREFIX + field.getType(), entity.toLowerCase(), field.getNameWithCapitalFirstLetter()));
+				writer.write(String.format("\t\t%s = %s.get%s().getId();\n", field.getAttributeName(), entity.toLowerCase(), field.getNameWithCapitalFirstLetter()));
 			} else {
 				writer.write(String.format("\t\t%s = %s.get%s();\n", field.getAttributeName(), entity.toLowerCase(), field.getNameWithCapitalFirstLetter()));
 			}
@@ -115,9 +115,9 @@ public class Generator {
 			if (field.getGenericType() != null) {
 				boolean usePrefix = checkPrefixNeeded(entities, field.getGenericType());
 				
-				writer.write(String.format("\t%s %s<%s> %s;\n", field.getModifier(), field.getType(), usePrefix ? PREFIX + field.getGenericType() : field.getGenericType(), field.getAttributeName()));
+				writer.write(String.format("\t%s %s<%s> %s;\n", field.getModifier(), field.getType(), usePrefix ? "Integer" : field.getGenericType(), field.getAttributeName()));
 			} else {
-				writer.write(String.format("\t%s %s %s;\n", field.getModifier(), checkPrefixNeeded(entities, field.getType()) ? PREFIX + field.getType() : field.getType(), field.getAttributeName()));
+				writer.write(String.format("\t%s %s %s;\n", field.getModifier(), checkPrefixNeeded(entities, field.getType()) ? "int" : field.getType(), field.getAttributeName()));
 			}					
 		}
 		
@@ -166,10 +166,7 @@ public class Generator {
 			for (String entity : entities) {
 				if (addedImports.contains(entity)) continue;
 				
-				if (field.getType().equals(entity)) {
-					writer.write("import " + ENTITY_PACKAGE + entity + ";\n");
-					addedImports.add(entity);
-				} else if (field.getGenericType() != null) {
+				if (field.getGenericType() != null) {
 					if (field.getGenericType().equals(entity)) {
 						writer.write("import " + ENTITY_PACKAGE + entity + ";\n");
 						addedImports.add(entity);

@@ -1,19 +1,17 @@
 package ch.hslu.appe.fs1301.business.dto;
 
 import ch.hslu.appe.fs1301.data.shared.Bestellposition;
-import ch.hslu.appe.fs1301.data.shared.Bestellung;
-import ch.hslu.appe.fs1301.data.shared.Produkt;
 
 /**
 * Auto-Generated DTOs
-* Wed Apr 10 11:21:47 CEST 2013
+* Thu Apr 11 13:15:54 CEST 2013
 */
 public class DTOBestellposition {
 	private int fId;
 	private int fAnzahl;
 	private int fStueckpreis;
-	private DTOBestellung fBestellung;
-	private DTOProdukt fProdukt;
+	private int fBestellung;
+	private int fProdukt;
 
 	public DTOBestellposition() {
 	}
@@ -23,8 +21,8 @@ public class DTOBestellposition {
 		fId = bestellposition.getId();
 		fAnzahl = bestellposition.getAnzahl();
 		fStueckpreis = bestellposition.getStueckpreis();
-		fBestellung = new DTOBestellung(bestellposition.getBestellung());
-		fProdukt = new DTOProdukt(bestellposition.getProdukt());
+		fBestellung = bestellposition.getBestellung().getId();
+		fProdukt = bestellposition.getProdukt().getId();
 	}
 
 	public int getId() {
@@ -51,19 +49,19 @@ public class DTOBestellposition {
 		fStueckpreis = stueckpreis;
 	}
 
-	public DTOBestellung getBestellung() {
+	public int getBestellung() {
 		return fBestellung;
 	}
 
-	public void setBestellung(DTOBestellung bestellung) {
+	public void setBestellung(int bestellung) {
 		fBestellung = bestellung;
 	}
 
-	public DTOProdukt getProdukt() {
+	public int getProdukt() {
 		return fProdukt;
 	}
 
-	public void setProdukt(DTOProdukt produkt) {
+	public void setProdukt(int produkt) {
 		fProdukt = produkt;
 	}
 
