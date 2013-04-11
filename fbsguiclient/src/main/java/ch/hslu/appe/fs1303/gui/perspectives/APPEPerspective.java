@@ -13,12 +13,8 @@ public class APPEPerspective implements IPerspectiveFactory {
 	public void createInitialLayout(IPageLayout layout) {
 		
 		String editorArea= layout.getEditorArea();
-		System.out.println("Perspective");
 		IFolderLayout leftViews= layout.createFolder("left.view.folder", IPageLayout.LEFT, 0.27f, editorArea); //$NON-NLS-1$
 		leftViews.addView(PersonSearchPresenter.ID);
 		
-		
-		//layout.setEditorAreaVisible(false);
-		//layout.setFixed(true);
 	}
 }
