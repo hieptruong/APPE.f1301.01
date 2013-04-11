@@ -11,9 +11,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.hslu.appe.fs1301.data.shared.KorrespondenzTemplate;
-import ch.hslu.appe.fs1301.data.shared.Person;
 import ch.hslu.appe.fs1301.data.shared.iAPPEEntityManager;
+import ch.hslu.appe.fs1301.data.shared.entity.KorrespondenzTemplate;
+import ch.hslu.appe.fs1301.data.shared.entity.Person;
 
 /**
  * @author Thomas Bomatter

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="fbsdata" transaction-type="RESOURCE_LOCAL">
-		<class>ch.hslu.appe.fs1301.data.shared.Bestellposition</class>
-		<class>ch.hslu.appe.fs1301.data.shared.Bestellung</class>
-		<class>ch.hslu.appe.fs1301.data.shared.Korrespondenz</class>
-		<class>ch.hslu.appe.fs1301.data.shared.KorrespondenzTemplate</class>
-		<class>ch.hslu.appe.fs1301.data.shared.Person</class>
-		<class>ch.hslu.appe.fs1301.data.shared.Produkt</class>
-		<class>ch.hslu.appe.fs1301.data.shared.Rechnung</class>
-		<class>ch.hslu.appe.fs1301.data.shared.ZentrallagerBestellung</class>
+		<class>ch.hslu.appe.fs1301.data.shared.entity.Bestellposition</class>
+		<class>ch.hslu.appe.fs1301.data.shared.entity.Bestellung</class>
+		<class>ch.hslu.appe.fs1301.data.shared.entity.Korrespondenz</class>
+		<class>ch.hslu.appe.fs1301.data.shared.entity.KorrespondenzTemplate</class>
+		<class>ch.hslu.appe.fs1301.data.shared.entity.Person</class>
+		<class>ch.hslu.appe.fs1301.data.shared.entity.Produkt</class>
+		<class>ch.hslu.appe.fs1301.data.shared.entity.Rechnung</class>
+		<class>ch.hslu.appe.fs1301.data.shared.entity.ZentrallagerBestellung</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://s0052.intra003.vm.el.campus.intern:3306/grp01"/>
 			<property name="javax.persistence.jdbc.user" value="grp01"/>

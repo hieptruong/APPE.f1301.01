@@ -8,14 +8,14 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import ch.hslu.appe.fs1301.data.shared.Bestellposition;
-import ch.hslu.appe.fs1301.data.shared.Bestellung;
-import ch.hslu.appe.fs1301.data.shared.Korrespondenz;
-import ch.hslu.appe.fs1301.data.shared.KorrespondenzTemplate;
-import ch.hslu.appe.fs1301.data.shared.Person;
-import ch.hslu.appe.fs1301.data.shared.Produkt;
-import ch.hslu.appe.fs1301.data.shared.Rechnung;
-import ch.hslu.appe.fs1301.data.shared.ZentrallagerBestellung;
+import ch.hslu.appe.fs1301.data.shared.entity.Bestellposition;
+import ch.hslu.appe.fs1301.data.shared.entity.Bestellung;
+import ch.hslu.appe.fs1301.data.shared.entity.Korrespondenz;
+import ch.hslu.appe.fs1301.data.shared.entity.KorrespondenzTemplate;
+import ch.hslu.appe.fs1301.data.shared.entity.Person;
+import ch.hslu.appe.fs1301.data.shared.entity.Produkt;
+import ch.hslu.appe.fs1301.data.shared.entity.Rechnung;
+import ch.hslu.appe.fs1301.data.shared.entity.ZentrallagerBestellung;
 
 /**
  * @author Thomas Bomatter

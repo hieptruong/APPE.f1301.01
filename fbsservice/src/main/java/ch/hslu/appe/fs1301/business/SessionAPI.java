@@ -1,13 +1,11 @@
 package ch.hslu.appe.fs1301.business;
 
-import java.util.List;
-
-import com.google.inject.Inject;
-
 import ch.hslu.appe.fs1301.business.shared.UserRole;
 import ch.hslu.appe.fs1301.business.shared.iSessionAPI;
-import ch.hslu.appe.fs1301.data.shared.Person;
-import ch.hslu.appe.fs1301.data.shared.iAPPEEntityManager;
+import ch.hslu.appe.fs1301.data.shared.iPersonRepository;
+import ch.hslu.appe.fs1301.data.shared.entity.Person;
+
+import com.google.inject.Inject;
 
 /**
  * @author Thomas Bomatter
@@ -15,23 +13,23 @@ import ch.hslu.appe.fs1301.data.shared.iAPPEEntityManager;
  */
 public class SessionAPI implements iSessionAPI {
 
-	private iAPPEEntityManager fEntityManager;
-	private Person fPerson;
+	private iPersonRepository fPersonRepository;
+	private Person fUser;
 	
 	@Inject	
-	public SessionAPI(iAPPEEntityManager entityManager) {
-		fEntityManager = entityManager;
+	public SessionAPI(iPersonRepository personRepository) {
+		fPersonRepository = personRepository;
 	}
 	
 	@Override
 	public boolean isAuthenticated() {
-		return fPerson != null;
+		return fUser != null;
 	}
 
 	@Override
 	public String getUserName() {
 		if (isAuthenticated()) {
-			return fPerson.getBenutzername();
+			return fUser.getBenutzername();
 		}
 		return null;
 	}
@@ -39,7 +37,7 @@ public class SessionAPI implements iSessionAPI {
 	@Override
 	public boolean hasRole(int role) {
 		if (isAuthenticated()) {
-			if ((fPerson.getRolle() & role) != 0) {
+			if ((fUser.getRolle() & role) != 0) {
 				return true;
 			}
 		}
@@ -48,25 +46,16 @@ public class SessionAPI implements iSessionAPI {
 
 	@Override
 	public boolean authenticate(String login, String password) {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT p FROM Person p WHERE p.benutzername = '");
-		query.append(login);
-		query.append("' and p.passwort = '");
-		query.append(password);
-		query.append("'");
-		
-		List<Person> resultList = fEntityManager.executeQuery(query.toString(), Person.class);
-		if (resultList.isEmpty()) {
+		fUser = fPersonRepository.getPersonByUsernameAndPassword(login, password);
+		if (fUser == null) {
 			return false;
 		} else {
-			fPerson = resultList.get(0);
-			if (hasRole(UserRole.ADMIN | UserRole.SYSUSER) && fPerson.getAktiv()) {
+			if (hasRole(UserRole.ADMIN | UserRole.SYSUSER) && fUser.getAktiv()) {
 				return true;
 			} else {
-				fPerson = null;
+				fUser = null;
 				return false;
 			}			
 		}
 	}
-
 }

@@ -7,8 +7,8 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.hslu.appe.fs1301.data.shared.Person;
 import ch.hslu.appe.fs1301.data.shared.iPersonRepository;
+import ch.hslu.appe.fs1301.data.shared.entity.Person;
 
 public class RepositoryTest extends BaseTestClass {
 
