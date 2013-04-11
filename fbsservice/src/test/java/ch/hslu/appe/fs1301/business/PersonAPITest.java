@@ -1,7 +1,6 @@
 package ch.hslu.appe.fs1301.business;
 
 import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.expect;
 import static org.fest.assertions.Assertions.assertThat;
 

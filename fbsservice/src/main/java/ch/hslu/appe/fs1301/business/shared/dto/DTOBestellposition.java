@@ -4,7 +4,7 @@ import ch.hslu.appe.fs1301.data.shared.entity.Bestellposition;
 
 /**
 * Auto-Generated DTOs
-* Thu Apr 11 23:17:20 CEST 2013
+* Thu Apr 11 23:59:20 CEST 2013
 */
 public class DTOBestellposition {
 	private int fId;

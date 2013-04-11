@@ -64,10 +64,8 @@ public class Generator {
 		writer.write("\n");
 		writer.write("\tpublic static List<" + dtoClass + "> convert" + entity + "(List<" + entity + "> " + entityListName + ") {\n");
 		writer.write("\t\tList<" + dtoClass + "> " + dtoListName + " = new ArrayList<" + dtoClass + ">();\n");
-		writer.write("\t\tfor(" + entity + " " + entity.toLowerCase() + " : " + entityListName + ") {\n");
-		writer.write("\t\t\t" + dtoClass + " " + (PREFIX).toLowerCase() + entity + " = new " + dtoClass + "(" + entity.toLowerCase() + ");\n");
-		writer.write("\t\t\t" + dtoListName + ".add(" + (PREFIX).toLowerCase() + entity + ");\n");
-		writer.write("\t\t}\n");
+		writer.write("\t\tfor(" + entity + " " + entity.toLowerCase() + " : " + entityListName + ")\n");
+		writer.write("\t\t\t" + dtoListName + ".add(new " + dtoClass + "(" + entity.toLowerCase() + "));\n");
 		writer.write("\t\treturn " + dtoListName + ";\n");
 		writer.write("\t}\n");
 	}
