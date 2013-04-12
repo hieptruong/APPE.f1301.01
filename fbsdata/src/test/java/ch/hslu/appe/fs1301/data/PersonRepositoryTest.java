@@ -41,8 +41,6 @@ public class PersonRepositoryTest extends BaseTestClass {
 	
 	@AfterClass
 	public static void tearDownDatabase() {
-		//for(Person person : fCreatedPersons)
-			//fEntityManagerMock.deleteEntityObject(person);
 		fEntityManager.rollbackTransaction();
 	}
 	
