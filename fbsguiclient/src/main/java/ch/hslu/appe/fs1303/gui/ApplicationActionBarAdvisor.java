@@ -4,10 +4,15 @@ import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
+
+import ch.hslu.appe.fs1303.gui.actions.SearchPersonAction;
 
 /**
  * An action bar advisor is responsible for creating, adding, and disposing of
@@ -22,6 +27,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	// when fillActionBars is called with FILL_PROXY.
 
 	private IContributionItem fViewsShortList;
+	private IWorkbenchAction fQuitAction;
+	private SearchPersonAction fSearchPersonAction;
 
 	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
 		super(configurer);
@@ -29,10 +36,12 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 	@Override
 	protected void makeActions(IWorkbenchWindow window) {
-		// TODO Auto-generated method stub
-		//super.makeActions(window);
 		
-		fViewsShortList= ContributionItemFactory.VIEWS_SHORTLIST.create(window);
+		fQuitAction= ActionFactory.QUIT.create(window);
+		register(fQuitAction);
+		
+		fSearchPersonAction = new SearchPersonAction();
+		register(fSearchPersonAction);
 	}
 	
 	@Override
@@ -40,9 +49,16 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		// TODO Auto-generated method stub
 		//super.fillMenuBar(menuBar);
 		
-		MenuManager showViewsMenu= new MenuManager("Views");
-		showViewsMenu.add(fViewsShortList);
-		menuBar.add(showViewsMenu);
+		MenuManager fileMenu = new MenuManager("File");
+		fileMenu.add(fSearchPersonAction);
+		fileMenu.add(new Separator());
+		fileMenu.add(fQuitAction);
+		menuBar.add(fileMenu);
+		
+		
+		//MenuManager showViewsMenu= new MenuManager("Views");
+		//showViewsMenu.add(fViewsShortList);
+		//menuBar.add(showViewsMenu);
 	}
 	
 	@Override

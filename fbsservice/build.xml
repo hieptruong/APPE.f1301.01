@@ -186,7 +186,7 @@
    </target>
    <target name="jar_shared" depends="compile" description="create shared jar">
      <mkdir dir="${target}/lib" />
-     <jar jarfile="${target}/lib/${distname.shared}.jar" basedir="${classes}" includes="**/shared/*" whenmanifestonly="skip">
+     <jar jarfile="${target}/lib/${distname.shared}.jar" basedir="${classes}" includes="**/shared/**" whenmanifestonly="skip">
        <manifest>
          <attribute name="Implementation-Title" value="${proj.name}" />
          <attribute name="Implementation-Version" value="${proj.version}" />

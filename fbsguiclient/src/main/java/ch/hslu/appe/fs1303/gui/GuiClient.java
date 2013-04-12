@@ -14,7 +14,6 @@ public final class GuiClient implements iGuiClient {
 	
 	public GuiClient() {
 		fLoginPresenter = new LoginPresenter();
-		fLoginPresenter.createPartControl(null);
 	}
 	
 	public int start() {

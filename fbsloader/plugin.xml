@@ -3,7 +3,7 @@
 <plugin>
 
    <extension
-         id="Application1"
+         id="Application2"
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
@@ -21,25 +21,5 @@
    </extension>
    <extension
          point="org.eclipse.ui.views">
-      <view
-            allowMultiple="false"
-            class="ch.hslu.appe.fs1303.gui.presenter.PersonSearchPresenter"
-            id="ch.hslu.appe.fs1303.gui.presenter.PersonSearchPresenter"
-            name="PersonSearchPresenter"
-            restorable="true">
-      </view>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            locationURI="menu:org.eclipse.ui.main.menu">
-         <menu
-               label="File">
-            <command
-                  commandId="org.eclipse.ui.file.exit"
-                  label="Exit">
-            </command>
-         </menu>
-      </menuContribution>
    </extension>
 </plugin>

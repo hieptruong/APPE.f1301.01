@@ -15,6 +15,10 @@ public class LoginPresenter extends BasePresenter {
 	@Inject
 	private iSessionAPI fSessionAPI;
 	
+	public LoginPresenter() {
+		fLoginDialog = new LoginDialog(null);
+	}
+	
 	public boolean login() {
 		while (fLoginDialog.open() != Window.CANCEL) {
 			if (fSessionAPI.authenticate(fLoginDialog.getUser(), fLoginDialog.getPassword())) {
@@ -27,12 +31,12 @@ public class LoginPresenter extends BasePresenter {
 	}
 
 	@Override
-	public void createPartControl(Composite parent) {
-		fLoginDialog = new LoginDialog(null);
+	public void setFocus() {
+		
 	}
 
 	@Override
-	public void setFocus() {
-		
+	public void createPartControl(Composite arg0) {
+
 	}
 }
