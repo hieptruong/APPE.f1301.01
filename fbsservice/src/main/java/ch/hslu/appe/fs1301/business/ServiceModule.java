@@ -12,7 +12,7 @@ import com.google.inject.Singleton;
 public class ServiceModule extends AbstractModule {
 
 	@Override
-	protected void configure() {		
+	protected void configure() {
 		bind(iSessionAPI.class).to(SessionAPI.class).in(Singleton.class);
 		bind(iPersonAPI.class).to(PersonAPI.class).in(Singleton.class);
 	}
