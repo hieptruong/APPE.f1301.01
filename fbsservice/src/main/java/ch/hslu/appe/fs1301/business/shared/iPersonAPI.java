@@ -6,8 +6,7 @@ import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 
 /**
  * The PersonAPI handels everything that has to do with persons.
- * @author bollha
- *
+ * @author Sandro Bollhalder
  */
 public interface iPersonAPI {
 	/**
