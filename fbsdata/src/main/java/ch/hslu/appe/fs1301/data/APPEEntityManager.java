@@ -33,18 +33,18 @@ public class APPEEntityManager implements iAPPEEntityManager  {
 	}
 	
 	public void saveEntityObject(Object object) {
-		startTransaction();
+		beginTransaction();
 		fEntityManager.persist(object);
 		commitTransaction();
 	}
 	
 	public void deleteEntityObject(Object obj) {
-		startTransaction();
+		beginTransaction();
 		fEntityManager.remove(obj);
 		commitTransaction();
 	}
 	
-	public void startTransaction() {
+	public void beginTransaction() {
 		fEntityManager.getTransaction().begin();
 	}
 	

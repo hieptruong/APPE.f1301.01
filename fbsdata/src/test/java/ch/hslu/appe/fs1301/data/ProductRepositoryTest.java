@@ -22,7 +22,7 @@ public class ProductRepositoryTest {
 	public static void setUpDatabase() {
 		fCreatedProducts = new ArrayList<Produkt>();
 		fEntityManager = new APPEEntityManager();
-		fEntityManager.startTransaction();
+		fEntityManager.beginTransaction();
 		fCreatedProducts.add(createAndSaveProdukt());
 		fCreatedProducts.add(createAndSaveProdukt());
 		fCreatedProducts.add(createAndSaveProdukt());

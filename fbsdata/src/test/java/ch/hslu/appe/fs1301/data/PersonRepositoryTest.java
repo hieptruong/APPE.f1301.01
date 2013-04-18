@@ -33,7 +33,7 @@ public class PersonRepositoryTest extends BaseTestClass {
 	public static void setUpDatabase() {
 		fCreatedPersons = new ArrayList<Person>();
 		fEntityManager = new APPEEntityManager();
-		fEntityManager.startTransaction();
+		fEntityManager.beginTransaction();
 		fCreatedPersons.add(createAndSavePerson(ValidUsername, ValidPassword, FirstNameOne, LastName));
 		fCreatedPersons.add(createAndSavePerson(DoubleUsername, ValidPassword, FirstNameOne, LastName));
 		fCreatedPersons.add(createAndSavePerson(DoubleUsername, ValidPassword, FirstNameTwo, FirstNameTwo));

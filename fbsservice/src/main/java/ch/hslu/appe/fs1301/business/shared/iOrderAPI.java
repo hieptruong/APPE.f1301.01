@@ -23,8 +23,9 @@ public interface iOrderAPI {
 	 * Gets all orders.
 	 * @param ids The ids to get.
 	 * @return A list of all the orders.
+	 * @throws AccessDeniedException If the user does not have enough rights to execute. 
 	 */
-	public List<DTOBestellung> getOrders(int... ids);
+	public List<DTOBestellung> getOrders(int... ids) throws AccessDeniedException;
 	/**
 	 * Gets all positions.
 	 * @param ids The ids to get.

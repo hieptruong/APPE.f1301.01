@@ -86,7 +86,7 @@ public class EntityFactoryTest extends BaseTestClass {
 		KorrespondenzTemplate template = new KorrespondenzTemplate();
 		template.setInhalt("Test");
 		template.setTyp(1);
-		manager.startTransaction();
+		manager.beginTransaction();
 		manager.persist(template);
 		manager.rollbackTransaction();
 		
