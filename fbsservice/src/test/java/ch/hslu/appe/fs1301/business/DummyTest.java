@@ -5,6 +5,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
+import ch.hslu.appe.fs1301.business.shared.OrderSource;
 import ch.hslu.appe.fs1301.business.shared.UserRole;
 import ch.hslu.appe.fs1301.business.shared.iPersonAPI;
 import ch.hslu.appe.fs1301.business.shared.iSessionAPI;
@@ -27,6 +28,12 @@ public class DummyTest {
 	public void UserRoleCoverage() {
 		UserRole userrole = new UserRole();
 		assertThat(userrole).isNotNull();
+	}
+	
+	@Test
+	public void OrderSourceCoverage() {
+		OrderSource orderSource = new OrderSource();
+		assertThat(orderSource).isNotNull();
 	}
 	
 	@Test
