@@ -21,5 +21,12 @@
    </extension>
    <extension
          point="org.eclipse.ui.views">
+      <view
+            allowMultiple="true"
+            class="ch.hslu.appe.fs1303.gui.presenter.PersonPresenter"
+            id="ch.hslu.appe.fs1303.gui.presenter.PersonPresenter"
+            name="Person Editor"
+            restorable="true">
+      </view>
    </extension>
 </plugin>

@@ -2,8 +2,6 @@ package ch.hslu.appe.fs1303.gui.dialogs;
 
 import java.util.Comparator;
 
-import org.eclipse.jface.dialogs.DialogSettings;
-import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Shell;
 
@@ -12,6 +10,8 @@ import ch.hslu.appe.fs1303.gui.labelprovider.PersonLabelProvider;
 
 public class PersonSearchDialog extends QuickSearchDialog<DTOPerson> {
 
+	public static final String ID = "ch.hslu.appe.fs1303.gui.dialogs.PersonSearchDialog";
+	
 	public PersonSearchDialog(Shell shell, boolean multi,
 			iQuickSearchCallback<DTOPerson> callback) {
 		super(shell, multi, callback);
@@ -23,8 +23,8 @@ public class PersonSearchDialog extends QuickSearchDialog<DTOPerson> {
 	}
 
 	@Override
-	protected IDialogSettings getDialogSettings() {
-		return new DialogSettings("PersonSearch");
+	public String getId() {
+		return ID;
 	}
 
 	@SuppressWarnings("rawtypes")

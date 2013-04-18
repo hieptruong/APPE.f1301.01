@@ -31,7 +31,7 @@
 	<classpathentry kind="lib" path="plugins/runtime_registry_compatibility.jar"/>
 	<classpathentry kind="lib" path="plugins/org.eclipse.ui.editors_3.8.0.v20120523-1540.jar"/>
 	<classpathentry kind="lib" path="plugins/org.eclipse.ui.editors.source_3.8.0.v20120523-1540.jar"/>
-	<classpathentry kind="lib" path="plugins/org.eclipse.ui.forms_3.5.200.v20120705-114351.jar"/>
+	<classpathentry kind="lib" path="plugins/org.eclipse.ui.forms_3.5.200.v20120705-114351.jar" sourcepath="plugins/org.eclipse.ui.forms.source_3.5.200.v20120705-114351.jar"/>
 	<classpathentry kind="lib" path="plugins/org.eclipse.ui.forms.source_3.5.200.v20120705-114351.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

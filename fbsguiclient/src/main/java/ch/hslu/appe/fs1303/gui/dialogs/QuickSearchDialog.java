@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -14,6 +15,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
+
+import ch.hslu.appe.fs1303.gui.APPEActivator;
 
 public abstract class QuickSearchDialog<T> extends FilteredItemsSelectionDialog {
 
@@ -78,6 +81,19 @@ public abstract class QuickSearchDialog<T> extends FilteredItemsSelectionDialog 
 		} 
 		
 		monitor.done();
+	}
+	
+	public abstract String getId();
+	
+	@Override
+	protected IDialogSettings getDialogSettings() {
+		IDialogSettings settings= APPEActivator.getDefault().getDialogSettings().getSection(getId());
+
+		if (settings == null) {
+			settings= APPEActivator.getDefault().getDialogSettings().addNewSection(getId());
+		}
+
+		return settings;
 	}
 
 	@Override

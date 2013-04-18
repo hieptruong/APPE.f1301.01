@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import ch.hslu.appe.fs1301.business.shared.iPersonAPI;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 import ch.hslu.appe.fs1303.gui.dialogs.PersonSearchDialog;
 import ch.hslu.appe.fs1303.gui.dialogs.QuickSearchDialog.iQuickSearchCallback;
+import ch.hslu.appe.fs1303.gui.presenter.PersonPresenter;
 
 import com.google.inject.Inject;
 
@@ -36,7 +39,15 @@ public class SearchPersonAction extends APPEAction implements iQuickSearchCallba
 	@Override
 	public void run() {
 		if (fPersonSearchDialog.open() == Window.OK) {
-			// Open Person
+			for (Object person : fPersonSearchDialog.getResult()) {
+				if (person instanceof DTOPerson) {
+					try {						
+						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(PersonPresenter.ID, String.valueOf(((DTOPerson)person).getId()), IWorkbenchPage.VIEW_ACTIVATE);
+					} catch (PartInitException e) {
+						e.printStackTrace();
+					}
+				}
+			}
 		}
 	}
 

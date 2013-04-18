@@ -26,7 +26,6 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	// in the fill methods. This ensures that the actions aren't recreated
 	// when fillActionBars is called with FILL_PROXY.
 
-	private IContributionItem fViewsShortList;
 	private IWorkbenchAction fQuitAction;
 	private SearchPersonAction fSearchPersonAction;
 
