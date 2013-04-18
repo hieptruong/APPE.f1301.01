@@ -1,7 +1,6 @@
 package ch.hslu.appe.fs1301.business;
 
 import ch.hslu.appe.fs1301.business.shared.UserRole;
-import ch.hslu.appe.fs1301.business.shared.iSessionAPI;
 import ch.hslu.appe.fs1301.data.shared.iPersonRepository;
 import ch.hslu.appe.fs1301.data.shared.entity.Person;
 
@@ -11,7 +10,7 @@ import com.google.inject.Inject;
  * @author Thomas Bomatter
  * SessionAPI handles Login and provides the User after login.
  */
-public class SessionAPI implements iSessionAPI {
+public class SessionAPI implements iInternalSessionAPI {
 
 	private iPersonRepository fPersonRepository;
 	private Person fUser;
@@ -62,5 +61,10 @@ public class SessionAPI implements iSessionAPI {
 	@Override
 	public void logout() {
 		fUser = null;
+	}
+
+	@Override
+	public Person getAuthenticatedUser() {
+		return fUser;
 	}
 }

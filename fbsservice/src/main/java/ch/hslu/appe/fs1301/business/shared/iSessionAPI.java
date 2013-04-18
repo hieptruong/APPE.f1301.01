@@ -1,8 +1,9 @@
 package ch.hslu.appe.fs1301.business.shared;
 
+
 /**
  * The SessionAPI handels everything which has to do with login, rights or the name. 
- * @author Sandro bollhalder *
+ * @author Sandro bollhalder
  */
 public interface iSessionAPI {	
 	/**
