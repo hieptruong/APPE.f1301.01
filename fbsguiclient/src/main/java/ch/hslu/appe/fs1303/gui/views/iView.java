@@ -4,6 +4,7 @@ import org.eclipse.swt.widgets.Composite;
 
 public interface iView<T, H extends iViewListener> {
 	public void createContent(Composite parent);
+	public void updateModel();
 	public void updateFromModel();
 	public void bindModel(T model);
 	public void setActionListener(H listener);

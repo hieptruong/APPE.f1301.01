@@ -46,7 +46,6 @@ public class PersonPresenter extends BasePresenter {
 			
 			@Override
 			public void onSave() {
-				// TODO Auto-generated method stub
 				
 			}
 			

@@ -173,7 +173,10 @@
          </manifest>
       	<fileset dir="${basedir}/src/main/java/" >
       	         <include name="**"/>
-      	  </fileset>
+      	 </fileset>
+      	<fileset dir="${basedir}" >
+      	         <include name="icons/**"/>
+      	</fileset>      	
       </jar>
       <copy file="${target}/lib/${distname}.jar" tofile="${basedir}/../fbsloader/lib/fbsguiclient/${distname}.jar" />
    </target>

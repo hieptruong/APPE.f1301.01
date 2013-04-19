@@ -3,7 +3,10 @@ package ch.hslu.appe.fs1303.gui.views;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -28,6 +31,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellung;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOProdukt;
+import ch.hslu.appe.fs1303.gui.APPEActivator;
 import ch.hslu.appe.fs1303.gui.presenter.PersonPresenter.iPersonView;
 import ch.hslu.appe.fs1303.gui.presenter.PersonPresenter.iPersonViewListener;
 import ch.hslu.appe.fs1303.gui.presenter.ProductPresenter.iProductView;
@@ -48,6 +52,8 @@ public class ProductView implements iProductView {
 
 	private ScrolledForm fForm;
 
+	private Action fSaveAction;
+
 	@Override
 	public void createContent(Composite parent) {
 		FormToolkit toolkit = new FormToolkit(parent.getDisplay());		
@@ -55,6 +61,22 @@ public class ProductView implements iProductView {
 		fForm = toolkit.createScrolledForm(parent);
 		toolkit.decorateFormHeading(fForm.getForm());
 		fForm.getForm().addMessageHyperlinkListener(new HyperlinkAdapter());
+		
+		fSaveAction = new Action("Save", IAction.AS_PUSH_BUTTON) {
+			@Override
+			public void run() {
+				updateModel();
+				fActionListener.onSave();
+			}
+			
+			@Override
+			public ImageDescriptor getImageDescriptor() {
+				return APPEActivator.getImageDescriptor("/icons/save24x24.png");
+			}
+		};
+		
+		fForm.getToolBarManager().add(fSaveAction);
+		fForm.getToolBarManager().update(true);
 		
 		FillLayout fillLayout = new FillLayout();
 		fillLayout.type = SWT.VERTICAL;
@@ -129,5 +151,12 @@ public class ProductView implements iProductView {
 	public void bindModel(DTOProdukt product) {
 		fModel = product;
 		updateFromModel();
+	}
+
+	@Override
+	public void updateModel() {
+		if (fModel != null) {
+			fModel.setBezeichnung(fBezeichnung.getText());
+		}
 	}
 }

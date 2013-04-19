@@ -9,6 +9,7 @@ import ch.hslu.appe.fs1301.business.shared.iProductAPI;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOProdukt;
 import ch.hslu.appe.fs1303.gui.labelprovider.PersonLabelProvider;
+import ch.hslu.appe.fs1303.gui.labelprovider.ProductLabelProvider;
 import ch.hslu.appe.fs1303.gui.views.iView;
 import ch.hslu.appe.fs1303.gui.views.iViewListener;
 
@@ -38,9 +39,8 @@ public class ProductPresenter extends BasePresenter {
 	public void createPartControl(Composite composite) {				
 		fView.createContent(composite);
 		
-		//fProduct = fProductApi.getAllProducts();
-		//setPartName(new PersonLabelProvider().getText(fPerson));
-		//setPartName(new ProductLabelProvider().getText(fProduct));
+		fProduct = fProductApi.getProductById(Integer.parseInt(getViewSite().getSecondaryId()));
+		setPartName(new ProductLabelProvider().getText(fProduct));
 		fView.bindModel(fProduct);
 		fView.setActionListener(new iProductViewListener() {
 			

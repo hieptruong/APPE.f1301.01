@@ -38,7 +38,7 @@ public class APPEActivator extends AbstractUIPlugin {
 		plugin = null;
 		super.stop(context);
 	}
-
+	
 	/**
 	 * Returns the shared instance
 	 *

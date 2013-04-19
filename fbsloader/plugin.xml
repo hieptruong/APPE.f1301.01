@@ -3,7 +3,7 @@
 <plugin>
 
    <extension
-         id="Application2"
+         id="Application3"
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
@@ -26,6 +26,13 @@
             class="ch.hslu.appe.fs1303.gui.presenter.PersonPresenter"
             id="ch.hslu.appe.fs1303.gui.presenter.PersonPresenter"
             name="Person Editor"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="ch.hslu.appe.fs1303.gui.presenter.ProductPresenter"
+            id="ch.hslu.appe.fs1303.gui.presenter.ProductPresenter"
+            name="Product Editor"
             restorable="true">
       </view>
    </extension>

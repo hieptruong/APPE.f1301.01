@@ -1,9 +1,13 @@
 package ch.hslu.appe.fs1303.gui.views;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -27,6 +31,7 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellung;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
+import ch.hslu.appe.fs1303.gui.APPEActivator;
 import ch.hslu.appe.fs1303.gui.presenter.PersonPresenter.iPersonView;
 import ch.hslu.appe.fs1303.gui.presenter.PersonPresenter.iPersonViewListener;
 import ch.hslu.appe.fs1303.gui.validators.APPEValidator;
@@ -53,6 +58,8 @@ public class PersonView implements iPersonView {
 
 	private ScrolledForm fForm;
 
+	private Action fSaveAction;
+
 	@Override
 	public void createContent(Composite parent) {
 		FormToolkit toolkit = new FormToolkit(parent.getDisplay());		
@@ -60,6 +67,22 @@ public class PersonView implements iPersonView {
 		fForm = toolkit.createScrolledForm(parent);
 		toolkit.decorateFormHeading(fForm.getForm());
 		fForm.getForm().addMessageHyperlinkListener(new HyperlinkAdapter());
+		
+		fSaveAction = new Action("Save", IAction.AS_PUSH_BUTTON) {
+			@Override
+			public void run() {
+				updateModel();
+				fActionListener.onSave();
+			}
+			
+			@Override
+			public ImageDescriptor getImageDescriptor() {
+				return APPEActivator.getImageDescriptor("/icons/save24x24.png");
+			}
+		};
+		
+		fForm.getToolBarManager().add(fSaveAction);
+		fForm.getToolBarManager().update(true);
 		
 		FillLayout fillLayout = new FillLayout();
 		fillLayout.type = SWT.VERTICAL;
@@ -188,7 +211,7 @@ public class PersonView implements iPersonView {
 		if (!APPEValidator.validateNotNull(fStreet)) {
 			fForm.getMessageManager().addMessage("fStreet", "Geben Sie eine Strasse an.", null, IMessageProvider.ERROR);
 		}
-		if (!APPEValidator.valideInt(fPLZ)) {			
+		if (!APPEValidator.valideInt(fPLZ, false)) {			
 			fForm.getMessageManager().addMessage("fPLZ", "Geben Sie eine gueltige Postleitzahl an.", null, IMessageProvider.ERROR);
 		} 
 		if (!APPEValidator.validateNotNull(fCity)) {
@@ -201,6 +224,9 @@ public class PersonView implements iPersonView {
 			fForm.getMessageManager().addMessage("fEmail", "Geben sie eine Email an.", null, IMessageProvider.ERROR);
 		}
 		
+		fSaveAction.setEnabled(fForm.getMessage() == null);
+		fForm.getToolBarManager().update(true);
+		
 		return fForm.getMessage() == null;
 	}
 
@@ -208,5 +234,25 @@ public class PersonView implements iPersonView {
 	public void bindModel(DTOPerson person) {
 		fModel = person;
 		updateFromModel();
+	}
+
+	@Override
+	public void updateModel() {
+		if (fModel != null) {
+			fModel.setName(fLastName.getText());
+			fModel.setVorname(fFirstName.getText());
+			fModel.setStrasse(fStreet.getText());
+			fModel.setPlz(Integer.parseInt(fPLZ.getText()));
+			fModel.setOrt(fCity.getText());
+			DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+			try {
+				fModel.setGeburtstag(df.parse(fBirthday.getText()));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			fModel.setEMail(fEmail.getText());
+			fModel.setBenutzername(fUserName.getText());
+			fModel.setPasswort(fPassword.getText());
+		}
 	}
 }

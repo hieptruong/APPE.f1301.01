@@ -14,4 +14,11 @@ public interface iProductAPI {
 	 * @return A list of all products.
 	 */
 	public List<DTOProdukt> getAllProducts();
+	
+	/**
+	 * Gets a product by id.
+	 * @param id The id.
+	 * @return The product.
+	 */
+	public DTOProdukt getProductById(int id);
 }
