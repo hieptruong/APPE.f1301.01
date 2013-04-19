@@ -42,9 +42,9 @@ public class ProductRepositoryTest {
 	public void returnsAllProducts() {
 		List<Produkt> allProducts = fTestee.getAllProducts();
 		
-		for(Produkt product : allProducts)
+		for(Produkt product : fCreatedProducts)
 		{
-			assertThat(fCreatedProducts).contains(product);
+			assertThat(allProducts).contains(product);
 		}
 	}
 	
