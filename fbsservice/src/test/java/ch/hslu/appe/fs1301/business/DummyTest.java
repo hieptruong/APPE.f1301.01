@@ -11,6 +11,7 @@ import ch.hslu.appe.fs1301.business.shared.iPersonAPI;
 import ch.hslu.appe.fs1301.business.shared.iSessionAPI;
 import ch.hslu.appe.fs1301.data.shared.iPersonRepository;
 import ch.hslu.appe.fs1301.data.shared.iProductRepository;
+import ch.hslu.appe.fs1301.data.shared.iTransaction;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -46,10 +47,12 @@ public class DummyTest {
 	private class MockedModule extends AbstractModule {
 		private iPersonRepository fPersonRepository;
 		private iProductRepository fProductRepository;
+		private iTransaction fTransaction;
 		
 		public MockedModule() {
 			fPersonRepository = PowerMock.createMock(iPersonRepository.class);
 			fProductRepository = PowerMock.createMock(iProductRepository.class);
+			fTransaction = PowerMock.createMock(iTransaction.class);
 		}
 		
 		@Override
@@ -64,6 +67,11 @@ public class DummyTest {
 		@Provides
 		protected iProductRepository provideProductRepository() {
 			return fProductRepository;
+		}
+		
+		@Provides
+		protected iTransaction provideTransaction() {
+			return fTransaction;
 		}
 	}
 }
