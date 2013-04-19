@@ -1,5 +1,6 @@
 package ch.hslu.appe.fs1301.business;
 
+import ch.hslu.appe.fs1301.business.shared.iOrderAPI;
 import ch.hslu.appe.fs1301.business.shared.iPersonAPI;
 import ch.hslu.appe.fs1301.business.shared.iProductAPI;
 import ch.hslu.appe.fs1301.business.shared.iSessionAPI;
@@ -20,5 +21,6 @@ public class ServiceModule extends AbstractModule {
 		
 		bind(iPersonAPI.class).to(PersonAPI.class).in(Singleton.class);
 		bind(iProductAPI.class).to(ProductAPI.class).in(Singleton.class);
+		bind(iOrderAPI.class).to(OrderAPI.class).in(Singleton.class);
 	}
 }
