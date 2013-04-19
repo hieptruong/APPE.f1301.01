@@ -15,11 +15,16 @@ public interface iPersonAPI {
 	 * @return The resultlist of the search.
 	 */
 	public List<DTOPerson> getCustomersByName(String name);
-
 	/**
 	 * Gets a customer by id.
 	 * @param id The id.
 	 * @return The customer.
 	 */
 	public DTOPerson getCustomerById(int id);
+	/**
+	 * Saves all changes done to this person or creates a new person.
+	 * @param person The person to save.
+	 * @throws AccessDeniedException If the user hasn't enough rights to execute. 
+	 */
+	public DTOPerson saveCustomer(DTOPerson person) throws AccessDeniedException;
 }

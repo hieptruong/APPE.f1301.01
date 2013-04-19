@@ -5,7 +5,7 @@ import ch.hslu.appe.fs1301.data.shared.entity.ZentrallagerBestellung;
 
 /**
 * Auto-Generated DTOs
-* Thu Apr 11 23:59:20 CEST 2013
+* Fri Apr 19 14:39:51 CEST 2013
 */
 public class DTOZentrallagerBestellung {
 	private int fId;
@@ -56,4 +56,15 @@ public class DTOZentrallagerBestellung {
 		fProdukt = produkt;
 	}
 
+	public static ZentrallagerBestellung createNewZentrallagerBestellungFromDTO(DTOZentrallagerBestellung dto) {
+		ZentrallagerBestellung entity = new ZentrallagerBestellung();
+		updateZentrallagerBestellungFromDTO(entity, dto);
+		return entity;
+	}
+
+	public static void updateZentrallagerBestellungFromDTO(ZentrallagerBestellung entity, DTOZentrallagerBestellung dto) {
+		entity.setId(dto.getId());
+		entity.setAnzahl(dto.getAnzahl());
+		entity.setLiefertermin(dto.getLiefertermin());
+	}
 }

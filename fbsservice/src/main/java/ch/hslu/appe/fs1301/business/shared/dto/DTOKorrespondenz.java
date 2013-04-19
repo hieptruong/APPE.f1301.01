@@ -4,7 +4,7 @@ import ch.hslu.appe.fs1301.data.shared.entity.Korrespondenz;
 
 /**
 * Auto-Generated DTOs
-* Thu Apr 11 23:59:20 CEST 2013
+* Fri Apr 19 14:39:51 CEST 2013
 */
 public class DTOKorrespondenz {
 	private int fId;
@@ -65,4 +65,15 @@ public class DTOKorrespondenz {
 		fPerson2 = person2;
 	}
 
+	public static Korrespondenz createNewKorrespondenzFromDTO(DTOKorrespondenz dto) {
+		Korrespondenz entity = new Korrespondenz();
+		updateKorrespondenzFromDTO(entity, dto);
+		return entity;
+	}
+
+	public static void updateKorrespondenzFromDTO(Korrespondenz entity, DTOKorrespondenz dto) {
+		entity.setId(dto.getId());
+		entity.setInhalt(dto.getInhalt());
+		entity.setTyp(dto.getTyp());
+	}
 }

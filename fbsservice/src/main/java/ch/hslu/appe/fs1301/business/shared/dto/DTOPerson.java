@@ -10,7 +10,7 @@ import ch.hslu.appe.fs1301.data.shared.entity.Rechnung;
 
 /**
 * Auto-Generated DTOs
-* Thu Apr 11 23:59:20 CEST 2013
+* Fri Apr 19 14:39:51 CEST 2013
 */
 public class DTOPerson {
 	private int fId;
@@ -206,4 +206,24 @@ public class DTOPerson {
 		fRechnungs = rechnungs;
 	}
 
+	public static Person createNewPersonFromDTO(DTOPerson dto) {
+		Person entity = new Person();
+		updatePersonFromDTO(entity, dto);
+		return entity;
+	}
+
+	public static void updatePersonFromDTO(Person entity, DTOPerson dto) {
+		entity.setId(dto.getId());
+		entity.setAktiv(dto.getAktiv());
+		entity.setBenutzername(dto.getBenutzername());
+		entity.setEMail(dto.getEMail());
+		entity.setGeburtstag(dto.getGeburtstag());
+		entity.setName(dto.getName());
+		entity.setOrt(dto.getOrt());
+		entity.setPasswort(dto.getPasswort());
+		entity.setPlz(dto.getPlz());
+		entity.setRolle(dto.getRolle());
+		entity.setStrasse(dto.getStrasse());
+		entity.setVorname(dto.getVorname());
+	}
 }

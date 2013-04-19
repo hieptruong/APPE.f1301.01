@@ -5,18 +5,22 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
+import ch.hslu.appe.fs1301.business.shared.AccessDeniedException;
+import ch.hslu.appe.fs1301.business.shared.UserRole;
 import ch.hslu.appe.fs1301.business.shared.iPersonAPI;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOConverter;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 import ch.hslu.appe.fs1301.data.shared.iPersonRepository;
+import ch.hslu.appe.fs1301.data.shared.iTransaction;
 import ch.hslu.appe.fs1301.data.shared.entity.Person;
 
-public class PersonAPI implements iPersonAPI {
+public class PersonAPI extends BaseAPI implements iPersonAPI {
 
 	private iPersonRepository fPersonRepository;
 
 	@Inject
-	public PersonAPI(iPersonRepository personRepository) {
+	public PersonAPI(iPersonRepository personRepository, iTransaction transaction, iInternalSessionAPI sessionAPI) {
+		super(transaction, sessionAPI);
 		fPersonRepository = personRepository;
 	}
 	
@@ -36,5 +40,20 @@ public class PersonAPI implements iPersonAPI {
 		}
 		
 		return DTOConverter.convertPerson(searchList);
+	}
+
+	@Override
+	public DTOPerson saveCustomer(DTOPerson person) throws AccessDeniedException {
+		checkRole(UserRole.SYSUSER);
+		
+		Person entity = fPersonRepository.getById(person.getId());
+		if (entity == null) {
+			entity = DTOPerson.createNewPersonFromDTO(person);
+		} else {
+			DTOPerson.updatePersonFromDTO(entity, person);
+		}
+			
+		DTOPerson newPerson = new DTOPerson(entity);
+		return newPerson;
 	}
 }

@@ -92,14 +92,40 @@ public class Generator {
 			writeSetter(entities, writer, field);	
 		}
 		
+		writeNewEntityMethod(entity, writer, fields, entities);
+		writeUpdateEntityMethod(entity, writer, fields, entities);
+		
 		writer.write("}");
 		
 		writer.flush();
 		writer.close();
 	}
 
-	private void writeSetter(String[] entities, BufferedWriter writer, Field field)
-			throws IOException {
+	private void writeUpdateEntityMethod(String entity, BufferedWriter writer, List<Field> fields, String[] entities) throws IOException {
+		writer.write(String.format("\n\tpublic static void update%sFromDTO(%s entity, %s%s dto) {\n", entity, entity, PREFIX, entity));
+		for(Field field : fields) {
+			String type = field.getType().equals("List") ? field.getGenericType() : field.getType();
+			
+			boolean isEntityType = false;
+			for(String anEntity : entities) {
+				if (anEntity.equals(type))
+					isEntityType = true;
+			}
+			if (!isEntityType)
+				writer.write(String.format("\t\tentity.set%s(dto.get%s());\n", field.getNameWithCapitalFirstLetter(), field.getNameWithCapitalFirstLetter()));
+		}
+		writer.write("\t}\n");
+	}
+
+	private void writeNewEntityMethod(String entity, BufferedWriter writer, List<Field> fields, String[] entities) throws IOException {
+		writer.write(String.format("\tpublic static %s createNew%sFromDTO(%s%s dto) {\n", entity, entity, PREFIX, entity));
+		writer.write(String.format("\t\t%s entity = new %s();\n", entity, entity));
+		writer.write(String.format("\t\tupdate%sFromDTO(entity, dto);\n", entity));
+		writer.write("\t\treturn entity;\n");
+		writer.write("\t}\n");
+	}
+
+	private void writeSetter(String[] entities, BufferedWriter writer, Field field) throws IOException {
 		if (field.getGenericType() != null) {
 			boolean usePrefix = checkPrefixNeeded(entities, field.getGenericType());
 			
@@ -113,8 +139,7 @@ public class Generator {
 		}
 	}
 
-	private void writeGetter(String[] entities, BufferedWriter writer, Field field)
-			throws IOException {
+	private void writeGetter(String[] entities, BufferedWriter writer, Field field) throws IOException {
 		if (field.getGenericType() != null) {
 			boolean usePrefix = checkPrefixNeeded(entities, field.getGenericType());
 			

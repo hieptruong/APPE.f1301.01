@@ -4,7 +4,7 @@ import ch.hslu.appe.fs1301.data.shared.entity.Bestellposition;
 
 /**
 * Auto-Generated DTOs
-* Thu Apr 11 23:59:20 CEST 2013
+* Fri Apr 19 14:39:51 CEST 2013
 */
 public class DTOBestellposition {
 	private int fId;
@@ -65,4 +65,15 @@ public class DTOBestellposition {
 		fProdukt = produkt;
 	}
 
+	public static Bestellposition createNewBestellpositionFromDTO(DTOBestellposition dto) {
+		Bestellposition entity = new Bestellposition();
+		updateBestellpositionFromDTO(entity, dto);
+		return entity;
+	}
+
+	public static void updateBestellpositionFromDTO(Bestellposition entity, DTOBestellposition dto) {
+		entity.setId(dto.getId());
+		entity.setAnzahl(dto.getAnzahl());
+		entity.setStueckpreis(dto.getStueckpreis());
+	}
 }
