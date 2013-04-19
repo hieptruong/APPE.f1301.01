@@ -26,7 +26,8 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 	private iOrderPositionRepository fPositionRepository;
 
 	@Inject
-	public OrderAPI(iTransaction transaction, iInternalSessionAPI sessionAPI, iOrderRepository orderRepository, iOrderPositionRepository positionRepository, iPersonRepository personRepository) {
+	public OrderAPI(iTransaction transaction, iInternalSessionAPI sessionAPI, iOrderRepository orderRepository, 
+					iOrderPositionRepository positionRepository, iPersonRepository personRepository) {
 		super(transaction, sessionAPI);
 		fOrderRepository = orderRepository;
 		fPositionRepository = positionRepository;
@@ -34,26 +35,42 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 	}
 
 	@Override
-	public boolean createNewOrder(int customerId, int source, List<DTOBestellposition> positions) {
+	public DTOBestellung createNewOrder(int customerId, int source, List<DTOBestellposition> positions) throws AccessDeniedException {
+		checkRole(UserRole.SYSUSER);
+				
 		fTransaction.beginTransaction();
 		try {
-			//checkStorage()
-			
-			
+			//Save Order
 			Bestellung order = new Bestellung();
 			order.setQuelle(source);
 			order.setPerson1(fPersonRepository.getById(customerId));
 			order.setPerson2(fSessionAPI.getAuthenticatedUser());
 			order.setBestelldatum(new Date());
-			fOrderRepository.saveObject(order);
-			//order.set
+			fOrderRepository.persistObject(order);
 			
+			//Save positions
+			if (orderProducts(order.getId(), positions) == false) {
+				fTransaction.rollbackTransaction();
+				return null;
+			}
+					
+			DTOBestellung dtoBestellung = new DTOBestellung(fOrderRepository.getById(order.getId()));
 			fTransaction.commitTransaction();
-			return true;
+			return dtoBestellung;
 		} catch (Exception exception) {
 			fTransaction.rollbackTransaction();
-			return false;
+			return null;
 		}
+	}
+	
+	private boolean orderProducts(int orderId, List<DTOBestellposition> positions) {
+		for(DTOBestellposition position : positions) {
+			if (!fPositionRepository.orderProduct(orderId, position.getProdukt(), position.getAnzahl(), position.getStueckpreis())) {
+				//Not enough in storage
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -71,7 +88,9 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 	}
 
 	@Override
-	public List<DTOBestellposition> getOrderPositions(int... ids) {
+	public List<DTOBestellposition> getOrderPositions(int... ids) throws AccessDeniedException {
+		checkRole(UserRole.SYSUSER);
+		
 		List<Bestellposition> searchList;
 		try {
 			searchList = fPositionRepository.getOrderPositionsById(ids);

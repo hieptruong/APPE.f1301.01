@@ -16,9 +16,10 @@ public interface iOrderAPI {
 	 * @param customerId The customer to attach the order.
 	 * @param source The ordering source. {@link OrderSource}. 
 	 * @param positions All order positions.
-	 * @return True if successful, false otherwise.
+	 * @return The order or null if not successful.
+	 * @throws AccessDeniedException If the user does not have enough rights to execute. 
 	 */
-	public boolean createNewOrder(int customerId, int source, List<DTOBestellposition> positions);
+	public DTOBestellung createNewOrder(int customerId, int source, List<DTOBestellposition> positions) throws AccessDeniedException;
 	/**
 	 * Gets all orders.
 	 * @param ids The ids to get.
@@ -30,6 +31,7 @@ public interface iOrderAPI {
 	 * Gets all positions.
 	 * @param ids The ids to get.
 	 * @return A list of all the order positions.
+	 * @throws AccessDeniedException If the user does not have enough rights to execute. 
 	 */
-	public List<DTOBestellposition> getOrderPositions(int... ids);
+	public List<DTOBestellposition> getOrderPositions(int... ids) throws AccessDeniedException;
 }
