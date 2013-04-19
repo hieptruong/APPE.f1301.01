@@ -13,6 +13,7 @@ import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
 import ch.hslu.appe.fs1303.gui.actions.SearchPersonAction;
+import ch.hslu.appe.fs1303.gui.actions.SearchProductAction;
 
 /**
  * An action bar advisor is responsible for creating, adding, and disposing of
@@ -28,6 +29,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 	private IWorkbenchAction fQuitAction;
 	private SearchPersonAction fSearchPersonAction;
+	private SearchProductAction fSearchProduktAction;
 
 	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
 		super(configurer);
@@ -41,6 +43,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		
 		fSearchPersonAction = new SearchPersonAction();
 		register(fSearchPersonAction);
+		
+		fSearchProduktAction = new SearchProductAction();
+		register(fSearchProduktAction);
 	}
 	
 	@Override
@@ -50,6 +55,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		
 		MenuManager fileMenu = new MenuManager("File");
 		fileMenu.add(fSearchPersonAction);
+		fileMenu.add(fSearchProduktAction);
 		fileMenu.add(new Separator());
 		fileMenu.add(fQuitAction);
 		menuBar.add(fileMenu);
