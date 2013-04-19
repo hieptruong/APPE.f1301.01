@@ -25,7 +25,7 @@
 	<classpathentry kind="lib" path="plugins/org.eclipse.jface_3.8.102.v20130123-162658.jar"/>
 	<classpathentry kind="lib" path="plugins/org.eclipse.osgi_3.8.2.v20130124-134944.jar"/>
 	<classpathentry kind="lib" path="plugins/org.eclipse.swt_3.100.1.v4236b.jar"/>
-	<classpathentry kind="lib" path="plugins/org.eclipse.swt.cocoa.macosx.x86_64_3.100.1.v4236b.jar"/>
+	<classpathentry kind="lib" path="plugins/org.eclipse.swt.cocoa.macosx.x86_64_3.100.1.v4236b.jar" sourcepath="plugins/org.eclipse.swt.cocoa.macosx.x86_64.source_3.100.1.v4236b.jar"/>
 	<classpathentry kind="lib" path="plugins/org.eclipse.ui_3.104.0.v20121024-145224.jar"/>
 	<classpathentry kind="lib" path="plugins/org.eclipse.ui.workbench_3.104.0.v20130204-164612.jar"/>
 	<classpathentry kind="lib" path="plugins/runtime_registry_compatibility.jar"/>

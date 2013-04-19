@@ -74,7 +74,7 @@ public class LoginDialog extends Dialog {
 
 	@Override
 	protected Point getInitialSize() {
-		return new Point(450, showLoginError ? 160 : 140);
+		return new Point(450, showLoginError ? 200 : 180);
 	}
 
 	@Override

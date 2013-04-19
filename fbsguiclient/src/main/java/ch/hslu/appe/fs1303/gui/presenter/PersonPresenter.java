@@ -8,17 +8,17 @@ import ch.hslu.appe.fs1301.business.shared.iPersonAPI;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 import ch.hslu.appe.fs1303.gui.labelprovider.PersonLabelProvider;
 import ch.hslu.appe.fs1303.gui.views.iView;
+import ch.hslu.appe.fs1303.gui.views.iViewListener;
 
 public class PersonPresenter extends BasePresenter {
 
 	public static final String ID = "ch.hslu.appe.fs1303.gui.presenter.PersonPresenter";
 	
-	public interface iPersonView extends iView {
-		public void addActionListener(iPersonViewActions actionListener);
-		public void updateFromDTO(DTOPerson person);
+	public interface iPersonView extends iView<DTOPerson, iPersonViewListener> {
+		
 	}
 	
-	public interface iPersonViewActions {
+	public interface iPersonViewListener extends iViewListener {
 		public void onNewOrderButtonClick();
 		public void openOrder(int id);
 	}
@@ -41,16 +41,25 @@ public class PersonPresenter extends BasePresenter {
 		
 		fPerson = fPersonApi.getCustomerById(Integer.parseInt(getViewSite().getSecondaryId()));
 		setPartName(new PersonLabelProvider().getText(fPerson));
-		fView.updateFromDTO(fPerson);
-		fView.addActionListener(new iPersonViewActions() {
+		fView.bindModel(fPerson);
+		fView.setActionListener(new iPersonViewListener() {
+			
+			@Override
+			public void onSave() {
+				// TODO Auto-generated method stub
+				
+			}
+			
 			@Override
 			public void openOrder(int id) {
-
+				// TODO Auto-generated method stub
+				
 			}
 			
 			@Override
 			public void onNewOrderButtonClick() {
-
+				// TODO Auto-generated method stub
+				
 			}
 		});
 	}

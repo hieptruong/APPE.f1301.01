@@ -30,7 +30,6 @@ public abstract class QuickSearchDialog<T> extends FilteredItemsSelectionDialog 
 
 	public QuickSearchDialog(Shell shell, boolean multi, iQuickSearchCallback<T> callback) {
 		super(shell, multi);
-		// TODO Auto-generated constructor stub
 		fCallback = callback;
 		fLabelProvider = getLabelProvider();
 		setDetailsLabelProvider(fLabelProvider);
