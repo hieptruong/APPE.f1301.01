@@ -13,10 +13,13 @@ public class DataModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(iAPPEEntityManager.class).to(APPEEntityManager.class).in(Singleton.class);
-		bind(iTransaction.class).to(APPEEntityManager.class).in(Singleton.class);
+		bind(APPEEntityManager.class).in(Singleton.class);
+		bind(iAPPEEntityManager.class).to(APPEEntityManager.class);
+		bind(iTransaction.class).to(APPEEntityManager.class);
+		
 		bind(iPersonRepository.class).to(PersonRepository.class).in(Singleton.class);
 		bind(iProductRepository.class).to(ProductRepository.class).in(Singleton.class);
 		bind(iOrderRepository.class).to(OrderRepository.class).in(Singleton.class);
+		bind(iOrderPositionRepository.class).to(OrderPositionRepository.class).in(Singleton.class);
 	}
 }
