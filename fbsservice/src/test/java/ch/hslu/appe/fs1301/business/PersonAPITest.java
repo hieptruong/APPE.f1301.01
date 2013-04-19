@@ -1,30 +1,40 @@
 package ch.hslu.appe.fs1301.business;
 
 import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.expect;
 import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.easymock.Capture;
+import org.easymock.EasyMock;
 import org.easymock.IExpectationSetters;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
+import ch.hslu.appe.fs1301.business.shared.AccessDeniedException;
+import ch.hslu.appe.fs1301.business.shared.UserRole;
 import ch.hslu.appe.fs1301.business.shared.iPersonAPI;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 import ch.hslu.appe.fs1301.data.shared.iPersonRepository;
+import ch.hslu.appe.fs1301.data.shared.iTransaction;
 import ch.hslu.appe.fs1301.data.shared.entity.Person;
 
 public class PersonAPITest {
 	private iPersonAPI fTestee;
 	private iPersonRepository fPersonRepositoryMock;
+	private iInternalSessionAPI fSessionMock;
+	private iTransaction fTransactionMock;
 	
 	@Before
 	public void setUp() {	
 		fPersonRepositoryMock = PowerMock.createMock(iPersonRepository.class);
-		fTestee = new PersonAPI(fPersonRepositoryMock);		
+		fSessionMock = PowerMock.createMock(iInternalSessionAPI.class);
+		fTransactionMock = PowerMock.createMock(iTransaction.class);
+		fTestee = new PersonAPI(fPersonRepositoryMock, fTransactionMock, fSessionMock);		
 	}
 	
 	@Test
@@ -90,6 +100,60 @@ public class PersonAPITest {
 		for(int i = 0; i < jpaList.size(); i++) {
 			assertThat(resultList.get(i).getId()).isSameAs(jpaList.get(i).getId());
 		}
+	}
+	
+	@Test(expected = AccessDeniedException.class)
+	public void needsSysUser_OnSaveCustomer() throws AccessDeniedException {
+		final int ExpectedRole = UserRole.SYSUSER;
+		
+		//Check against role
+		expect(fSessionMock.hasRole(ExpectedRole)).andReturn(false);
+		PowerMock.replayAll();
+		
+		fTestee.saveCustomer(null);
+	}
+	
+	@Test
+	public void createsANewPerson_OnSaveCustomer_WhenIdIsZero() throws AccessDeniedException {
+		setupCheckRoleIrrelevant();
+		
+		DTOPerson expectedPerson = new DTOPerson();
+		expectedPerson.setBenutzername("UserName");
+		Capture<Person> cap = new Capture<Person>();
+		fPersonRepositoryMock.saveObject(capture(cap));
+		PowerMock.replayAll();
+		
+		DTOPerson result = fTestee.saveCustomer(expectedPerson);
+		
+		assertThat(cap.getValue().getBenutzername()).isEqualTo(expectedPerson.getBenutzername());
+		assertThat(result.getBenutzername()).isEqualTo(expectedPerson.getBenutzername());
+	}
+
+	@Test
+	public void updatesPerson_OnSaveCustomer_WhenIdIsKnown() throws AccessDeniedException {
+		final int ExpectedId = 10;
+		
+		setupCheckRoleIrrelevant();
+		
+		DTOPerson expectedPerson = new DTOPerson();
+		expectedPerson.setId(ExpectedId);
+		expectedPerson.setBenutzername("UserName");
+		
+		Person returnedPerson = new Person();		
+		expect(fPersonRepositoryMock.getById(ExpectedId)).andReturn(returnedPerson);
+		
+		Capture<Person> cap = new Capture<Person>();
+		fPersonRepositoryMock.saveObject(capture(cap));
+		PowerMock.replayAll();
+		
+		DTOPerson result = fTestee.saveCustomer(expectedPerson);
+		
+		assertThat(cap.getValue().getBenutzername()).isEqualTo(expectedPerson.getBenutzername());
+		assertThat(result.getBenutzername()).isEqualTo(expectedPerson.getBenutzername());
+	}
+	
+	private void setupCheckRoleIrrelevant() {
+		expect(fSessionMock.hasRole(EasyMock.anyInt())).andReturn(true);
 	}
 	
 	private List<Person> createPersonsById(int... ids){

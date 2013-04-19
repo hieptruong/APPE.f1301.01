@@ -46,13 +46,14 @@ public class PersonAPI extends BaseAPI implements iPersonAPI {
 	public DTOPerson saveCustomer(DTOPerson person) throws AccessDeniedException {
 		checkRole(UserRole.SYSUSER);
 		
-		Person entity = fPersonRepository.getById(person.getId());
+		Person entity = person.getId() != 0 ? fPersonRepository.getById(person.getId()) : null;
 		if (entity == null) {
 			entity = DTOPerson.createNewPersonFromDTO(person);
 		} else {
 			DTOPerson.updatePersonFromDTO(entity, person);
 		}
-			
+		
+		fPersonRepository.saveObject(entity);
 		DTOPerson newPerson = new DTOPerson(entity);
 		return newPerson;
 	}
