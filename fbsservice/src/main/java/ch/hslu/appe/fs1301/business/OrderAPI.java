@@ -79,7 +79,7 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 		
 		List<Bestellung> searchList;
 		try {
-			searchList = fOrderRepository.getOrdersByPersonIDs(ids);
+			searchList = fOrderRepository.getOrdersById(ids);
 		} catch(IllegalArgumentException exception) {
 			searchList = new ArrayList<Bestellung>(0);
 		}
