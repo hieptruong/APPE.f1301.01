@@ -1,5 +1,6 @@
 package ch.hslu.appe.fs1301.business;
 
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -23,6 +24,29 @@ public class ProductAPITest {
 	public void setUp() {	
 		fProductRepositoryMock = PowerMock.createMock(iProductRepository.class);
 		fTestee = new ProductAPI(fProductRepositoryMock);		
+	}
+	
+	@Test
+	public void returnsProdukt_OnGetProductById() {
+		final int ExpectedId = 10;
+		Produkt returnedProduct = new Produkt();
+		returnedProduct.setId(ExpectedId);
+		
+		expect(fProductRepositoryMock.getById(eq(ExpectedId))).andReturn(returnedProduct);
+		PowerMock.replayAll();
+		
+		DTOProdukt result = fTestee.getProductById(ExpectedId);
+		assertThat(result.getId()).isSameAs(ExpectedId);
+	}
+	
+	@Test
+	public void returnsNull_OnGetProduktById_WhenNullIsReturnedByRepo() {
+		final int Id = 10;
+		expect(fProductRepositoryMock.getById(eq(Id))).andReturn(null);
+		PowerMock.replayAll();
+		
+		DTOProdukt result = fTestee.getProductById(Id);
+		assertThat(result).isNull();
 	}
 	
 	@Test
