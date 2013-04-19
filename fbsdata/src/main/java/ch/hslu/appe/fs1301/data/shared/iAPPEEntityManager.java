@@ -7,7 +7,7 @@ import java.util.List;
  * @author Thomas Bomatter
  * iAPPEEntityManager defines interface for database access
  */
-public interface iAPPEEntityManager {
+public interface iAPPEEntityManager extends iTransaction {
 	
 	public<T> T getEntityObject(Class<T> entityType, int id);
 	
@@ -18,12 +18,6 @@ public interface iAPPEEntityManager {
 	public void deleteEntityObject(Object obj);
 	
 	public void persist(Object obj);
-	
-	public void startTransaction();
-	
-	public void commitTransaction();
-	
-	public void rollbackTransaction();
 	
 	public<T> List<T> executeQuery(String query, Class<T> entityType);
 }

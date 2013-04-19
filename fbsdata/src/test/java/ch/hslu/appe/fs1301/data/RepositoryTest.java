@@ -9,27 +9,64 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.hslu.appe.fs1301.data.shared.iAPPEEntityManager;
 import ch.hslu.appe.fs1301.data.shared.iPersonRepository;
 import ch.hslu.appe.fs1301.data.shared.entity.Person;
 
 public class RepositoryTest extends BaseTestClass {
-
-	private iPersonRepository personRepo;
+	
+	private iPersonRepository fPersonRepo;
+	private iAPPEEntityManager fEntityManager;
 
 	@Override
 	@Before
 	public void setUp() {
-		personRepo = new PersonRepository(new APPEEntityManager());
+		fEntityManager = new APPEEntityManager();
+		fPersonRepo = new PersonRepository(fEntityManager);
 	}
 	
 	@Test
 	public void returnsNull_WhenIdIsNotFound() {
-		Person person = personRepo.getById(Integer.MAX_VALUE);
+		Person person = fPersonRepo.getById(Integer.MAX_VALUE);
 		assertThat(person).isNull();
 	}
 	
 	@Test
 	public void TestSaveAndGetById() {
+		Person person = createPerson();
+		
+		fPersonRepo.saveObject(person);		
+		Person person2 = fPersonRepo.getById(person.getId());
+		
+		assertEquals(person.getVorname(), person2.getVorname());
+		assertEquals(person.getId(), person2.getId());
+		assertEquals(person.getEMail(), person2.getEMail());
+		assertEquals(person.getOrt(), person2.getOrt());
+		
+		fPersonRepo.deleteObject(person);
+		person2 = fPersonRepo.getById(person.getId());
+		assertEquals(null, person2);
+	}
+	
+	@Test
+	public void PersistsObject() {
+		fEntityManager.beginTransaction();
+		try {
+			Person person = createPerson();
+			fPersonRepo.persistObject(person);
+			
+			Person person2 = fPersonRepo.getById(person.getId());
+			assertEquals(person.getId(), person2.getId());
+			
+			fEntityManager.rollbackTransaction();
+			person2 = fPersonRepo.getById(person.getId());
+			assertEquals(null, person2);
+		} catch (Exception exception) {
+			fEntityManager.rollbackTransaction();
+		}
+	}
+	
+	private Person createPerson() {
 		Person person = new Person();
 		person.setEMail("testee@test.ch");
 		person.setName("testee");
@@ -42,13 +79,6 @@ public class RepositoryTest extends BaseTestClass {
 		person.setStrasse("testroad 13");
 		person.setPasswort("testee");
 		person.setAktiv(false);
-		
-		personRepo.saveObject(person);		
-		Person person2 = personRepo.getById(person.getId());
-		
-		assertEquals(person.getVorname(), person2.getVorname());
-		assertEquals(person.getId(), person2.getId());
-		assertEquals(person.getEMail(), person2.getEMail());
-		assertEquals(person.getOrt(), person2.getOrt());
+		return person;
 	}
 }

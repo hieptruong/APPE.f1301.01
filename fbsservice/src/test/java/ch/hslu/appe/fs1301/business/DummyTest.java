@@ -5,10 +5,12 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
+import ch.hslu.appe.fs1301.business.shared.OrderSource;
 import ch.hslu.appe.fs1301.business.shared.UserRole;
 import ch.hslu.appe.fs1301.business.shared.iPersonAPI;
 import ch.hslu.appe.fs1301.business.shared.iSessionAPI;
 import ch.hslu.appe.fs1301.data.shared.iPersonRepository;
+import ch.hslu.appe.fs1301.data.shared.iProductRepository;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -29,6 +31,12 @@ public class DummyTest {
 	}
 	
 	@Test
+	public void OrderSourceCoverage() {
+		OrderSource orderSource = new OrderSource();
+		assertThat(orderSource).isNotNull();
+	}
+	
+	@Test
 	public void GuiceTest() {
 		Injector injector = Guice.createInjector(Stage.TOOL, new MockedModule(), new ServiceModule());
 		assertThat(injector.getBinding(iPersonAPI.class)).isNotNull();
@@ -37,9 +45,11 @@ public class DummyTest {
 	
 	private class MockedModule extends AbstractModule {
 		private iPersonRepository fPersonRepository;
+		private iProductRepository fProductRepository;
 		
 		public MockedModule() {
 			fPersonRepository = PowerMock.createMock(iPersonRepository.class);
+			fProductRepository = PowerMock.createMock(iProductRepository.class);
 		}
 		
 		@Override
@@ -49,6 +59,11 @@ public class DummyTest {
 		@Provides
 		protected iPersonRepository providePersonRepository() {
 			return fPersonRepository;
+		}
+		
+		@Provides
+		protected iProductRepository provideProductRepository() {
+			return fProductRepository;
 		}
 	}
 }

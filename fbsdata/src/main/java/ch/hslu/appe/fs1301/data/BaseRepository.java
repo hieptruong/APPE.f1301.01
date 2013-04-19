@@ -36,6 +36,16 @@ public abstract class BaseRepository<T> implements iRepository<T> {
 	}
 	
 	@Override
+	public void deleteObject(T object) {
+		fEntityManager.deleteEntityObject(object);
+	}
+	
+	@Override
+	public void persistObject(T object){
+		fEntityManager.persist(object);
+	}
+	
+	@Override
 	public void saveObject(T object) {
 		fEntityManager.saveEntityObject(object);
 	}

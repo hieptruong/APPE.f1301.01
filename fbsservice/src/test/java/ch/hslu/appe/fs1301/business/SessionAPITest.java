@@ -1,13 +1,14 @@
 package ch.hslu.appe.fs1301.business;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.powermock.api.easymock.PowerMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.fest.assertions.Assertions.assertThat;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.powermock.api.easymock.PowerMock;
+
 import ch.hslu.appe.fs1301.business.shared.UserRole;
-import ch.hslu.appe.fs1301.business.shared.iSessionAPI;
 import ch.hslu.appe.fs1301.data.shared.iPersonRepository;
 import ch.hslu.appe.fs1301.data.shared.entity.Person;
 
@@ -16,7 +17,7 @@ import ch.hslu.appe.fs1301.data.shared.entity.Person;
  * Session API Test
  */
 public class SessionAPITest {
-	private iSessionAPI fTestee;
+	private SessionAPI fTestee;
 	private iPersonRepository fPersonRepositoryMock;
 	
 	@Before
@@ -30,6 +31,7 @@ public class SessionAPITest {
 		assertThat(fTestee.isAuthenticated()).isFalse();
 		assertThat(fTestee.getUserName()).isNullOrEmpty();
 		assertThat(fTestee.hasRole(UserRole.CUSTOMER)).isFalse();
+		assertThat(fTestee.getAuthenticatedUser()).isNull();
 	}
 	
 	@Test
