@@ -65,5 +65,6 @@ public class APPEEntityManager implements iAPPEEntityManager  {
 	@Override
 	public void persist(Object obj) {
 		fEntityManager.persist(obj);
+		fEntityManager.flush();
 	}
 }

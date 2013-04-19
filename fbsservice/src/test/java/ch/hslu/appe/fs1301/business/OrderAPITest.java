@@ -61,7 +61,7 @@ public class OrderAPITest {
 	@Test
 	public void returnsAnEmptyList_OnGetOrders_WhenAnIllegalArgumentExceptionIsThrown() throws AccessDeniedException {
 		setupCheckRoleIrrelevant();
-		expect(fOrderRepositoryMock.getOrdersByPersonIDs()).andThrow(new IllegalArgumentException());
+		expect(fOrderRepositoryMock.getOrdersById()).andThrow(new IllegalArgumentException());
 		PowerMock.replayAll();
 		
 		List<DTOBestellung> resultList = fTestee.getOrders();
@@ -73,7 +73,7 @@ public class OrderAPITest {
 		setupCheckRoleIrrelevant();
 		
 		List<Bestellung> jpaList = createOrdersById(1, 2);
-		expect(fOrderRepositoryMock.getOrdersByPersonIDs(1, 2)).andReturn(jpaList);
+		expect(fOrderRepositoryMock.getOrdersById(1, 2)).andReturn(jpaList);
 		PowerMock.replayAll();
 		
 		List<DTOBestellung> resultList = fTestee.getOrders(1, 2);
