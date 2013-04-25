@@ -9,11 +9,7 @@ import ch.hslu.appe.fs1301.data.shared.entity.Rechnung;
 
 /**
 * Auto-Generated DTOs
-<<<<<<< HEAD
-* Thu Apr 25 13:48:57 CEST 2013
-=======
-* Thu Apr 25 16:16:46 CEST 2013
->>>>>>> 149fc7ad70b352e0c58b8172e77cf9880ccce8d0
+* Thu Apr 25 17:36:49 CEST 2013
 */
 public class DTOBestellung {
 	private Integer fId;
