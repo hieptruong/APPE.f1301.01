@@ -56,6 +56,10 @@ public class APPEEntityManager implements iAPPEEntityManager  {
 		fEntityManager.getTransaction().rollback();
 	}
 	
+	public void executeInsertQuery(String query) {
+		fEntityManager.createNativeQuery(query).executeUpdate();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public<T> List<T> executeQuery(String query, Class<T> entityType) {
 		Query createQuery = fEntityManager.createQuery(query);
