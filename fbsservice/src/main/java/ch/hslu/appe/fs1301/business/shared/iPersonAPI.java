@@ -24,6 +24,7 @@ public interface iPersonAPI {
 	/**
 	 * Saves all changes done to this person or creates a new person.
 	 * @param person The person to save.
+	 * @return The updated DTO.
 	 * @throws AccessDeniedException If the user hasn't enough rights to execute. 
 	 */
 	public DTOPerson saveCustomer(DTOPerson person) throws AccessDeniedException;

@@ -21,4 +21,12 @@ public interface iProductAPI {
 	 * @return The product.
 	 */
 	public DTOProdukt getProductById(int id);
+
+	/**
+	 * Saves all changes done to this product or creates a new one.
+	 * @param product The product.
+	 * @return The updated DTO.
+	 * @throws AccessDeniedException If the user hasn't enough rights to execute.
+	 */
+	DTOProdukt saveProduct(DTOProdukt product) throws AccessDeniedException;
 }
