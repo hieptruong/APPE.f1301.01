@@ -2,16 +2,15 @@ package ch.hslu.appe.fs1303.gui.presenter;
 
 import org.eclipse.swt.widgets.Composite;
 
-import com.google.inject.Inject;
-
-import ch.hslu.appe.fs1301.business.shared.iPersonAPI;
+import ch.hslu.appe.fs1301.business.shared.AccessDeniedException;
 import ch.hslu.appe.fs1301.business.shared.iProductAPI;
-import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOProdukt;
-import ch.hslu.appe.fs1303.gui.labelprovider.PersonLabelProvider;
+import ch.hslu.appe.fs1303.gui.ErrorUtils;
 import ch.hslu.appe.fs1303.gui.labelprovider.ProductLabelProvider;
 import ch.hslu.appe.fs1303.gui.views.iView;
 import ch.hslu.appe.fs1303.gui.views.iViewListener;
+
+import com.google.inject.Inject;
 
 public class ProductPresenter extends BasePresenter {
 
@@ -39,15 +38,34 @@ public class ProductPresenter extends BasePresenter {
 	public void createPartControl(Composite composite) {				
 		fView.createContent(composite);
 		
-		fProduct = fProductApi.getProductById(Integer.parseInt(getViewSite().getSecondaryId()));
+		String modelId = getViewSite().getSecondaryId();
+		if (modelId.startsWith("new")) {
+			fProduct = new DTOProdukt();
+		} else {
+			try {
+				fProduct = fProductApi.getProductById(Integer.parseInt(getViewSite().getSecondaryId()));
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				return;
+			} catch (AccessDeniedException e) {
+				ErrorUtils.handleAccessDenied(getSite().getShell());
+				return;
+			}
+		}
+		
 		setPartName(new ProductLabelProvider().getText(fProduct));
 		fView.bindModel(fProduct);
 		fView.setActionListener(new iProductViewListener() {
 			
 			@Override
 			public void onSave() {
-				// TODO Auto-generated method stub
-				
+				try {
+					fProduct = fProductApi.saveProduct(fProduct);				
+					fView.bindModel(fProduct);
+					setPartName(new ProductLabelProvider().getText(fProduct));
+				} catch (AccessDeniedException e) {
+					ErrorUtils.handleAccessDenied(getSite().getShell());
+				}
 			}
 		});
 	}

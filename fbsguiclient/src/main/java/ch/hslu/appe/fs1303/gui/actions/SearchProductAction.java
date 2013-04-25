@@ -9,14 +9,12 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
-import ch.hslu.appe.fs1301.business.shared.iPersonAPI;
+import ch.hslu.appe.fs1301.business.shared.AccessDeniedException;
 import ch.hslu.appe.fs1301.business.shared.iProductAPI;
-import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOProdukt;
-import ch.hslu.appe.fs1303.gui.dialogs.PersonSearchDialog;
+import ch.hslu.appe.fs1303.gui.ErrorUtils;
 import ch.hslu.appe.fs1303.gui.dialogs.ProductSearchDialog;
 import ch.hslu.appe.fs1303.gui.dialogs.QuickSearchDialog.iQuickSearchCallback;
-import ch.hslu.appe.fs1303.gui.presenter.PersonPresenter;
 import ch.hslu.appe.fs1303.gui.presenter.ProductPresenter;
 
 import com.google.inject.Inject;
@@ -36,7 +34,11 @@ public class SearchProductAction extends APPEAction implements iQuickSearchCallb
 		setText("Produkt suchen");
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		fProductSearchDialog = new ProductSearchDialog(shell, true, this);	
-		fAllProducts = produktAPI.getAllProducts();
+		try {
+			fAllProducts = produktAPI.getAllProducts();
+		} catch (AccessDeniedException e) {
+			ErrorUtils.handleAccessDenied(shell);
+		}
 	}
 	
 	@Override

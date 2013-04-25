@@ -13,7 +13,7 @@ import ch.hslu.appe.fs1301.data.shared.entity.ZentrallagerBestellung;
 
 /**
 * Auto-Generated DTOs
-* Fri Apr 19 14:39:51 CEST 2013
+* Thu Apr 25 13:48:57 CEST 2013
 */
 public class DTOConverter {
 
