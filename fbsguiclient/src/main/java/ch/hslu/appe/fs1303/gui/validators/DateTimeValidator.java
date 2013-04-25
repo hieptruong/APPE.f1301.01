@@ -5,11 +5,20 @@ import java.text.SimpleDateFormat;
 
 public class DateTimeValidator implements iValidator {
 
-	private SimpleDateFormat fDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+	private static final SimpleDateFormat fDateFormat;
 
+	static {
+		fDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+		fDateFormat.setLenient(false);
+	}
+	
 	@Override
 	public boolean validate(String input, boolean isNullable) {
 		try {
+			if (!isNullable && input.isEmpty()) return false;
+			
+			if (isNullable && input.isEmpty()) return true;
+			
 			if (isNullable || !input.isEmpty()) {				
 			    fDateFormat.parse(input);  
 			} 			

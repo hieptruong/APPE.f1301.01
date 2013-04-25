@@ -8,6 +8,8 @@ public class IntValidator implements iValidator {
 		try {
 			if (!isNullable && input.isEmpty()) return false;
 			
+			if (isNullable && input.isEmpty()) return true;
+			
 			if (isNullable || !input.isEmpty()) {
 				Integer.parseInt(input.trim());				
 			} 
