@@ -10,10 +10,7 @@ public class IntValidator implements iValidator {
 			
 			if (isNullable && input.isEmpty()) return true;
 			
-			if (isNullable || !input.isEmpty()) {
-				Integer.parseInt(input.trim());				
-			} 
-			
+			Integer.parseInt(input.trim());				
 			return true;
 		} catch (NumberFormatException e) {
 			return false;

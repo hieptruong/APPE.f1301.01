@@ -1,6 +1,5 @@
 package ch.hslu.appe.fs1303.gui.validators;
 
-
 public class StringValidator implements iValidator {
 
 	@Override
@@ -11,5 +10,4 @@ public class StringValidator implements iValidator {
 			return true;
 		}
 	}
-
 }

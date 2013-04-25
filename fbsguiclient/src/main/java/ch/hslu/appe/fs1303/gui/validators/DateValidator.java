@@ -19,9 +19,7 @@ public class DateValidator implements iValidator {
 			
 			if (isNullable && input.isEmpty()) return true;
 			
-			if (isNullable || !input.isEmpty()) {				
-			    fDateFormat.parse(input);  
-			} 			
+		    fDateFormat.parse(input);  
 			return true;
 		} catch (ParseException e) {
 			return false;
