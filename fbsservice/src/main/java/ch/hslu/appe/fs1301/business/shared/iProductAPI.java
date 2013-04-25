@@ -12,15 +12,17 @@ public interface iProductAPI {
 	/**
 	 * Get all products.
 	 * @return A list of all products.
+	 * @throws AccessDeniedException If the user hasn't enough rights to execute.
 	 */
-	public List<DTOProdukt> getAllProducts();
+	public List<DTOProdukt> getAllProducts() throws AccessDeniedException;
 	
 	/**
 	 * Gets a product by id.
 	 * @param id The id.
 	 * @return The product.
+	 * @throws AccessDeniedException If the user hasn't enough rights to execute.
 	 */
-	public DTOProdukt getProductById(int id);
+	public DTOProdukt getProductById(int id) throws AccessDeniedException;
 
 	/**
 	 * Saves all changes done to this product or creates a new one.

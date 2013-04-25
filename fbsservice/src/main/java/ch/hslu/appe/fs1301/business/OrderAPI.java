@@ -46,6 +46,8 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 			order.setPerson1(fPersonRepository.getById(customerId));
 			order.setPerson2(fSessionAPI.getAuthenticatedUser());
 			order.setBestelldatum(new Date());
+			order.setLiefertermin_Ist(new Date());
+			order.setLiefertermin_Soll(new Date());
 			fOrderRepository.persistObject(order);
 			
 			//Save positions

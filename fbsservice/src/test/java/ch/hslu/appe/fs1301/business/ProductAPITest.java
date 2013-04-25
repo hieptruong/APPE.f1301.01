@@ -36,9 +36,22 @@ public class ProductAPITest {
 		fTestee = new ProductAPI(fProductRepositoryMock, fTransactionMock, fSessionMock);		
 	}
 	
+	@Test(expected = AccessDeniedException.class)
+	public void needsSysUserOrAdmin_OnGetProductById() throws AccessDeniedException {
+		final int ExpectedRole = UserRole.SYSUSER | UserRole.ADMIN;
+		
+		//Check against role
+		expect(fSessionMock.hasRole(ExpectedRole)).andReturn(false);
+		PowerMock.replayAll();
+		
+		fTestee.getProductById(0);
+	}
+	
 	@Test
-	public void returnsProdukt_OnGetProductById() {
+	public void returnsProdukt_OnGetProductById() throws AccessDeniedException {
 		final int ExpectedId = 10;
+		setupCheckRoleIrrelevant();
+		
 		Produkt returnedProduct = new Produkt();
 		returnedProduct.setId(ExpectedId);
 		
@@ -50,8 +63,10 @@ public class ProductAPITest {
 	}
 	
 	@Test
-	public void returnsNull_OnGetProduktById_WhenNullIsReturnedByRepo() {
+	public void returnsNull_OnGetProduktById_WhenNullIsReturnedByRepo() throws AccessDeniedException {
 		final int Id = 10;
+		setupCheckRoleIrrelevant();
+		
 		expect(fProductRepositoryMock.getById(eq(Id))).andReturn(null);
 		PowerMock.replayAll();
 		
@@ -59,8 +74,21 @@ public class ProductAPITest {
 		assertThat(result).isNull();
 	}
 	
+	@Test(expected = AccessDeniedException.class)
+	public void needsSysUserOrAdmin_OnGetAllProducts() throws AccessDeniedException {
+		final int ExpectedRole = UserRole.SYSUSER | UserRole.ADMIN;
+		
+		//Check against role
+		expect(fSessionMock.hasRole(ExpectedRole)).andReturn(false);
+		PowerMock.replayAll();
+		
+		fTestee.getAllProducts();
+	}
+	
 	@Test
-	public void returnsListAsDTO_OnGetAllProducts(){
+	public void returnsListAsDTO_OnGetAllProducts() throws AccessDeniedException{
+		setupCheckRoleIrrelevant();
+		
 		List<Produkt> jpaList = createProductsById(1, 2);
 		setupReturnValueOfGetAllProducts(jpaList);
 		PowerMock.replayAll();
@@ -74,8 +102,8 @@ public class ProductAPITest {
 	}
 	
 	@Test(expected = AccessDeniedException.class)
-	public void needsSysUser_OnSaveProduct() throws AccessDeniedException {
-		final int ExpectedRole = UserRole.SYSUSER;
+	public void needsSysUserOrAdmin_OnSaveProduct() throws AccessDeniedException {
+		final int ExpectedRole = UserRole.SYSUSER | UserRole.ADMIN;
 		
 		//Check against role
 		expect(fSessionMock.hasRole(ExpectedRole)).andReturn(false);

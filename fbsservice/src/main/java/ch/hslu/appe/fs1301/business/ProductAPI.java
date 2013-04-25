@@ -25,7 +25,7 @@ public class ProductAPI extends BaseAPI implements iProductAPI {
 	
 	@Override
 	public DTOProdukt saveProduct(DTOProdukt product) throws AccessDeniedException {
-		checkRole(UserRole.SYSUSER);
+		checkRole(UserRole.SYSUSER | UserRole.ADMIN);
 		
 		Produkt entity = product.getId() != 0 ? fProductRepository.getById(product.getId()) : null;
 		if (entity == null) {
@@ -40,12 +40,16 @@ public class ProductAPI extends BaseAPI implements iProductAPI {
 	}
 
 	@Override
-	public List<DTOProdukt> getAllProducts() {
+	public List<DTOProdukt> getAllProducts() throws AccessDeniedException {
+		checkRole(UserRole.SYSUSER | UserRole.ADMIN);
+		
 		return DTOConverter.convertProdukt(fProductRepository.getAllProducts());
 	}
 
 	@Override
-	public DTOProdukt getProductById(int id) {
+	public DTOProdukt getProductById(int id) throws AccessDeniedException {
+		checkRole(UserRole.SYSUSER | UserRole.ADMIN);
+		
 		Produkt product = fProductRepository.getById(id);
 		return product != null ? new DTOProdukt(product) : null;
 	}
