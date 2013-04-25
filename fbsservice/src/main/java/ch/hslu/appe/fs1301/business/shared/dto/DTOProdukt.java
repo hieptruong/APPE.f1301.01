@@ -8,14 +8,18 @@ import ch.hslu.appe.fs1301.data.shared.entity.ZentrallagerBestellung;
 
 /**
 * Auto-Generated DTOs
+<<<<<<< HEAD
 * Thu Apr 25 13:48:57 CEST 2013
+=======
+* Thu Apr 25 16:16:46 CEST 2013
+>>>>>>> 149fc7ad70b352e0c58b8172e77cf9880ccce8d0
 */
 public class DTOProdukt {
-	private int fId;
+	private Integer fId;
 	private String fBezeichnung;
-	private int fLagerbestand;
-	private int fMinimalMenge;
-	private int fPreis;
+	private Integer fLagerbestand;
+	private Integer fMinimalMenge;
+	private Integer fPreis;
 	private List<Integer> fBestellpositions;
 	private List<Integer> fZentrallagerBestellungs;
 
@@ -39,11 +43,11 @@ public class DTOProdukt {
 		}
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return fId;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		fId = id;
 	}
 
@@ -55,27 +59,27 @@ public class DTOProdukt {
 		fBezeichnung = bezeichnung;
 	}
 
-	public int getLagerbestand() {
+	public Integer getLagerbestand() {
 		return fLagerbestand;
 	}
 
-	public void setLagerbestand(int lagerbestand) {
+	public void setLagerbestand(Integer lagerbestand) {
 		fLagerbestand = lagerbestand;
 	}
 
-	public int getMinimalMenge() {
+	public Integer getMinimalMenge() {
 		return fMinimalMenge;
 	}
 
-	public void setMinimalMenge(int minimalMenge) {
+	public void setMinimalMenge(Integer minimalMenge) {
 		fMinimalMenge = minimalMenge;
 	}
 
-	public int getPreis() {
+	public Integer getPreis() {
 		return fPreis;
 	}
 
-	public void setPreis(int preis) {
+	public void setPreis(Integer preis) {
 		fPreis = preis;
 	}
 
@@ -102,10 +106,10 @@ public class DTOProdukt {
 	}
 
 	public static void updateProduktFromDTO(Produkt entity, DTOProdukt dto) {
-		entity.setId(dto.getId());
+		entity.setId(dto.getId() == null ? 0 : dto.getId());
 		entity.setBezeichnung(dto.getBezeichnung());
-		entity.setLagerbestand(dto.getLagerbestand());
-		entity.setMinimalMenge(dto.getMinimalMenge());
-		entity.setPreis(dto.getPreis());
+		entity.setLagerbestand(dto.getLagerbestand() == null ? 0 : dto.getLagerbestand());
+		entity.setMinimalMenge(dto.getMinimalMenge() == null ? 0 : dto.getMinimalMenge());
+		entity.setPreis(dto.getPreis() == null ? 0 : dto.getPreis());
 	}
 }

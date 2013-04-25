@@ -114,6 +114,24 @@ public class ProductAPITest {
 	
 	@Test
 	public void createsANewProduct_OnSaveProduct_WhenIdIsZero() throws AccessDeniedException {
+		final int expectedId = 0;
+		setupCheckRoleIrrelevant();
+		
+		DTOProdukt expectedProduct = new DTOProdukt();
+		expectedProduct.setId(expectedId);
+		expectedProduct.setBezeichnung("Name");
+		Capture<Produkt> cap = new Capture<Produkt>();
+		fProductRepositoryMock.saveObject(capture(cap));
+		PowerMock.replayAll();
+		
+		DTOProdukt result = fTestee.saveProduct(expectedProduct);
+		
+		assertThat(cap.getValue().getBezeichnung()).isEqualTo(expectedProduct.getBezeichnung());
+		assertThat(result.getBezeichnung()).isEqualTo(expectedProduct.getBezeichnung());
+	}
+
+	@Test
+	public void createsANewProduct_OnSaveProduct_WhenIdIsNull() throws AccessDeniedException {
 		setupCheckRoleIrrelevant();
 		
 		DTOProdukt expectedProduct = new DTOProdukt();

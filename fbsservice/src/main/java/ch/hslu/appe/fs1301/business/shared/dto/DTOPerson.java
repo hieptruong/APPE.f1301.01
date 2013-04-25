@@ -10,10 +10,14 @@ import ch.hslu.appe.fs1301.data.shared.entity.Rechnung;
 
 /**
 * Auto-Generated DTOs
+<<<<<<< HEAD
 * Thu Apr 25 13:48:57 CEST 2013
+=======
+* Thu Apr 25 16:16:46 CEST 2013
+>>>>>>> 149fc7ad70b352e0c58b8172e77cf9880ccce8d0
 */
 public class DTOPerson {
-	private int fId;
+	private Integer fId;
 	private boolean fAktiv;
 	private String fBenutzername;
 	private String fEMail;
@@ -21,8 +25,8 @@ public class DTOPerson {
 	private String fName;
 	private String fOrt;
 	private String fPasswort;
-	private int fPlz;
-	private int fRolle;
+	private Integer fPlz;
+	private Integer fRolle;
 	private String fStrasse;
 	private String fVorname;
 	private List<Integer> fBestellungs1;
@@ -70,11 +74,11 @@ public class DTOPerson {
 		}
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return fId;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		fId = id;
 	}
 
@@ -134,19 +138,19 @@ public class DTOPerson {
 		fPasswort = passwort;
 	}
 
-	public int getPlz() {
+	public Integer getPlz() {
 		return fPlz;
 	}
 
-	public void setPlz(int plz) {
+	public void setPlz(Integer plz) {
 		fPlz = plz;
 	}
 
-	public int getRolle() {
+	public Integer getRolle() {
 		return fRolle;
 	}
 
-	public void setRolle(int rolle) {
+	public void setRolle(Integer rolle) {
 		fRolle = rolle;
 	}
 
@@ -213,7 +217,7 @@ public class DTOPerson {
 	}
 
 	public static void updatePersonFromDTO(Person entity, DTOPerson dto) {
-		entity.setId(dto.getId());
+		entity.setId(dto.getId() == null ? 0 : dto.getId());
 		entity.setAktiv(dto.getAktiv());
 		entity.setBenutzername(dto.getBenutzername());
 		entity.setEMail(dto.getEMail());
@@ -221,8 +225,8 @@ public class DTOPerson {
 		entity.setName(dto.getName());
 		entity.setOrt(dto.getOrt());
 		entity.setPasswort(dto.getPasswort());
-		entity.setPlz(dto.getPlz());
-		entity.setRolle(dto.getRolle());
+		entity.setPlz(dto.getPlz() == null ? 0 : dto.getPlz());
+		entity.setRolle(dto.getRolle() == null ? 0 : dto.getRolle());
 		entity.setStrasse(dto.getStrasse());
 		entity.setVorname(dto.getVorname());
 	}

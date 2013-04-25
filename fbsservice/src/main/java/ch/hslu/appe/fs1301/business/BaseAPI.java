@@ -19,4 +19,12 @@ public abstract class BaseAPI {
 			throw new AccessDeniedException();
 		}
 	}
+	
+	protected boolean isNullOrZero(Integer value) {
+		if (value == null) 
+			return true;
+		if (value == 0)
+			return true;
+		return false;
+	}
 }

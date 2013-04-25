@@ -27,7 +27,7 @@ public class ProductAPI extends BaseAPI implements iProductAPI {
 	public DTOProdukt saveProduct(DTOProdukt product) throws AccessDeniedException {
 		checkRole(UserRole.SYSUSER | UserRole.ADMIN);
 		
-		Produkt entity = product.getId() != 0 ? fProductRepository.getById(product.getId()) : null;
+		Produkt entity = isNullOrZero(product.getId()) ? null : fProductRepository.getById(product.getId());
 		if (entity == null) {
 			entity = DTOProdukt.createNewProduktFromDTO(product);
 		} else {

@@ -144,6 +144,24 @@ public class PersonAPITest {
 	
 	@Test
 	public void createsANewPerson_OnSaveCustomer_WhenIdIsZero() throws AccessDeniedException {
+		final int expectedId = 0;
+		setupCheckRoleIrrelevant();
+		
+		DTOPerson expectedPerson = new DTOPerson();
+		expectedPerson.setId(expectedId);
+		expectedPerson.setBenutzername("UserName");
+		Capture<Person> cap = new Capture<Person>();
+		fPersonRepositoryMock.saveObject(capture(cap));
+		PowerMock.replayAll();
+		
+		DTOPerson result = fTestee.saveCustomer(expectedPerson);
+		
+		assertThat(cap.getValue().getBenutzername()).isEqualTo(expectedPerson.getBenutzername());
+		assertThat(result.getBenutzername()).isEqualTo(expectedPerson.getBenutzername());
+	}
+	
+	@Test
+	public void createsANewPerson_OnSaveCustomer_WhenIdIsNull() throws AccessDeniedException {
 		setupCheckRoleIrrelevant();
 		
 		DTOPerson expectedPerson = new DTOPerson();
@@ -157,7 +175,7 @@ public class PersonAPITest {
 		assertThat(cap.getValue().getBenutzername()).isEqualTo(expectedPerson.getBenutzername());
 		assertThat(result.getBenutzername()).isEqualTo(expectedPerson.getBenutzername());
 	}
-
+	
 	@Test
 	public void updatesPerson_OnSaveCustomer_WhenIdIsKnown() throws AccessDeniedException {
 		final int ExpectedId = 10;
