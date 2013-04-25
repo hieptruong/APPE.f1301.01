@@ -5,16 +5,16 @@ import ch.hslu.appe.fs1301.data.shared.entity.Rechnung;
 
 /**
 * Auto-Generated DTOs
-* Fri Apr 19 14:39:51 CEST 2013
+* Thu Apr 25 16:16:46 CEST 2013
 */
 public class DTORechnung {
-	private int fId;
-	private int fBetrag;
-	private int fBezahlter_Betrag;
-	private int fMahnstufe;
+	private Integer fId;
+	private Integer fBetrag;
+	private Integer fBezahlter_Betrag;
+	private Integer fMahnstufe;
 	private Date fZahlbarBis;
-	private int fBestellung;
-	private int fPerson;
+	private Integer fBestellung;
+	private Integer fPerson;
 
 	public DTORechnung() {
 	}
@@ -30,35 +30,35 @@ public class DTORechnung {
 		fPerson = rechnung.getPerson().getId();
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return fId;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		fId = id;
 	}
 
-	public int getBetrag() {
+	public Integer getBetrag() {
 		return fBetrag;
 	}
 
-	public void setBetrag(int betrag) {
+	public void setBetrag(Integer betrag) {
 		fBetrag = betrag;
 	}
 
-	public int getBezahlter_Betrag() {
+	public Integer getBezahlter_Betrag() {
 		return fBezahlter_Betrag;
 	}
 
-	public void setBezahlter_Betrag(int bezahlter_Betrag) {
+	public void setBezahlter_Betrag(Integer bezahlter_Betrag) {
 		fBezahlter_Betrag = bezahlter_Betrag;
 	}
 
-	public int getMahnstufe() {
+	public Integer getMahnstufe() {
 		return fMahnstufe;
 	}
 
-	public void setMahnstufe(int mahnstufe) {
+	public void setMahnstufe(Integer mahnstufe) {
 		fMahnstufe = mahnstufe;
 	}
 
@@ -70,19 +70,19 @@ public class DTORechnung {
 		fZahlbarBis = zahlbarBis;
 	}
 
-	public int getBestellung() {
+	public Integer getBestellung() {
 		return fBestellung;
 	}
 
-	public void setBestellung(int bestellung) {
+	public void setBestellung(Integer bestellung) {
 		fBestellung = bestellung;
 	}
 
-	public int getPerson() {
+	public Integer getPerson() {
 		return fPerson;
 	}
 
-	public void setPerson(int person) {
+	public void setPerson(Integer person) {
 		fPerson = person;
 	}
 
@@ -93,10 +93,10 @@ public class DTORechnung {
 	}
 
 	public static void updateRechnungFromDTO(Rechnung entity, DTORechnung dto) {
-		entity.setId(dto.getId());
-		entity.setBetrag(dto.getBetrag());
-		entity.setBezahlter_Betrag(dto.getBezahlter_Betrag());
-		entity.setMahnstufe(dto.getMahnstufe());
+		entity.setId(dto.getId() == null ? 0 : dto.getId());
+		entity.setBetrag(dto.getBetrag() == null ? 0 : dto.getBetrag());
+		entity.setBezahlter_Betrag(dto.getBezahlter_Betrag() == null ? 0 : dto.getBezahlter_Betrag());
+		entity.setMahnstufe(dto.getMahnstufe() == null ? 0 : dto.getMahnstufe());
 		entity.setZahlbarBis(dto.getZahlbarBis());
 	}
 }

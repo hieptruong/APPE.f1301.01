@@ -9,17 +9,17 @@ import ch.hslu.appe.fs1301.data.shared.entity.Rechnung;
 
 /**
 * Auto-Generated DTOs
-* Fri Apr 19 14:39:51 CEST 2013
+* Thu Apr 25 16:16:46 CEST 2013
 */
 public class DTOBestellung {
-	private int fId;
+	private Integer fId;
 	private Date fBestelldatum;
 	private Date fLiefertermin_Ist;
 	private Date fLiefertermin_Soll;
-	private int fQuelle;
+	private Integer fQuelle;
 	private List<Integer> fBestellpositions;
-	private int fPerson1;
-	private int fPerson2;
+	private Integer fPerson1;
+	private Integer fPerson2;
 	private List<Integer> fRechnungs;
 
 	public DTOBestellung() {
@@ -44,11 +44,11 @@ public class DTOBestellung {
 		}
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return fId;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		fId = id;
 	}
 
@@ -76,11 +76,11 @@ public class DTOBestellung {
 		fLiefertermin_Soll = liefertermin_Soll;
 	}
 
-	public int getQuelle() {
+	public Integer getQuelle() {
 		return fQuelle;
 	}
 
-	public void setQuelle(int quelle) {
+	public void setQuelle(Integer quelle) {
 		fQuelle = quelle;
 	}
 
@@ -92,19 +92,19 @@ public class DTOBestellung {
 		fBestellpositions = bestellpositions;
 	}
 
-	public int getPerson1() {
+	public Integer getPerson1() {
 		return fPerson1;
 	}
 
-	public void setPerson1(int person1) {
+	public void setPerson1(Integer person1) {
 		fPerson1 = person1;
 	}
 
-	public int getPerson2() {
+	public Integer getPerson2() {
 		return fPerson2;
 	}
 
-	public void setPerson2(int person2) {
+	public void setPerson2(Integer person2) {
 		fPerson2 = person2;
 	}
 
@@ -123,10 +123,10 @@ public class DTOBestellung {
 	}
 
 	public static void updateBestellungFromDTO(Bestellung entity, DTOBestellung dto) {
-		entity.setId(dto.getId());
+		entity.setId(dto.getId() == null ? 0 : dto.getId());
 		entity.setBestelldatum(dto.getBestelldatum());
 		entity.setLiefertermin_Ist(dto.getLiefertermin_Ist());
 		entity.setLiefertermin_Soll(dto.getLiefertermin_Soll());
-		entity.setQuelle(dto.getQuelle());
+		entity.setQuelle(dto.getQuelle() == null ? 0 : dto.getQuelle());
 	}
 }

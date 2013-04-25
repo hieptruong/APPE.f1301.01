@@ -4,14 +4,14 @@ import ch.hslu.appe.fs1301.data.shared.entity.Bestellposition;
 
 /**
 * Auto-Generated DTOs
-* Fri Apr 19 14:39:51 CEST 2013
+* Thu Apr 25 16:16:46 CEST 2013
 */
 public class DTOBestellposition {
-	private int fId;
-	private int fAnzahl;
-	private int fStueckpreis;
-	private int fBestellung;
-	private int fProdukt;
+	private Integer fId;
+	private Integer fAnzahl;
+	private Integer fStueckpreis;
+	private Integer fBestellung;
+	private Integer fProdukt;
 
 	public DTOBestellposition() {
 	}
@@ -25,43 +25,43 @@ public class DTOBestellposition {
 		fProdukt = bestellposition.getProdukt().getId();
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return fId;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		fId = id;
 	}
 
-	public int getAnzahl() {
+	public Integer getAnzahl() {
 		return fAnzahl;
 	}
 
-	public void setAnzahl(int anzahl) {
+	public void setAnzahl(Integer anzahl) {
 		fAnzahl = anzahl;
 	}
 
-	public int getStueckpreis() {
+	public Integer getStueckpreis() {
 		return fStueckpreis;
 	}
 
-	public void setStueckpreis(int stueckpreis) {
+	public void setStueckpreis(Integer stueckpreis) {
 		fStueckpreis = stueckpreis;
 	}
 
-	public int getBestellung() {
+	public Integer getBestellung() {
 		return fBestellung;
 	}
 
-	public void setBestellung(int bestellung) {
+	public void setBestellung(Integer bestellung) {
 		fBestellung = bestellung;
 	}
 
-	public int getProdukt() {
+	public Integer getProdukt() {
 		return fProdukt;
 	}
 
-	public void setProdukt(int produkt) {
+	public void setProdukt(Integer produkt) {
 		fProdukt = produkt;
 	}
 
@@ -72,8 +72,8 @@ public class DTOBestellposition {
 	}
 
 	public static void updateBestellpositionFromDTO(Bestellposition entity, DTOBestellposition dto) {
-		entity.setId(dto.getId());
-		entity.setAnzahl(dto.getAnzahl());
-		entity.setStueckpreis(dto.getStueckpreis());
+		entity.setId(dto.getId() == null ? 0 : dto.getId());
+		entity.setAnzahl(dto.getAnzahl() == null ? 0 : dto.getAnzahl());
+		entity.setStueckpreis(dto.getStueckpreis() == null ? 0 : dto.getStueckpreis());
 	}
 }
