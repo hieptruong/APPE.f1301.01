@@ -36,7 +36,7 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 
 	@Override
 	public DTOBestellung createNewOrder(int customerId, int source, List<DTOBestellposition> positions) throws AccessDeniedException {
-		checkRole(UserRole.SYSUSER);
+		checkRole(UserRole.SYSUSER | UserRole.ADMIN);
 				
 		fTransaction.beginTransaction();
 		try {
@@ -75,7 +75,7 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 
 	@Override
 	public List<DTOBestellung> getOrders(int... ids) throws AccessDeniedException {
-		checkRole(UserRole.SYSUSER);
+		checkRole(UserRole.SYSUSER | UserRole.ADMIN);
 		
 		List<Bestellung> searchList;
 		try {
@@ -89,7 +89,7 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 
 	@Override
 	public List<DTOBestellposition> getOrderPositions(int... ids) throws AccessDeniedException {
-		checkRole(UserRole.SYSUSER);
+		checkRole(UserRole.SYSUSER | UserRole.ADMIN);
 		
 		List<Bestellposition> searchList;
 		try {

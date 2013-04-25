@@ -48,8 +48,8 @@ public class OrderAPITest {
 	}
 	
 	@Test(expected = AccessDeniedException.class)
-	public void needsSysUser_OnGetOrders() throws AccessDeniedException {
-		final int ExpectedRole = UserRole.SYSUSER;
+	public void needsSysUserOrAdmin_OnGetOrders() throws AccessDeniedException {
+		final int ExpectedRole = UserRole.SYSUSER | UserRole.ADMIN;
 		
 		//Check against role
 		expect(fSessionAPIMock.hasRole(ExpectedRole)).andReturn(false);
@@ -85,8 +85,8 @@ public class OrderAPITest {
 	}
 
 	@Test(expected = AccessDeniedException.class)
-	public void needsSysUser_OnGetOrderPositions() throws AccessDeniedException {
-		final int ExpectedRole = UserRole.SYSUSER;
+	public void needsSysUserOrAdmin_OnGetOrderPositions() throws AccessDeniedException {
+		final int ExpectedRole = UserRole.SYSUSER | UserRole.ADMIN;
 		
 		//Check against role
 		expect(fSessionAPIMock.hasRole(ExpectedRole)).andReturn(false);
@@ -123,8 +123,8 @@ public class OrderAPITest {
 	
 
 	@Test(expected = AccessDeniedException.class)
-	public void needsSysUser_OnCreateNewOrder() throws AccessDeniedException {
-		final int ExpectedRole = UserRole.SYSUSER;
+	public void needsSysUserOrAdmin_OnCreateNewOrder() throws AccessDeniedException {
+		final int ExpectedRole = UserRole.SYSUSER | UserRole.ADMIN;
 		
 		//Check against role
 		expect(fSessionAPIMock.hasRole(ExpectedRole)).andReturn(false);
