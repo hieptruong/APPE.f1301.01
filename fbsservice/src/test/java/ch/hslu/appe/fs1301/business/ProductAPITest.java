@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.easymock.Capture;
 import org.easymock.EasyMock;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
@@ -34,6 +35,11 @@ public class ProductAPITest {
 		fSessionMock = PowerMock.createMock(iInternalSessionAPI.class);
 		fTransactionMock = PowerMock.createMock(iTransaction.class);
 		fTestee = new ProductAPI(fProductRepositoryMock, fTransactionMock, fSessionMock);		
+	}
+	
+	@After
+	public void cleanUp() {
+		PowerMock.niceReplayAndVerify();
 	}
 	
 	@Test(expected = AccessDeniedException.class)

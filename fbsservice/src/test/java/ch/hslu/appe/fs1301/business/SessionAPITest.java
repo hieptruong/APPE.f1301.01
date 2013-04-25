@@ -4,6 +4,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.fest.assertions.Assertions.assertThat;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
@@ -24,6 +25,11 @@ public class SessionAPITest {
 	public void setUp() {	
 		fPersonRepositoryMock = PowerMock.createMock(iPersonRepository.class);
 		fTestee = new SessionAPI(fPersonRepositoryMock);		
+	}
+	
+	@After
+	public void cleanUp() {
+		PowerMock.niceReplayAndVerify();
 	}
 	
 	@Test

@@ -47,10 +47,10 @@ public class OrderAPITest {
 		fPersonRepositoryMock = PowerMock.createMock(iPersonRepository.class);
 		fTestee = new OrderAPI(fTransactionMock, fSessionAPIMock, fOrderRepositoryMock, fPositionRepositoryMock, fPersonRepositoryMock);
 	}
-	
+
 	@After
 	public void cleanUp() {
-		PowerMock.verifyAll();
+		PowerMock.niceReplayAndVerify();
 	}
 	
 	@Test(expected = AccessDeniedException.class)
