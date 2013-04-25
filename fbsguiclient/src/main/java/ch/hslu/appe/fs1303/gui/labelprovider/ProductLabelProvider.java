@@ -2,7 +2,6 @@ package ch.hslu.appe.fs1303.gui.labelprovider;
 
 import org.eclipse.jface.viewers.LabelProvider;
 
-import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOProdukt;
 
 public class ProductLabelProvider extends LabelProvider {
