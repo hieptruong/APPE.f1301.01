@@ -37,9 +37,22 @@ public class PersonAPITest {
 		fTestee = new PersonAPI(fPersonRepositoryMock, fTransactionMock, fSessionMock);		
 	}
 	
+	@Test(expected = AccessDeniedException.class)
+	public void needsSysUserOrAdmin_OnGetCustomersById() throws AccessDeniedException {
+		final int ExpectedRole = UserRole.SYSUSER | UserRole.ADMIN;
+		
+		//Check against role
+		expect(fSessionMock.hasRole(ExpectedRole)).andReturn(false);
+		PowerMock.replayAll();
+		
+		fTestee.getCustomerById(0);
+	}
+	
 	@Test
-	public void returnsPerson_OnGetCustomerById() {
+	public void returnsPerson_OnGetCustomerById() throws AccessDeniedException {
 		final int ExpectedId = 10;
+		setupCheckRoleIrrelevant();
+		
 		Person returnedPerson = new Person();
 		returnedPerson.setId(ExpectedId);
 		
@@ -51,8 +64,9 @@ public class PersonAPITest {
 	}
 	
 	@Test
-	public void returnsNull_OnGetCustomerById_WhenNullIsReturnedByRepo() {
+	public void returnsNull_OnGetCustomerById_WhenNullIsReturnedByRepo() throws AccessDeniedException {
 		final int Id = 10;
+		setupCheckRoleIrrelevant();
 		expect(fPersonRepositoryMock.getById(eq(Id))).andReturn(null);
 		PowerMock.replayAll();
 		
@@ -60,8 +74,21 @@ public class PersonAPITest {
 		assertThat(result).isNull();
 	}
 	
+	@Test(expected = AccessDeniedException.class)
+	public void needsSysUserOrAdmin_OnGetCustomersByName() throws AccessDeniedException {
+		final int ExpectedRole = UserRole.SYSUSER | UserRole.ADMIN;
+		
+		//Check against role
+		expect(fSessionMock.hasRole(ExpectedRole)).andReturn(false);
+		PowerMock.replayAll();
+		
+		fTestee.getCustomersByName(null);
+	}
+	
 	@Test
-	public void returnsAnEmptyList_OnGetCustomersByName_WhenAnIllegalArgumentExceptionIsThrown() {
+	public void returnsAnEmptyList_OnGetCustomersByName_WhenAnIllegalArgumentExceptionIsThrown() throws AccessDeniedException {
+		setupCheckRoleIrrelevant();
+		
 		expect(fPersonRepositoryMock.getPersonsByNames(eq(""))).andThrow(new IllegalArgumentException());
 		PowerMock.replayAll();
 		
@@ -70,8 +97,9 @@ public class PersonAPITest {
 	}
 	
 	@Test
-	public void returnsListAsDTO_OnGetCustomersByName_WithASingleName(){
+	public void returnsListAsDTO_OnGetCustomersByName_WithASingleName() throws AccessDeniedException{
 		final String SingleName = "someName";
+		setupCheckRoleIrrelevant();
 		
 		List<Person> jpaList = createPersonsById(1, 2);
 		setupReturnValueOfGetCustomersByName(jpaList, SingleName);
@@ -86,9 +114,10 @@ public class PersonAPITest {
 	}
 	
 	@Test
-	public void returnsListAsDTO_OnGetCustomersByName_WithAMultipleNames(){
+	public void returnsListAsDTO_OnGetCustomersByName_WithAMultipleNames() throws AccessDeniedException{
 		final String NameOne = "Name";
 		final String NameTwo = "Name2";
+		setupCheckRoleIrrelevant();
 		
 		List<Person> jpaList = createPersonsById(1, 2);
 		setupReturnValueOfGetCustomersByName(jpaList, NameOne, NameTwo);
@@ -103,8 +132,8 @@ public class PersonAPITest {
 	}
 	
 	@Test(expected = AccessDeniedException.class)
-	public void needsSysUser_OnSaveCustomer() throws AccessDeniedException {
-		final int ExpectedRole = UserRole.SYSUSER;
+	public void needsSysUserOrAdmin_OnSaveCustomer() throws AccessDeniedException {
+		final int ExpectedRole = UserRole.SYSUSER | UserRole.ADMIN;
 		
 		//Check against role
 		expect(fSessionMock.hasRole(ExpectedRole)).andReturn(false);
