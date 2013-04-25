@@ -2,13 +2,15 @@ package ch.hslu.appe.fs1303.gui.presenter;
 
 import org.eclipse.swt.widgets.Composite;
 
-import com.google.inject.Inject;
-
+import ch.hslu.appe.fs1301.business.shared.AccessDeniedException;
 import ch.hslu.appe.fs1301.business.shared.iPersonAPI;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
+import ch.hslu.appe.fs1303.gui.ErrorUtils;
 import ch.hslu.appe.fs1303.gui.labelprovider.PersonLabelProvider;
 import ch.hslu.appe.fs1303.gui.views.iView;
 import ch.hslu.appe.fs1303.gui.views.iViewListener;
+
+import com.google.inject.Inject;
 
 public class PersonPresenter extends BasePresenter {
 
@@ -36,17 +38,37 @@ public class PersonPresenter extends BasePresenter {
 	}
 	
 	@Override
-	public void createPartControl(Composite composite) {				
+	public void createPartControl(Composite composite) {
 		fView.createContent(composite);
-		
-		fPerson = fPersonApi.getCustomerById(Integer.parseInt(getViewSite().getSecondaryId()));
+		String modelId = getViewSite().getSecondaryId();
+		if (modelId.startsWith("new")) {
+			fPerson = new DTOPerson();
+		} else {
+			try {
+				fPerson = fPersonApi.getCustomerById(Integer.parseInt(modelId));
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				return;
+			} catch (AccessDeniedException e) {
+				ErrorUtils.handleAccessDenied(getSite().getShell());
+				return;
+			}			
+		}
+	
 		setPartName(new PersonLabelProvider().getText(fPerson));
+		
 		fView.bindModel(fPerson);
 		fView.setActionListener(new iPersonViewListener() {
 			
 			@Override
 			public void onSave() {
-				
+				try {
+					fPerson = fPersonApi.saveCustomer(fPerson);
+					fView.bindModel(fPerson);
+					setPartName(new PersonLabelProvider().getText(fPerson));
+				} catch (AccessDeniedException e) {
+					ErrorUtils.handleAccessDenied(getSite().getShell());
+				}				
 			}
 			
 			@Override

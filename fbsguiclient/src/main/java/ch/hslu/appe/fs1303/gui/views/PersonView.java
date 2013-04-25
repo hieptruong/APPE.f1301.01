@@ -1,97 +1,54 @@
 package ch.hslu.appe.fs1303.gui.views;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.IMessageProvider;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
+import ch.hslu.appe.fs1301.business.shared.UserRole;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellung;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
-import ch.hslu.appe.fs1303.gui.APPEActivator;
+import ch.hslu.appe.fs1303.gui.controls.APPECheckBoxField;
+import ch.hslu.appe.fs1303.gui.controls.APPEComboBoxField;
+import ch.hslu.appe.fs1303.gui.controls.APPEDateField;
+import ch.hslu.appe.fs1303.gui.controls.APPEIntField;
+import ch.hslu.appe.fs1303.gui.controls.APPEStringField;
+import ch.hslu.appe.fs1303.gui.datasource.ComboDataSource;
+import ch.hslu.appe.fs1303.gui.labelprovider.PersonLabelProvider;
 import ch.hslu.appe.fs1303.gui.presenter.PersonPresenter.iPersonView;
 import ch.hslu.appe.fs1303.gui.presenter.PersonPresenter.iPersonViewListener;
-import ch.hslu.appe.fs1303.gui.validators.APPEValidator;
 
-public class PersonView implements iPersonView {
+public class PersonView extends AbstractBaseView<DTOPerson, iPersonViewListener> implements iPersonView {
 	
-	private DTOPerson fModel;
-	
-	private Text fUserId;
-	private Text fLastName;
-	private Text fFirstName;
-	private Text fStreet ;
-	private Text fPLZ;
-	private Text fBirthday;
-	private Text fCity;
-	private Text fEmail;
-	private Text fUserName;
-	private Text fPassword;
+	private APPEIntField fUserId;
+	private APPEStringField fLastName;
+	private APPEStringField fFirstName;
+	private APPEStringField fStreet ;
+	private APPEIntField fPLZ;
+	private APPEDateField fBirthday;
+	private APPEStringField fCity;
+	private APPEStringField fEmail;
+	private APPEStringField fUserName;
+	private APPEStringField fPassword;
 	private Table fOrderTable;
 	private Button fNewOrderButton;
 	private TableViewer fTableViewer;
-
-	private iPersonViewListener fActionListener;
-
-	private ScrolledForm fForm;
-
-	private Action fSaveAction;
+	private APPECheckBoxField fActive;
+	private APPEComboBoxField fRole;	
 
 	@Override
-	public void createContent(Composite parent) {
-		FormToolkit toolkit = new FormToolkit(parent.getDisplay());		
-		parent.setLayout(new FillLayout(SWT.VERTICAL));	
-		fForm = toolkit.createScrolledForm(parent);
-		toolkit.decorateFormHeading(fForm.getForm());
-		fForm.getForm().addMessageHyperlinkListener(new HyperlinkAdapter());
-		
-		fSaveAction = new Action("Save", IAction.AS_PUSH_BUTTON) {
-			@Override
-			public void run() {
-				updateModel();
-				fActionListener.onSave();
-			}
-			
-			@Override
-			public ImageDescriptor getImageDescriptor() {
-				return APPEActivator.getImageDescriptor("/icons/save24x24.png");
-			}
-		};
-		
-		fForm.getToolBarManager().add(fSaveAction);
-		fForm.getToolBarManager().update(true);
-		
-		FillLayout fillLayout = new FillLayout();
-		fillLayout.type = SWT.VERTICAL;
-		fillLayout.marginHeight = 5;
-		fillLayout.marginWidth = 5;
-		fForm.getBody().setLayout(fillLayout);		
-		
-	    Section section = toolkit.createSection(fForm.getBody(), Section.DESCRIPTION
-	            | Section.TITLE_BAR);
+	public void createPageContent(Composite parent, FormToolkit toolkit) {
+		Section section = toolkit.createSection(fForm.getBody(), Section.DESCRIPTION
+		            | Section.TITLE_BAR);
 	    section.setText("Allgemeine Informationen");
 	    Composite client = toolkit.createComposite(section, SWT.FILL);
 	    
@@ -99,23 +56,60 @@ public class PersonView implements iPersonView {
 	    gl_container.marginRight = 5;
 	    gl_container.marginLeft = 5;
 	    client.setLayout(gl_container);
-	    fUserId = createLabelAndText(toolkit, client, "ID:", SWT.READ_ONLY);
-	    fLastName = createLabelAndText(toolkit, client, "Name:");
-	    fFirstName = createLabelAndText(toolkit, client, "Vorname:");
-	    fStreet = createLabelAndText(toolkit, client, "Strasse:");
-	    fPLZ = createLabelAndText(toolkit, client, "PLZ:");
-	    fCity = createLabelAndText(toolkit, client, "Ort:");
-	    fBirthday = createLabelAndText(toolkit, client, "Geburtstag:");
-	    fEmail = createLabelAndText(toolkit, client, "Email:");
-	    fUserName = createLabelAndText(toolkit, client, "Benutzername:");
-	    fPassword = createLabelAndText(toolkit, client, "Password:", SWT.PASSWORD);
+	    
+	    fUserId = new APPEIntField(client, toolkit, "ID: ", SWT.READ_ONLY);
+	    register(fUserId);
+	    
+	    fLastName = new APPEStringField(client, toolkit, "Name: ", SWT.None);
+	    fLastName.addValidationMessage(fForm.getMessageManager(), "Geben Sie einen Namen an");
+	    register(fLastName);
+	    
+	    fFirstName = new APPEStringField(client, toolkit, "Vorname: ", SWT.None);
+	    fFirstName.addValidationMessage(fForm.getMessageManager(), "Geben Sie einen Vornamen an.");
+	    register(fFirstName);
+	    
+	    fStreet = new APPEStringField(client, toolkit, "Strasse: ", SWT.None);
+	    fStreet.addValidationMessage(fForm.getMessageManager(), "Geben Sie eine Strasse an.");
+	    register(fStreet);
+	    
+	    fPLZ = new APPEIntField(client, toolkit, "PLZ: ", SWT.None);
+	    fPLZ.addValidationMessage(fForm.getMessageManager(), "Geben Sie eine gueltige Postleitzahl an.");
+	    register(fPLZ);
+	    
+	    fCity = new APPEStringField(client, toolkit, "Ort: ", SWT.None);
+	    fCity.addValidationMessage(fForm.getMessageManager(), "Geben Sie einen Ort an.");
+	    register(fCity);
+	    
+	    fBirthday = new APPEDateField(client, toolkit, "Geburtstag: ", SWT.None);
+	    fBirthday.addValidationMessage(fForm.getMessageManager(), "Geben Sie ein gueltiges Geburtsdatum an.");
+	    register(fBirthday);
+	    
+	    fEmail = new APPEStringField(client, toolkit, "Email: ", SWT.None);
+	    fEmail.addValidationMessage(fForm.getMessageManager(), "Geben sie eine Email an.");
+	    register(fEmail);
+	    
+	    fUserName = new APPEStringField(client, toolkit, "Benutzername: ", SWT.None);
+	    fUserName.setNullable(true);
+	    register(fUserName);
+	    
+	    fPassword = new APPEStringField(client, toolkit, "Passwort: ", SWT.PASSWORD);
+	    fPassword.setNullable(true);
+	    register(fPassword);
+	    
+	    fRole = new APPEComboBoxField(client, toolkit, "Rolle: ", SWT.None);
+	    fRole.setDataSource(ComboDataSource.getDataSourceForClass(UserRole.class));
+	    register(fRole);
+	    
+	    fActive = new APPECheckBoxField(client, toolkit, "Aktive: ", SWT.None);
+	    register(fActive);
+	    
 	    section.setClient(client);
 	    
 	    Section orderSection = toolkit.createSection(fForm.getBody(), Section.DESCRIPTION
 	            | Section.TITLE_BAR);
 	    orderSection.setText("Bestellungen");
 	    orderSection.marginHeight = 10;
-	    //orderSection.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+
 	    Composite orderComposite = toolkit.createComposite(orderSection, SWT.FILL);
 	    orderComposite.setLayout(gl_container);
 	    
@@ -135,7 +129,7 @@ public class PersonView implements iPersonView {
 			@Override
 			public void mouseDoubleClick(MouseEvent arg0) {
 				if (fOrderTable.getSelectionCount() > 0) {
-					fActionListener.openOrder(((DTOBestellung)fOrderTable.getSelection()[0].getData()).getId());
+					fListener.openOrder(((DTOBestellung)fOrderTable.getSelection()[0].getData()).getId());
 				}
 			}
 		});
@@ -145,114 +139,32 @@ public class PersonView implements iPersonView {
 			
 			@Override
 			public void handleEvent(Event arg0) {				
-				fActionListener.onNewOrderButtonClick();
+				fListener.onNewOrderButtonClick();
 			}
 		});
 	    
 	    fTableViewer = new TableViewer(fOrderTable);
 	    
 	    orderSection.setClient(orderComposite);
-	    
-	}
-	
-	public Text createLabelAndText(FormToolkit toolkit, Composite parent, String labelText) {
-	    return createLabelAndText(toolkit, parent, labelText, SWT.None);
-	}
-
-	public Text createLabelAndText(FormToolkit toolkit, Composite parent, String labelText, int style) {
-		Label label = toolkit.createLabel(parent, labelText);
-	    label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-
-	    Text text = toolkit.createText(parent, null, style);
-	    text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-	    text.addModifyListener(new ModifyListener() {
-			
-			@Override
-			public void modifyText(ModifyEvent arg0) {
-				validate();
-			}
-		});
-	    return text;
 	}
 	
 	@Override
-	public void updateFromModel() {
-		if (fModel != null) {
-			fForm.setText(String.format("%d: %s %s", fModel.getId(), fModel.getName(), fModel.getVorname()));
-			fUserId.setText(String.valueOf(fModel.getId()));
-			fLastName.setText(fModel.getName());
-			fFirstName.setText(fModel.getVorname());
-			fStreet.setText(fModel.getStrasse());
-			fPLZ.setText(String.valueOf(fModel.getPlz()));
-			fCity.setText(fModel.getOrt());
-			DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-			fBirthday.setText(df.format(fModel.getGeburtstag()));
-			fEmail.setText(fModel.getEMail());
-			fUserName.setText(fModel.getBenutzername());
-			fPassword.setText(fModel.getPasswort());
-		}
-	}
-	
-	@Override
-	public void setActionListener(iPersonViewListener actionListener) {
-		fActionListener = actionListener;
-	}
-	
-	@Override
-	public boolean validate() {
-		fForm.getMessageManager().removeAllMessages();
-
-		if (!APPEValidator.validateNotNull(fLastName)) {
-			fForm.getMessageManager().addMessage("fLastName", "Geben Sie einen Namen an.", null, IMessageProvider.ERROR);
-		}
-		if (!APPEValidator.validateNotNull(fFirstName)) {
-			fForm.getMessageManager().addMessage("fFirstName", "Geben Sie einen Vornamen an.", null, IMessageProvider.ERROR);
-		}
-		if (!APPEValidator.validateNotNull(fStreet)) {
-			fForm.getMessageManager().addMessage("fStreet", "Geben Sie eine Strasse an.", null, IMessageProvider.ERROR);
-		}
-		if (!APPEValidator.valideInt(fPLZ, false)) {			
-			fForm.getMessageManager().addMessage("fPLZ", "Geben Sie eine gueltige Postleitzahl an.", null, IMessageProvider.ERROR);
-		} 
-		if (!APPEValidator.validateNotNull(fCity)) {
-			fForm.getMessageManager().addMessage("fCity", "Geben Sie einen Ort an.", null, IMessageProvider.ERROR);
-		}
-		if (!APPEValidator.valideDate(fBirthday, false)) {
-			fForm.getMessageManager().addMessage("fBirthday", "Geben Sie ein gueltiges Geburtsdatum an.", null, IMessageProvider.ERROR);
-		}
-		if (!APPEValidator.validateNotNull(fEmail)) {
-			fForm.getMessageManager().addMessage("fEmail", "Geben sie eine Email an.", null, IMessageProvider.ERROR);
-		}
+	public void bindModel(DTOPerson model) {
+		fModel = model;
 		
-		fSaveAction.setEnabled(fForm.getMessage() == null);
-		fForm.getToolBarManager().update(true);
+		fForm.setText(new PersonLabelProvider().getText(model));
 		
-		return fForm.getMessage() == null;
-	}
-
-	@Override
-	public void bindModel(DTOPerson person) {
-		fModel = person;
-		updateFromModel();
-	}
-
-	@Override
-	public void updateModel() {
-		if (fModel != null) {
-			fModel.setName(fLastName.getText());
-			fModel.setVorname(fFirstName.getText());
-			fModel.setStrasse(fStreet.getText());
-			fModel.setPlz(Integer.parseInt(fPLZ.getText()));
-			fModel.setOrt(fCity.getText());
-			DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-			try {
-				fModel.setGeburtstag(df.parse(fBirthday.getText()));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			fModel.setEMail(fEmail.getText());
-			fModel.setBenutzername(fUserName.getText());
-			fModel.setPasswort(fPassword.getText());
-		}
+		fUserId.bindModel(model, "fId");
+		fLastName.bindModel(model, "fName");
+		fFirstName.bindModel(model, "fVorname");
+		fStreet.bindModel(model, "fStrasse");
+		fPLZ.bindModel(model, "fPlz");
+		fBirthday.bindModel(model, "fGeburtstag");
+		fCity.bindModel(model, "fOrt");
+		fEmail.bindModel(model, "fEMail");
+		fUserName.bindModel(model, "fBenutzername");
+		fPassword.bindModel(model, "fPasswort");
+		fRole.bindModel(model, "fRolle");
+		fActive.bindModel(model, "fAktiv");
 	}
 }
