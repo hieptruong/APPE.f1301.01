@@ -21,9 +21,7 @@ public class ComboDataSource {
 			if (field.getType().equals(int.class)) {
 				try {
 					datasource.add(new ComboDataSource((Integer)field.get(null), field.getName()));
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
