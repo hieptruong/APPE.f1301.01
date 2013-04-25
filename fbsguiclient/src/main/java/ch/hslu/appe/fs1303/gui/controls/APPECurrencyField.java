@@ -16,7 +16,7 @@ public class APPECurrencyField extends APPETextControl<Integer> {
 
 	@Override
 	public Class<?> getFieldClass() {
-		return int.class;
+		return Integer.class;
 	}
 
 	@Override

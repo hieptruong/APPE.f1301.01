@@ -11,10 +11,10 @@ import org.eclipse.ui.PlatformUI;
 import ch.hslu.appe.fs1301.business.shared.AccessDeniedException;
 import ch.hslu.appe.fs1301.business.shared.iPersonAPI;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
-import ch.hslu.appe.fs1303.gui.ErrorUtils;
 import ch.hslu.appe.fs1303.gui.dialogs.PersonSearchDialog;
 import ch.hslu.appe.fs1303.gui.dialogs.QuickSearchDialog.iQuickSearchCallback;
 import ch.hslu.appe.fs1303.gui.presenter.PersonPresenter;
+import ch.hslu.appe.fs1303.gui.utils.ErrorUtils;
 
 import com.google.inject.Inject;
 

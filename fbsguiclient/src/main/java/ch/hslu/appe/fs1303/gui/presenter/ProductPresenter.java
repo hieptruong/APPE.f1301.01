@@ -5,8 +5,8 @@ import org.eclipse.swt.widgets.Composite;
 import ch.hslu.appe.fs1301.business.shared.AccessDeniedException;
 import ch.hslu.appe.fs1301.business.shared.iProductAPI;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOProdukt;
-import ch.hslu.appe.fs1303.gui.ErrorUtils;
 import ch.hslu.appe.fs1303.gui.labelprovider.ProductLabelProvider;
+import ch.hslu.appe.fs1303.gui.utils.ErrorUtils;
 import ch.hslu.appe.fs1303.gui.views.iView;
 import ch.hslu.appe.fs1303.gui.views.iViewListener;
 

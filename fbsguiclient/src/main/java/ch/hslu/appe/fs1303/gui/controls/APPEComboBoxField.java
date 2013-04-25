@@ -48,7 +48,7 @@ public class APPEComboBoxField extends APPEControl<Integer, Combo> {
 
 	@Override
 	public Class<?> getFieldClass() {
-		return int.class;
+		return Integer.class;
 	}
 
 	@Override

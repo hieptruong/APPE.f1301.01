@@ -1,6 +1,5 @@
 package ch.hslu.appe.fs1303.gui.views;
 
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -10,24 +9,25 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import ch.hslu.appe.fs1301.business.shared.UserRole;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellung;
-import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 import ch.hslu.appe.fs1303.gui.controls.APPECheckBoxField;
 import ch.hslu.appe.fs1303.gui.controls.APPEComboBoxField;
 import ch.hslu.appe.fs1303.gui.controls.APPEDateField;
 import ch.hslu.appe.fs1303.gui.controls.APPEIntField;
 import ch.hslu.appe.fs1303.gui.controls.APPEStringField;
+import ch.hslu.appe.fs1303.gui.controls.APPETableField;
 import ch.hslu.appe.fs1303.gui.datasource.ComboDataSource;
+import ch.hslu.appe.fs1303.gui.datasource.OrderTableDescriptor;
 import ch.hslu.appe.fs1303.gui.labelprovider.PersonLabelProvider;
+import ch.hslu.appe.fs1303.gui.models.PersonEditorModel;
 import ch.hslu.appe.fs1303.gui.presenter.PersonPresenter.iPersonView;
 import ch.hslu.appe.fs1303.gui.presenter.PersonPresenter.iPersonViewListener;
 
-public class PersonView extends AbstractBaseView<DTOPerson, iPersonViewListener> implements iPersonView {
+public class PersonView extends AbstractBaseView<PersonEditorModel, iPersonViewListener> implements iPersonView {
 	
 	private APPEIntField fUserId;
 	private APPEStringField fLastName;
@@ -39,9 +39,8 @@ public class PersonView extends AbstractBaseView<DTOPerson, iPersonViewListener>
 	private APPEStringField fEmail;
 	private APPEStringField fUserName;
 	private APPEStringField fPassword;
-	private Table fOrderTable;
+	private APPETableField<DTOBestellung> fOrderTable;
 	private Button fNewOrderButton;
-	private TableViewer fTableViewer;
 	private APPECheckBoxField fActive;
 	private APPEComboBoxField fRole;	
 
@@ -113,28 +112,28 @@ public class PersonView extends AbstractBaseView<DTOPerson, iPersonViewListener>
 	    Composite orderComposite = toolkit.createComposite(orderSection, SWT.FILL);
 	    orderComposite.setLayout(gl_container);
 	    
-	    fOrderTable = toolkit.createTable(orderComposite, 0);
-	    fOrderTable.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	    fOrderTable = new APPETableField<DTOBestellung>(orderComposite, toolkit);
+	    fOrderTable.setTableDescriptor(new OrderTableDescriptor());
 	    fOrderTable.addMouseListener(new MouseListener() {
 			
 			@Override
-			public void mouseUp(MouseEvent arg0) {
-			}
+			public void mouseUp(MouseEvent e) {	}
 			
 			@Override
-			public void mouseDown(MouseEvent arg0) {
-				
-			}
+			public void mouseDown(MouseEvent e) { }
 			
 			@Override
-			public void mouseDoubleClick(MouseEvent arg0) {
-				if (fOrderTable.getSelectionCount() > 0) {
-					fListener.openOrder(((DTOBestellung)fOrderTable.getSelection()[0].getData()).getId());
+			public void mouseDoubleClick(MouseEvent e) {
+				DTOBestellung selectedItem = fOrderTable.getSelectedItem();
+				if (selectedItem != null) {
+					fListener.openOrder(selectedItem.getId());
 				}
 			}
 		});
+	    register(fOrderTable);
+	    
 	    fNewOrderButton = toolkit.createButton(orderComposite, "Bestellung erfassen", 0);
-	    fNewOrderButton.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
+	    fNewOrderButton.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false, 1, 1));
 	    fNewOrderButton.addListener(SWT.Selection, new Listener() {
 			
 			@Override
@@ -143,28 +142,28 @@ public class PersonView extends AbstractBaseView<DTOPerson, iPersonViewListener>
 			}
 		});
 	    
-	    fTableViewer = new TableViewer(fOrderTable);
-	    
 	    orderSection.setClient(orderComposite);
 	}
 	
 	@Override
-	public void bindModel(DTOPerson model) {
+	public void bindModel(PersonEditorModel model) {
 		fModel = model;
 		
-		fForm.setText(new PersonLabelProvider().getText(model));
+		fForm.setText(new PersonLabelProvider().getText(model.getPerson()));
 		
-		fUserId.bindModel(model, "fId");
-		fLastName.bindModel(model, "fName");
-		fFirstName.bindModel(model, "fVorname");
-		fStreet.bindModel(model, "fStrasse");
-		fPLZ.bindModel(model, "fPlz");
-		fBirthday.bindModel(model, "fGeburtstag");
-		fCity.bindModel(model, "fOrt");
-		fEmail.bindModel(model, "fEMail");
-		fUserName.bindModel(model, "fBenutzername");
-		fPassword.bindModel(model, "fPasswort");
-		fRole.bindModel(model, "fRolle");
-		fActive.bindModel(model, "fAktiv");
+		fUserId.bindModel(model.getPerson(), "fId");
+		fLastName.bindModel(model.getPerson(), "fName");
+		fFirstName.bindModel(model.getPerson(), "fVorname");
+		fStreet.bindModel(model.getPerson(), "fStrasse");
+		fPLZ.bindModel(model.getPerson(), "fPlz");
+		fBirthday.bindModel(model.getPerson(), "fGeburtstag");
+		fCity.bindModel(model.getPerson(), "fOrt");
+		fEmail.bindModel(model.getPerson(), "fEMail");
+		fUserName.bindModel(model.getPerson(), "fBenutzername");
+		fPassword.bindModel(model.getPerson(), "fPasswort");
+		fRole.bindModel(model.getPerson(), "fRolle");
+		fActive.bindModel(model.getPerson(), "fAktiv");
+		
+		fOrderTable.bindModel(model, "fOrders");
 	}
 }

@@ -2,7 +2,6 @@ package ch.hslu.appe.fs1303.gui.controls;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.swt.SWT;
@@ -13,7 +12,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IMessageManager;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
@@ -34,8 +32,10 @@ public abstract class APPEControl<T, H extends Control> {
 	private String fMessage;
 
 	public APPEControl(Composite parent, FormToolkit toolkit, String labelText, int style) {
-		fLabel = toolkit.createLabel(parent, labelText);
-		fLabel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+		if (labelText != null) {
+			fLabel = toolkit.createLabel(parent, labelText);
+			fLabel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+		}
 
 	    fControl = createControl(parent, toolkit, style);
 	    addModifyListener(new ModifyListener() {

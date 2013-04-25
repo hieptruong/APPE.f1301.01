@@ -35,5 +35,12 @@
             name="Product Editor"
             restorable="true">
       </view>
+      <view
+            allowMultiple="true"
+            class="ch.hslu.appe.fs1303.gui.presenter.OrderPresenter"
+            id="ch.hslu.appe.fs1303.gui.presenter.OrderPresenter"
+            name="Bestell Editor"
+            restorable="true">
+      </view>
    </extension>
 </plugin>

@@ -16,7 +16,7 @@ public class APPEIntField extends APPETextControl<Integer> {
 
 	@Override
 	public Class<?> getFieldClass() {
-		return int.class;
+		return Integer.class;
 	}
 
 	@Override
