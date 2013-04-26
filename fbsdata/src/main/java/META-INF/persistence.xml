@@ -17,6 +17,11 @@
 			<property name="javax.persistence.jdbc.user" value="grp01"/>
 			<property name="javax.persistence.jdbc.password" value="tuy6shwd"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+			<property name="eclipselink.logging.level" value="SEVERE"/>
+			<property name="eclipselink.logging.level.sql" value="WARNING"/>
+			<property name="eclipselink.logging.parameters" value="true"/>
+			<property name="eclipselink.logging.timestamp" value="true"/>
+			<property name="eclipselink.logging.exceptions" value="false"/>
 		</properties>
 	</persistence-unit>
 </persistence>

@@ -4,8 +4,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateUtils {
-	public static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
-	public static SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+	public static SimpleDateFormat DATE_FORMAT;
+	public static SimpleDateFormat DATE_TIME_FORMAT;
+	
+	static {
+		DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+		DATE_FORMAT.setLenient(false);
+		DATE_TIME_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+		DATE_TIME_FORMAT.setLenient(false);
+	}
 	
 	public static String getDateAsString(Date date) {
 		return DATE_FORMAT.format(date);
