@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableItem;
 
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellung;
 import ch.hslu.appe.fs1303.gui.utils.DateUtils;
@@ -44,8 +43,8 @@ public class OrderTableDescriptor extends AbstractTableDescriptor implements iTa
 		});
 		
 		for (DTOBestellung bestellung : data) {
-			TableItem item = new TableItem(table, SWT.None);
-			item.setText(new String[] { String.valueOf(bestellung.getId()),
+			createRow(table, SWT.None, new String[] { 
+					String.valueOf(bestellung.getId()),
 					DateUtils.getDateAsString(bestellung.getBestelldatum()),
 					DateUtils.getDateAsString(bestellung.getLiefertermin_Soll()),
 					DateUtils.getDateAsString(bestellung.getLiefertermin_Ist()),
