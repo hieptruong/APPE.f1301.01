@@ -1,4 +1,4 @@
-package ch.hslu.appe.fs1301.gui.datasource;
+package ch.hslu.appe.fs1303.gui.datasource;
 
 import static org.fest.assertions.Assertions.assertThat;
 

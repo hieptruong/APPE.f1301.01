@@ -35,5 +35,10 @@
 	<classpathentry kind="lib" path="plugins/org.eclipse.ui.forms.source_3.5.200.v20120705-114351.jar"/>
 	<classpathentry kind="lib" path="lib/dev/fest/fest-assert-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/dev/fest/fest-util-1.1.6.jar"/>
+	<classpathentry kind="lib" path="lib/dev/powermock/easymock-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/dev/powermock/powermock-easymock-1.5-full.jar"/>
+	<classpathentry kind="lib" path="lib/dev/powermock/cglib-nodep-2.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/dev/powermock/objenesis-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/dev/powermock/javassist-3.17.1-GA.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

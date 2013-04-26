@@ -6,19 +6,13 @@ import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellung;
 import ch.hslu.appe.fs1303.gui.utils.DateUtils;
 
-public class OrderTableDescriptor implements iTableDescriptor<DTOBestellung> {
+public class OrderTableDescriptor extends AbstractTableDescriptor implements iTableDescriptor<DTOBestellung> {
 	
-	private TableColumn fIdColumn;
-	private TableColumn fOrderDate;
-	private TableColumn fDeliveryDateShould;
-	private TableColumn fDeliveryDateIs;
-	private TableColumn fItemCount;
 	private List<DTOBestellung> fData;
 
 	public void createColumns(Table table) {
@@ -27,26 +21,11 @@ public class OrderTableDescriptor implements iTableDescriptor<DTOBestellung> {
 		    table.getColumns()[ 0 ].dispose();
 		}
 		
-		
-		fIdColumn = new TableColumn(table, SWT.LEFT);
-		fIdColumn.setText("ID");
-		fIdColumn.setWidth(30);
-		
-		fOrderDate = new TableColumn(table, SWT.CENTER);
-		fOrderDate.setText("Bestelldatum");
-		fOrderDate.setWidth(150);
-		
-		fDeliveryDateShould = new TableColumn(table, SWT.CENTER);
-		fDeliveryDateShould.setText("Soll Lieferdatum");
-		fDeliveryDateShould.setWidth(150);
-		
-		fDeliveryDateIs = new TableColumn(table, SWT.CENTER);
-		fDeliveryDateIs.setText("Ist Lieferdatum");
-		fDeliveryDateIs.setWidth(150);
-		
-		fItemCount = new TableColumn(table, SWT.CENTER);
-		fItemCount.setText("Anzahl Positionen");
-		fItemCount.setWidth(150);
+		createColumn(table, SWT.None, "ID", 30);
+		createColumn(table, SWT.CENTER, "Bestelldatum", 150);
+		createColumn(table, SWT.CENTER, "Soll Lieferdatum", 150);
+		createColumn(table, SWT.CENTER, "Ist Lieferdatum", 150);
+		createColumn(table, SWT.CENTER, "Anzahl Positionen", 150);
 		
 		table.setRedraw(true);
 	}
@@ -78,6 +57,4 @@ public class OrderTableDescriptor implements iTableDescriptor<DTOBestellung> {
 	public DTOBestellung getItem(int index) {
 		return fData.get(index);
 	}
-	
-	
 }
