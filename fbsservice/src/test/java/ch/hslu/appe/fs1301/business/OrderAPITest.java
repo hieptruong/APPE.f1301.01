@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.easymock.Capture;
 import org.easymock.EasyMock;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
@@ -46,10 +47,15 @@ public class OrderAPITest {
 		fPersonRepositoryMock = PowerMock.createMock(iPersonRepository.class);
 		fTestee = new OrderAPI(fTransactionMock, fSessionAPIMock, fOrderRepositoryMock, fPositionRepositoryMock, fPersonRepositoryMock);
 	}
+
+	@After
+	public void cleanUp() {
+		PowerMock.niceReplayAndVerify();
+	}
 	
 	@Test(expected = AccessDeniedException.class)
-	public void needsSysUser_OnGetOrders() throws AccessDeniedException {
-		final int ExpectedRole = UserRole.SYSUSER;
+	public void needsSysUserOrAdmin_OnGetOrders() throws AccessDeniedException {
+		final int ExpectedRole = UserRole.SYSUSER | UserRole.ADMIN;
 		
 		//Check against role
 		expect(fSessionAPIMock.hasRole(ExpectedRole)).andReturn(false);
@@ -85,8 +91,8 @@ public class OrderAPITest {
 	}
 
 	@Test(expected = AccessDeniedException.class)
-	public void needsSysUser_OnGetOrderPositions() throws AccessDeniedException {
-		final int ExpectedRole = UserRole.SYSUSER;
+	public void needsSysUserOrAdmin_OnGetOrderPositions() throws AccessDeniedException {
+		final int ExpectedRole = UserRole.SYSUSER | UserRole.ADMIN;
 		
 		//Check against role
 		expect(fSessionAPIMock.hasRole(ExpectedRole)).andReturn(false);
@@ -123,8 +129,8 @@ public class OrderAPITest {
 	
 
 	@Test(expected = AccessDeniedException.class)
-	public void needsSysUser_OnCreateNewOrder() throws AccessDeniedException {
-		final int ExpectedRole = UserRole.SYSUSER;
+	public void needsSysUserOrAdmin_OnCreateNewOrder() throws AccessDeniedException {
+		final int ExpectedRole = UserRole.SYSUSER | UserRole.ADMIN;
 		
 		//Check against role
 		expect(fSessionAPIMock.hasRole(ExpectedRole)).andReturn(false);
@@ -186,7 +192,11 @@ public class OrderAPITest {
 	@Test
 	public void returnsNull_OnCreateNewOrder_WhenAPositionCanNotBeOrdered() throws AccessDeniedException {
 		List<DTOBestellposition> positions = new ArrayList<DTOBestellposition>();
-		positions.add(new DTOBestellposition());
+		DTOBestellposition position = new DTOBestellposition();
+		position.setAnzahl(10);
+		position.setProdukt(1);
+		position.setStueckpreis(50);
+		positions.add(position);
 		
 		setupCheckRoleIrrelevant();
 		setupBeginTransaction();

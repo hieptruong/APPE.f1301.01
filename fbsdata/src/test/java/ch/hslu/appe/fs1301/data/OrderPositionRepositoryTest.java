@@ -67,6 +67,22 @@ public class OrderPositionRepositoryTest {
 		assertThat(returnedPositions).contains(fCreatedPositions.get(0));
 	}
 	
+	@Test
+	public void returnsTrue_OnOrdersProduct_WhenEnoughQuantityIsAvailable() {
+		final int quantity = 10;
+		boolean result = fTestee.orderProduct(fOrder.getId(), fProduct.getId(), quantity, 100);
+	
+		assertThat(result).isTrue();
+	}
+	
+	@Test
+	public void returnsFalse_OnOrderProduct_WhenQuantityIsToHigh() {
+		final int quantity = Integer.MAX_VALUE;
+		boolean result = fTestee.orderProduct(fOrder.getId(), fProduct.getId(), quantity, 100);
+	
+		assertThat(result).isFalse();
+	}
+	
 	private static Bestellposition createAndSavePosition() {
 		Bestellposition position = new Bestellposition();
 		

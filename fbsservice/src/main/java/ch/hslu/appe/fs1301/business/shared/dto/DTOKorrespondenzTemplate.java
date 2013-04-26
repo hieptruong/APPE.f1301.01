@@ -4,12 +4,12 @@ import ch.hslu.appe.fs1301.data.shared.entity.KorrespondenzTemplate;
 
 /**
 * Auto-Generated DTOs
-* Thu Apr 25 13:49:04 CEST 2013
+* Thu Apr 25 17:36:49 CEST 2013
 */
 public class DTOKorrespondenzTemplate {
-	private int fId;
+	private Integer fId;
 	private String fInhalt;
-	private int fTyp;
+	private Integer fTyp;
 
 	public DTOKorrespondenzTemplate() {
 	}
@@ -21,11 +21,11 @@ public class DTOKorrespondenzTemplate {
 		fTyp = korrespondenztemplate.getTyp();
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return fId;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		fId = id;
 	}
 
@@ -37,11 +37,11 @@ public class DTOKorrespondenzTemplate {
 		fInhalt = inhalt;
 	}
 
-	public int getTyp() {
+	public Integer getTyp() {
 		return fTyp;
 	}
 
-	public void setTyp(int typ) {
+	public void setTyp(Integer typ) {
 		fTyp = typ;
 	}
 
@@ -52,8 +52,8 @@ public class DTOKorrespondenzTemplate {
 	}
 
 	public static void updateKorrespondenzTemplateFromDTO(KorrespondenzTemplate entity, DTOKorrespondenzTemplate dto) {
-		entity.setId(dto.getId());
+		entity.setId(dto.getId() == null ? 0 : dto.getId());
 		entity.setInhalt(dto.getInhalt());
-		entity.setTyp(dto.getTyp());
+		entity.setTyp(dto.getTyp() == null ? 0 : dto.getTyp());
 	}
 }

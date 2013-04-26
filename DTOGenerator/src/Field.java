@@ -7,6 +7,7 @@ public class Field {
 	
 	public Field(String modifier, String typ, String name) {
 		fModifier = modifier;
+		if (typ.equals("int")) typ = "Integer";
 		fType = typ;
 		fName = name;
 	}

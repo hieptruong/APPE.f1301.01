@@ -112,7 +112,10 @@ public class Generator {
 					isEntityType = true;
 			}
 			if (!isEntityType)
-				writer.write(String.format("\t\tentity.set%s(dto.get%s());\n", field.getNameWithCapitalFirstLetter(), field.getNameWithCapitalFirstLetter()));
+				if (field.getType().equals("Integer"))
+					writer.write(String.format("\t\tentity.set%s(dto.get%s() == null ? 0 : dto.get%s());\n", field.getNameWithCapitalFirstLetter(), field.getNameWithCapitalFirstLetter(), field.getNameWithCapitalFirstLetter()));
+				else
+					writer.write(String.format("\t\tentity.set%s(dto.get%s());\n", field.getNameWithCapitalFirstLetter(), field.getNameWithCapitalFirstLetter()));
 		}
 		writer.write("\t}\n");
 	}
@@ -133,7 +136,7 @@ public class Generator {
 			writer.write(String.format("\t\t%s = %s;\n", field.getAttributeName(), field.getName()));
 			writer.write("\t}\n\n");
 		} else {
-			writer.write(String.format("\tpublic void set%s(%s %s) {\n", field.getNameWithCapitalFirstLetter(), checkPrefixNeeded(entities, field.getType()) ? "int" : field.getType(), field.getName()));
+			writer.write(String.format("\tpublic void set%s(%s %s) {\n", field.getNameWithCapitalFirstLetter(), checkPrefixNeeded(entities, field.getType()) ? "Integer" : field.getType(), field.getName()));
 			writer.write(String.format("\t\t%s = %s;\n", field.getAttributeName(), field.getName()));
 			writer.write("\t}\n\n");
 		}
@@ -147,7 +150,7 @@ public class Generator {
 			writer.write(String.format("\t\treturn %s;\n", field.getAttributeName()));
 			writer.write("\t}\n\n");
 		} else {
-			writer.write(String.format("\tpublic %s get%s() {\n", checkPrefixNeeded(entities, field.getType()) ? "int" : field.getType(), field.getNameWithCapitalFirstLetter()));
+			writer.write(String.format("\tpublic %s get%s() {\n", checkPrefixNeeded(entities, field.getType()) ? "Integer" : field.getType(), field.getNameWithCapitalFirstLetter()));
 			writer.write(String.format("\t\treturn %s;\n", field.getAttributeName()));
 			writer.write("\t}\n\n");
 		}
@@ -187,7 +190,7 @@ public class Generator {
 				
 				writer.write(String.format("\t%s %s<%s> %s;\n", field.getModifier(), field.getType(), usePrefix ? "Integer" : field.getGenericType(), field.getAttributeName()));
 			} else {
-				writer.write(String.format("\t%s %s %s;\n", field.getModifier(), checkPrefixNeeded(entities, field.getType()) ? "int" : field.getType(), field.getAttributeName()));
+				writer.write(String.format("\t%s %s %s;\n", field.getModifier(), checkPrefixNeeded(entities, field.getType()) ? "Integer" : field.getType(), field.getAttributeName()));
 			}					
 		}
 		

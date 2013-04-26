@@ -25,13 +25,15 @@ public class PersonAPI extends BaseAPI implements iPersonAPI {
 	}
 	
 	@Override
-	public DTOPerson getCustomerById(int id) {
+	public DTOPerson getCustomerById(int id) throws AccessDeniedException {
+		checkRole(UserRole.SYSUSER | UserRole.ADMIN);
 		Person person = fPersonRepository.getById(id);
 		return person != null ? new DTOPerson(person) : null;
 	}
 	
 	@Override
-	public List<DTOPerson> getCustomersByName(String name) {
+	public List<DTOPerson> getCustomersByName(String name) throws AccessDeniedException {
+		checkRole(UserRole.SYSUSER | UserRole.ADMIN);
 		List<Person> searchList;
 		try {
 			searchList = fPersonRepository.getPersonsByNames(name.split(" "));
@@ -44,9 +46,9 @@ public class PersonAPI extends BaseAPI implements iPersonAPI {
 
 	@Override
 	public DTOPerson saveCustomer(DTOPerson person) throws AccessDeniedException {
-		checkRole(UserRole.SYSUSER);
+		checkRole(UserRole.SYSUSER | UserRole.ADMIN);
 		
-		Person entity = person.getId() != 0 ? fPersonRepository.getById(person.getId()) : null;
+		Person entity = isNullOrZero(person.getId()) ? null : fPersonRepository.getById(person.getId());
 		if (entity == null) {
 			entity = DTOPerson.createNewPersonFromDTO(person);
 		} else {

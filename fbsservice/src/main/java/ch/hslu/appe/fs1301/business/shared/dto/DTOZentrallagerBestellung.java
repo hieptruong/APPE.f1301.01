@@ -5,13 +5,13 @@ import ch.hslu.appe.fs1301.data.shared.entity.ZentrallagerBestellung;
 
 /**
 * Auto-Generated DTOs
-* Thu Apr 25 13:49:04 CEST 2013
+* Thu Apr 25 17:36:49 CEST 2013
 */
 public class DTOZentrallagerBestellung {
-	private int fId;
-	private int fAnzahl;
+	private Integer fId;
+	private Integer fAnzahl;
 	private Date fLiefertermin;
-	private int fProdukt;
+	private Integer fProdukt;
 
 	public DTOZentrallagerBestellung() {
 	}
@@ -24,19 +24,19 @@ public class DTOZentrallagerBestellung {
 		fProdukt = zentrallagerbestellung.getProdukt().getId();
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return fId;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		fId = id;
 	}
 
-	public int getAnzahl() {
+	public Integer getAnzahl() {
 		return fAnzahl;
 	}
 
-	public void setAnzahl(int anzahl) {
+	public void setAnzahl(Integer anzahl) {
 		fAnzahl = anzahl;
 	}
 
@@ -48,11 +48,11 @@ public class DTOZentrallagerBestellung {
 		fLiefertermin = liefertermin;
 	}
 
-	public int getProdukt() {
+	public Integer getProdukt() {
 		return fProdukt;
 	}
 
-	public void setProdukt(int produkt) {
+	public void setProdukt(Integer produkt) {
 		fProdukt = produkt;
 	}
 
@@ -63,8 +63,8 @@ public class DTOZentrallagerBestellung {
 	}
 
 	public static void updateZentrallagerBestellungFromDTO(ZentrallagerBestellung entity, DTOZentrallagerBestellung dto) {
-		entity.setId(dto.getId());
-		entity.setAnzahl(dto.getAnzahl());
+		entity.setId(dto.getId() == null ? 0 : dto.getId());
+		entity.setAnzahl(dto.getAnzahl() == null ? 0 : dto.getAnzahl());
 		entity.setLiefertermin(dto.getLiefertermin());
 	}
 }

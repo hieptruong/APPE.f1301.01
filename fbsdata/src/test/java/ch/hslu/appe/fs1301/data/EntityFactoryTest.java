@@ -82,6 +82,14 @@ public class EntityFactoryTest extends BaseTestClass {
 	}
 	
 	@Test
+	public void TestInsertQuery() {
+		manager.beginTransaction();
+		String query = "Insert into Produkt VALUES (1,'a', 10, 10, 10)";
+		manager.executeInsertQuery(query);
+		manager.rollbackTransaction();
+	}
+	
+	@Test
 	public void TestRollback() {
 		KorrespondenzTemplate template = new KorrespondenzTemplate();
 		template.setInhalt("Test");
