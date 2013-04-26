@@ -56,12 +56,13 @@ public class PersonPresenter extends BasePresenter {
 		String modelId = getViewSite().getSecondaryId();
 		if (modelId.startsWith("new")) {
 			DTOPerson person = new DTOPerson();
-			fPersonEditorModel = new PersonEditorModel(person, new ArrayList<DTOBestellung>());
+			fPersonEditorModel = new PersonEditorModel(person, new ArrayList<DTOBestellung>(), new ArrayList<DTOBestellung>());
 		} else {
 			try {
 				DTOPerson person = fPersonApi.getCustomerById(Integer.parseInt(modelId));
 				List<DTOBestellung> orders = fOrderApi.getOrders(ArrayUtils.convertToIntArray(person.getBestellungs1()));
-				fPersonEditorModel = new PersonEditorModel(person, orders);
+				List<DTOBestellung> createdOrders = fOrderApi.getOrders(ArrayUtils.convertToIntArray(person.getBestellungs2()));
+				fPersonEditorModel = new PersonEditorModel(person, orders, createdOrders);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 				return;

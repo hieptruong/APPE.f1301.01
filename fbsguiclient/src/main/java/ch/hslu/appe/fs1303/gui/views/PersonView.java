@@ -16,6 +16,7 @@ import ch.hslu.appe.fs1301.business.shared.UserRole;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellung;
 import ch.hslu.appe.fs1303.gui.controls.APPECheckBoxField;
 import ch.hslu.appe.fs1303.gui.controls.APPEComboBoxField;
+import ch.hslu.appe.fs1303.gui.controls.APPEControl;
 import ch.hslu.appe.fs1303.gui.controls.APPEDateField;
 import ch.hslu.appe.fs1303.gui.controls.APPEIntField;
 import ch.hslu.appe.fs1303.gui.controls.APPEStringField;
@@ -42,7 +43,8 @@ public class PersonView extends AbstractBaseView<PersonEditorModel, iPersonViewL
 	private APPETableField<DTOBestellung> fOrderTable;
 	private Button fNewOrderButton;
 	private APPECheckBoxField fActive;
-	private APPEComboBoxField fRole;	
+	private APPEComboBoxField fRole;
+	private APPETableField<DTOBestellung> fCreatedOrdersTable;	
 
 	@Override
 	public void createPageContent(Composite parent, FormToolkit toolkit) {
@@ -58,14 +60,14 @@ public class PersonView extends AbstractBaseView<PersonEditorModel, iPersonViewL
 	    
 	    fUserId = new APPEIntField(client, toolkit, "ID: ", SWT.READ_ONLY);
 	    register(fUserId);
+	   	   	    
+	    fFirstName = new APPEStringField(client, toolkit, "Vorname: ", SWT.None);
+	    fFirstName.addValidationMessage(fForm.getMessageManager(), "Geben Sie einen Vornamen an.");
+	    register(fFirstName);
 	    
 	    fLastName = new APPEStringField(client, toolkit, "Name: ", SWT.None);
 	    fLastName.addValidationMessage(fForm.getMessageManager(), "Geben Sie einen Namen an");
 	    register(fLastName);
-	    
-	    fFirstName = new APPEStringField(client, toolkit, "Vorname: ", SWT.None);
-	    fFirstName.addValidationMessage(fForm.getMessageManager(), "Geben Sie einen Vornamen an.");
-	    register(fFirstName);
 	    
 	    fStreet = new APPEStringField(client, toolkit, "Strasse: ", SWT.None);
 	    fStreet.addValidationMessage(fForm.getMessageManager(), "Geben Sie eine Strasse an.");
@@ -143,6 +145,37 @@ public class PersonView extends AbstractBaseView<PersonEditorModel, iPersonViewL
 		});
 	    
 	    orderSection.setClient(orderComposite);
+	    
+	    Section createdOrdersSection = toolkit.createSection(fForm.getBody(), Section.DESCRIPTION
+	            | Section.TITLE_BAR);
+	    createdOrdersSection.setText("Erstellte Bestellungen");
+	    createdOrdersSection.marginHeight = 10;
+
+	    Composite createdOrdersComposite = toolkit.createComposite(createdOrdersSection, SWT.FILL);
+	    createdOrdersComposite.setLayout(gl_container);
+	    
+	    fCreatedOrdersTable = new APPETableField<DTOBestellung>(createdOrdersComposite, toolkit);
+	    fCreatedOrdersTable.setTableDescriptor(new OrderTableDescriptor());
+	    fCreatedOrdersTable.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseUp(MouseEvent e) {	}
+			
+			@Override
+			public void mouseDown(MouseEvent e) { }
+			
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				DTOBestellung selectedItem = fCreatedOrdersTable.getSelectedItem();
+				if (selectedItem != null) {
+					fListener.openOrder(selectedItem.getId());
+				}
+			}
+		});
+	    register(fCreatedOrdersTable);
+	    
+	    createdOrdersSection.setClient(createdOrdersComposite);
+	    
 	}
 	
 	@Override
@@ -165,5 +198,6 @@ public class PersonView extends AbstractBaseView<PersonEditorModel, iPersonViewL
 		fActive.bindModel(model.getPerson(), "fAktiv");
 		
 		fOrderTable.bindModel(model, "fOrders");
+		fCreatedOrdersTable.bindModel(model, "fCreatedOrders");
 	}
 }
