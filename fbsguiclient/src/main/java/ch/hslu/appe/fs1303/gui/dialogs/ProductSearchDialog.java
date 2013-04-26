@@ -5,9 +5,7 @@ import java.util.Comparator;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Shell;
 
-import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOProdukt;
-import ch.hslu.appe.fs1303.gui.labelprovider.PersonLabelProvider;
 import ch.hslu.appe.fs1303.gui.labelprovider.ProductLabelProvider;
 
 public class ProductSearchDialog extends QuickSearchDialog<DTOProdukt> {

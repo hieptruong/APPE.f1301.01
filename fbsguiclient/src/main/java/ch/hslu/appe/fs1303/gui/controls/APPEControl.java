@@ -70,6 +70,9 @@ public abstract class APPEControl<T, H extends Control> {
 	public boolean validate() {
 		boolean success = true;
 		
+		// No not validate Read-Only fields
+		if ((fControl.getStyle() & SWT.READ_ONLY) > 0) return true;
+			
 		if (getValidator() != null) {
 			success = getValidator().validate(getControlValue(), isNullable());
 			if (!success) {

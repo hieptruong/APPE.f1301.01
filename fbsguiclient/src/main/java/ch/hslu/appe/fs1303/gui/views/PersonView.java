@@ -58,14 +58,14 @@ public class PersonView extends AbstractBaseView<PersonEditorModel, iPersonViewL
 	    
 	    fUserId = new APPEIntField(client, toolkit, "ID: ", SWT.READ_ONLY);
 	    register(fUserId);
+	   	   	    
+	    fFirstName = new APPEStringField(client, toolkit, "Vorname: ", SWT.None);
+	    fFirstName.addValidationMessage(fForm.getMessageManager(), "Geben Sie einen Vornamen an.");
+	    register(fFirstName);
 	    
 	    fLastName = new APPEStringField(client, toolkit, "Name: ", SWT.None);
 	    fLastName.addValidationMessage(fForm.getMessageManager(), "Geben Sie einen Namen an");
 	    register(fLastName);
-	    
-	    fFirstName = new APPEStringField(client, toolkit, "Vorname: ", SWT.None);
-	    fFirstName.addValidationMessage(fForm.getMessageManager(), "Geben Sie einen Vornamen an.");
-	    register(fFirstName);
 	    
 	    fStreet = new APPEStringField(client, toolkit, "Strasse: ", SWT.None);
 	    fStreet.addValidationMessage(fForm.getMessageManager(), "Geben Sie eine Strasse an.");
