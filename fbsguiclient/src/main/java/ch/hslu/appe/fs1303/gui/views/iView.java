@@ -8,4 +8,5 @@ public interface iView<T, H extends iViewListener> {
 	public void bindModel(T model);
 	public void setActionListener(H listener);
 	public boolean validate();
+	public void setEditable(boolean editable);
 }

@@ -4,17 +4,19 @@ import java.util.List;
 
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellposition;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellung;
-import ch.hslu.appe.fs1301.business.shared.dto.DTOProdukt;
+import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 
 public class OrderEditorModel {
 	
 	private DTOBestellung fBestellung;
 	private List<DTOBestellposition> fBestellposition;
+	private DTOPerson fPerson;
 	
-	public OrderEditorModel(DTOBestellung bestellung, List<DTOBestellposition> bestellpositionen)
+	public OrderEditorModel(DTOBestellung bestellung, List<DTOBestellposition> bestellpositionen, DTOPerson person)
 	{
 		fBestellung = bestellung;
 		fBestellposition = bestellpositionen;
+		fPerson = person;
 	}
 
 	public DTOBestellung getBestellung() {
@@ -31,6 +33,14 @@ public class OrderEditorModel {
 
 	public void setBestellposition(List<DTOBestellposition> bestellposition) {
 		fBestellposition = bestellposition;
+	}
+
+	public DTOPerson getPerson() {
+		return fPerson;
+	}
+
+	public void setPerson(DTOPerson person) {
+		fPerson = person;
 	}
 	
 

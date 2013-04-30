@@ -30,14 +30,16 @@ public abstract class APPEControl<T, H extends Control> {
 	private String fField;
 	private IMessageManager fManager;
 	private String fMessage;
+	protected boolean fUpdatingFromModel;
 
 	public APPEControl(Composite parent, FormToolkit toolkit, String labelText, int style) {
 		if (labelText != null) {
 			fLabel = toolkit.createLabel(parent, labelText);
 			fLabel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
 		}
-
-	    fControl = createControl(parent, toolkit, style);
+		
+		fUpdatingFromModel = false;
+	    fControl = createControl(parent, toolkit, style);	    
 	    addModifyListener(new ModifyListener() {
 			
 			@Override
@@ -66,6 +68,11 @@ public abstract class APPEControl<T, H extends Control> {
 	public abstract void removeModifyListener(ModifyListener listener);
 	
 	public abstract String getControlValue();
+	
+	public void setEditable(boolean editable) {
+		editable = editable && (fControl.getStyle() & SWT.READ_ONLY) == 0;
+		fControl.setEnabled(editable);
+	}
 	
 	public boolean validate() {
 		boolean success = true;
@@ -109,6 +116,8 @@ public abstract class APPEControl<T, H extends Control> {
 	
 	@SuppressWarnings("unchecked")
 	public void updateFromModel() {
+		fUpdatingFromModel = true;
+		
 		try {
 			setControlValue(getDisplayValue((T)fGetter.invoke(fModel, new Object[0])));
 		} catch (IllegalArgumentException e) {
@@ -118,6 +127,8 @@ public abstract class APPEControl<T, H extends Control> {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
+		
+		fUpdatingFromModel = false;
 	}
 	
 	public void updateModel() {

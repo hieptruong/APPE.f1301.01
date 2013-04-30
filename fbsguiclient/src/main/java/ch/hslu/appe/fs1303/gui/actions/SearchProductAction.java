@@ -33,12 +33,7 @@ public class SearchProductAction extends APPEAction implements iQuickSearchCallb
 	public SearchProductAction() {
 		setText("Produkt suchen");
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		fProductSearchDialog = new ProductSearchDialog(shell, true, this);	
-		try {
-			fAllProducts = produktAPI.getAllProducts();
-		} catch (AccessDeniedException e) {
-			ErrorUtils.handleAccessDenied(shell);
-		}
+		fProductSearchDialog = new ProductSearchDialog(shell, true, this);
 	}
 	
 	@Override
@@ -48,6 +43,12 @@ public class SearchProductAction extends APPEAction implements iQuickSearchCallb
 	
 	@Override
 	public void run() {
+		try {
+			fAllProducts = produktAPI.getAllProducts();
+		} catch (AccessDeniedException e) {
+			ErrorUtils.handleAccessDenied(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+		};
+		
 		if (fProductSearchDialog.open() == Window.OK) {
 			for (Object produkt : fProductSearchDialog.getResult()) {
 				if (produkt instanceof DTOProdukt) {

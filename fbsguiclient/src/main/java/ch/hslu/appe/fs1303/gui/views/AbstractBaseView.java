@@ -10,10 +10,13 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.forms.widgets.Section;
 
 import ch.hslu.appe.fs1303.gui.APPEActivator;
 import ch.hslu.appe.fs1303.gui.controls.APPEControl;
@@ -24,9 +27,14 @@ public abstract class AbstractBaseView<T, H extends iViewListener> implements iV
 	protected Action fSaveAction;
 	protected H fListener;
 	protected T fModel;
+	protected boolean fEditable;
 	
 	List<APPEControl<?,?>> fControls = new ArrayList<APPEControl<?,?>>();
 
+	public AbstractBaseView() {
+		fEditable = true;
+	}
+	
 	@Override
 	public void createContent(Composite parent) {
 		FormToolkit toolkit = new FormToolkit(parent.getDisplay());		
@@ -49,19 +57,47 @@ public abstract class AbstractBaseView<T, H extends iViewListener> implements iV
 			}
 		};
 		
-		fForm.getToolBarManager().add(fSaveAction);
-		fForm.getToolBarManager().update(true);
+		fillToolbar();
 		
-		FillLayout fillLayout = new FillLayout();
-		fillLayout.type = SWT.VERTICAL;
-		fillLayout.marginHeight = 5;
-		fillLayout.marginWidth = 5;
-		fForm.getBody().setLayout(fillLayout);
+		GridLayout layout = new GridLayout(1, true);	
+		layout.marginRight = 5;
+		layout.marginLeft = 5;
+		
+		fForm.getBody().setLayout(layout);
+		fForm.getBody().setLayoutData(GridData.FILL_HORIZONTAL);
 		
 		createPageContent(parent, toolkit);
 	}
 	
+	public void fillToolbar() {
+		fForm.getToolBarManager().removeAll();
+		
+		if (fEditable) {
+			fForm.getToolBarManager().add(fSaveAction);
+		}		
+		
+		fForm.getToolBarManager().update(true);
+	}
+	
 	public abstract void createPageContent(Composite parent, FormToolkit toolkit);
+	
+	public Composite createSection(Composite parent, FormToolkit toolkit, String title) {
+		Section section = toolkit.createSection(parent, Section.DESCRIPTION | Section.TITLE_BAR);
+	    section.setText(title);
+	    section.setLayout(new GridLayout(1, true));
+	    section.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	    Composite client = toolkit.createComposite(section, SWT.FILL);
+	    
+	    GridLayout gl_container = new GridLayout(2, false);
+	    gl_container.marginRight = 5;
+	    gl_container.marginLeft = 5;
+	    gl_container.marginBottom = 5;
+	    gl_container.marginTop = 5;
+	    client.setLayout(gl_container);
+	    
+	    section.setClient(client);
+	    return client;
+	}
 	
 	public void register(APPEControl<?,?> control) {
 		fControls.add(control);
@@ -90,9 +126,22 @@ public abstract class AbstractBaseView<T, H extends iViewListener> implements iV
 	public boolean validate() {
 		
 		String message = fForm.getMessage();
-		fSaveAction.setEnabled(message == null);
+		fSaveAction.setEnabled(message == null && fEditable);
 		fForm.getToolBarManager().update(true);
 		
 		return message == null;
 	}	
+	
+
+
+	@Override
+	public void setEditable(boolean editable) {
+		fEditable = editable;
+		
+		fillToolbar();
+		
+		for (APPEControl<?, ?> control : fControls) {
+			control.setEditable(editable);
+		}
+	}
 }

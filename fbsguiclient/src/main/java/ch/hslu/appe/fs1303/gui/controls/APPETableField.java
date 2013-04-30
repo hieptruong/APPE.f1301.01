@@ -88,4 +88,9 @@ public class APPETableField<T> extends APPEControl<List<T>, Table> {
 		fTableDescriptor = tableDescriptor;
 		fTableDescriptor.createColumns(fControl);
 	}
+	
+	@Override
+	public void setEditable(boolean editable) {
+	
+	}
 }

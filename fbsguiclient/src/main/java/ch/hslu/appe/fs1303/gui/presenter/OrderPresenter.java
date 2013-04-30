@@ -7,8 +7,10 @@ import org.eclipse.swt.widgets.Composite;
 
 import ch.hslu.appe.fs1301.business.shared.AccessDeniedException;
 import ch.hslu.appe.fs1301.business.shared.iOrderAPI;
+import ch.hslu.appe.fs1301.business.shared.iPersonAPI;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellposition;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellung;
+import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 import ch.hslu.appe.fs1303.gui.labelprovider.OrderLabelProvider;
 import ch.hslu.appe.fs1303.gui.models.OrderEditorModel;
 import ch.hslu.appe.fs1303.gui.utils.ArrayUtils;
@@ -23,7 +25,7 @@ public class OrderPresenter extends BasePresenter {
 public static final String ID = "ch.hslu.appe.fs1303.gui.presenter.OrderPresenter";
 	
 	public interface iOrderView extends iView<OrderEditorModel, iOrderViewListener> {
-		
+		public void setEditable(boolean editable);
 	}
 	
 	public interface iOrderViewListener extends iViewListener {
@@ -35,6 +37,9 @@ public static final String ID = "ch.hslu.appe.fs1303.gui.presenter.OrderPresente
 	
 	@Inject
 	private iOrderAPI fOrderApi;
+	
+	@Inject
+	private iPersonAPI fPersonApi;
 
 	private OrderEditorModel fModel;
 	
@@ -43,15 +48,17 @@ public static final String ID = "ch.hslu.appe.fs1303.gui.presenter.OrderPresente
 		fView.createContent(composite);
 		String modelId = getViewSite().getSecondaryId();
 		if (modelId.startsWith("new")) {
-			fModel = new OrderEditorModel(new DTOBestellung(), new ArrayList<DTOBestellposition>());
+			fModel = new OrderEditorModel(new DTOBestellung(), new ArrayList<DTOBestellposition>(), null);
 		} else {
 			try {
 				List<DTOBestellung> orders = fOrderApi.getOrders(Integer.parseInt(modelId));
 				if (orders.size() > 0) {
 					DTOBestellung bestellung = orders.get(0);
-					List<DTOBestellposition> bestellPositionen = fOrderApi.getOrderPositions(ArrayUtils.convertToIntArray(bestellung.getBestellpositions()));
+					DTOPerson person = fPersonApi.getCustomerById(bestellung.getPerson1());
+					List<DTOBestellposition> bestellPositionen = fOrderApi.getOrderPositions(ArrayUtils.convertToIntArray(bestellung.getBestellpositions()));				
 					
-					fModel = new OrderEditorModel(bestellung, bestellPositionen);
+					fModel = new OrderEditorModel(bestellung, bestellPositionen, person);
+					//fView.setEditable(false);
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
@@ -62,7 +69,7 @@ public static final String ID = "ch.hslu.appe.fs1303.gui.presenter.OrderPresente
 			}			
 		}
 	
-		setPartName(new OrderLabelProvider().getText(fModel));
+		setPartName(new OrderLabelProvider().getText(fModel.getBestellung()));
 		
 		fView.bindModel(fModel);
 		fView.setActionListener(new iOrderViewListener() {
