@@ -165,6 +165,11 @@ public class APPEDTOField<T> extends APPETextControl<T> {
 		}
 	}
 	
+	public interface iDTOModelUpdatedListener<T> {
+		void updated(T element);
+	}
+	
+	private iDTOModelUpdatedListener<T> fModelUpdatedListener;
 	private IContentAssistPresenter fDropDownPopup;
 	private T fSelectedElement;
 	private Class<T> fClazz;
@@ -264,7 +269,10 @@ public class APPEDTOField<T> extends APPETextControl<T> {
 	}
 
 	@Override
-	public T getValueForModel(String value) {		
+	public T getValueForModel(String value) {	
+		if (fModelUpdatedListener != null) {
+			fModelUpdatedListener.updated(fSelectedElement);
+		}
 		return fSelectedElement;
 	}
 
@@ -277,5 +285,13 @@ public class APPEDTOField<T> extends APPETextControl<T> {
 		}
 			
 		return DTOUtils.getLabelProvider(value).getText(value);
+	}
+
+	public iDTOModelUpdatedListener<T> getModelUpdatedListener() {
+		return fModelUpdatedListener;
+	}
+
+	public void setModelUpdatedListener(iDTOModelUpdatedListener<T> modelUpdatedListener) {
+		fModelUpdatedListener = modelUpdatedListener;
 	}
 }

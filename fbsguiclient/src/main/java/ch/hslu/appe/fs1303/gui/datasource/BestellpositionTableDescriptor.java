@@ -26,6 +26,8 @@ public class BestellpositionTableDescriptor extends AbstractTableDescriptor<DTOB
 
 	@Override
 	public int compare(DTOBestellposition o1, DTOBestellposition o2) {
+		if (o1.getId() == null) return -1;
+		if (o2.getId() == null) return 1;
 		return o1.getId().compareTo(o2.getId());
 	}	
 }

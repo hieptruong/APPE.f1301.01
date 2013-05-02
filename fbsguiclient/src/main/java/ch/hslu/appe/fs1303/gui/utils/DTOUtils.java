@@ -9,6 +9,7 @@ import ch.hslu.appe.fs1303.gui.labelprovider.OrderLabelProvider;
 import ch.hslu.appe.fs1303.gui.labelprovider.PersonLabelProvider;
 import ch.hslu.appe.fs1303.gui.labelprovider.ProductLabelProvider;
 import ch.hslu.appe.fs1303.gui.models.quicksearch.PersonQuickSearchModel;
+import ch.hslu.appe.fs1303.gui.models.quicksearch.ProductQuickSearchModel;
 import ch.hslu.appe.fs1303.gui.models.quicksearch.iQuickSearchModel;
 
 public class DTOUtils {
@@ -32,6 +33,8 @@ public class DTOUtils {
 		
 		if (obj.equals(DTOPerson.class)) {
 			return new PersonQuickSearchModel();
+		} else if (obj.equals(DTOProdukt.class)) {
+			return new ProductQuickSearchModel();
 		} else {
 			return null;
 		}
