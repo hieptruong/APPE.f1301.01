@@ -12,16 +12,30 @@ import ch.hslu.appe.fs1303.gui.models.quicksearch.PersonQuickSearchModel;
 import ch.hslu.appe.fs1303.gui.models.quicksearch.ProductQuickSearchModel;
 import ch.hslu.appe.fs1303.gui.models.quicksearch.iQuickSearchModel;
 
-public class DTOUtils {
+public final class DTOUtils {
+	private static LabelProvider fPersonLabelProvider;
+	private static LabelProvider fOrderLabelProvider;
+	private static LabelProvider fProductLabelProvider;
+	
+	private static iQuickSearchModel<DTOPerson> fPersonQuickSearchModel;
+	
+	static {
+		fPersonLabelProvider = new PersonLabelProvider();
+		fOrderLabelProvider = new OrderLabelProvider();
+		fProductLabelProvider = new ProductLabelProvider();
+		
+		fPersonQuickSearchModel = new PersonQuickSearchModel();
+	}
+	
 	public static LabelProvider getLabelProvider(Object obj) {
 		if (obj == null) return null;
 		
 		if (obj instanceof DTOPerson) {
-			return new PersonLabelProvider();
+			return fPersonLabelProvider;
 		} else if (obj instanceof DTOBestellung) {
-			return new OrderLabelProvider();
+			return fOrderLabelProvider;
 		} else if (obj instanceof DTOProdukt) {
-			return new ProductLabelProvider();
+			return fProductLabelProvider;
 		} else {
 			return null;
 		}
@@ -32,7 +46,7 @@ public class DTOUtils {
 		if (obj == null) return null;
 		
 		if (obj.equals(DTOPerson.class)) {
-			return new PersonQuickSearchModel();
+			return fPersonQuickSearchModel;
 		} else if (obj.equals(DTOProdukt.class)) {
 			return new ProductQuickSearchModel();
 		} else {
