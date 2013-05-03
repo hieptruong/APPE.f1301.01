@@ -21,7 +21,7 @@ public class APPEIntField extends APPETextControl<Integer> {
 
 	@Override
 	public Integer getValueForModel(String value) {
-		if (value == null || value.isEmpty()) return 0;
+		if (value == null || value.isEmpty()) return null;
 		
 		try {
 			return Integer.parseInt(value);

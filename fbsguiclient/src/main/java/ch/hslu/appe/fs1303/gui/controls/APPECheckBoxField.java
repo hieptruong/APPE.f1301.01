@@ -36,7 +36,6 @@ public class APPECheckBoxField extends APPEControl<Boolean, Button> {
 
 	@Override
 	public void removeModifyListener(ModifyListener listener) {
-
 	}
 
 	@Override
