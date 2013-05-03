@@ -100,8 +100,11 @@ public class PersonPresenter extends BasePresenter {
 			
 			@Override
 			public void onNewOrderButtonClick() {
-				// TODO Auto-generated method stub
-				
+				try {
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(OrderPresenter.ID, "new" + fPersonEditorModel.getPerson().getId(), IWorkbenchPage.VIEW_ACTIVATE);
+				} catch (PartInitException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}

@@ -32,7 +32,7 @@ public class APPETableField<T> extends APPEControl<List<T>, Table> {
 		table.setHeaderVisible(true);
 		return table;
 	}
-
+	
 	public void addMouseListener(MouseListener listener) {
 		fControl.addMouseListener(listener);
 	}
@@ -43,6 +43,13 @@ public class APPETableField<T> extends APPEControl<List<T>, Table> {
 		}
 		
 		return null;
+	}
+	
+	@Override
+	public void updateFromModel() {
+		super.updateFromModel();
+
+		fControl.getParent().getParent().getParent().layout();
 	}
 	
 	@Override

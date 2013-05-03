@@ -66,7 +66,7 @@ public class SearchProductAction extends APPEAction implements iQuickSearchCallb
 	public List<DTOProdukt> resultForSearchString(String input) {
 		 List<DTOProdukt> results = new ArrayList<DTOProdukt>();
 		 for (DTOProdukt dtoProdukt : fAllProducts) {
-			 if (dtoProdukt.getBezeichnung().contains(input))
+			 if (dtoProdukt.getBezeichnung().toLowerCase().contains(input.toLowerCase()))
 				 results.add(dtoProdukt);			
 		 }
 		 return results;
