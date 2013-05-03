@@ -4,8 +4,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellposition;
+import ch.hslu.appe.fs1303.gui.models.BestellpositionWithProduktModel;
 
-public class BestellpositionTableDescriptor extends AbstractTableDescriptor<DTOBestellposition> {
+public class BestellpositionTableDescriptor extends AbstractTableDescriptor<BestellpositionWithProduktModel> {
 	
 	@Override
 	protected void doCreateColumns(Table table) {
@@ -16,18 +17,18 @@ public class BestellpositionTableDescriptor extends AbstractTableDescriptor<DTOB
 	}
 
 	@Override
-	protected void doCreateRow(Table table, DTOBestellposition item) {
+	protected void doCreateRow(Table table, BestellpositionWithProduktModel item) {
 		createRow(table, SWT.None, new String[] { 
-				String.valueOf(item.getId()),
-				String.valueOf(item.getAnzahl()),
-				String.valueOf(item.getStueckpreis()),
-				String.valueOf(item.getProdukt())});
+				String.valueOf(item.getBestellposition().getId()),
+				String.valueOf(item.getBestellposition().getAnzahl()),
+				String.valueOf(item.getBestellposition().getStueckpreis()),
+				String.valueOf(item.getProdukt().getBezeichnung())});
 	}
 
 	@Override
-	public int compare(DTOBestellposition o1, DTOBestellposition o2) {
-		if (o1.getId() == null) return -1;
-		if (o2.getId() == null) return 1;
-		return o1.getId().compareTo(o2.getId());
+	public int compare(BestellpositionWithProduktModel o1, BestellpositionWithProduktModel o2) {
+		if (o1.getBestellposition().getId() == null) return -1;
+		if (o2.getBestellposition().getId() == null) return 1;
+		return o1.getBestellposition().getId().compareTo(o2.getBestellposition().getId());
 	}	
 }

@@ -9,10 +9,10 @@ import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 public class OrderEditorModel {
 	
 	private DTOBestellung fBestellung;
-	private List<DTOBestellposition> fBestellposition;
+	private List<BestellpositionWithProduktModel> fBestellposition;
 	private DTOPerson fPerson;
 	
-	public OrderEditorModel(DTOBestellung bestellung, List<DTOBestellposition> bestellpositionen, DTOPerson person)
+	public OrderEditorModel(DTOBestellung bestellung, List<BestellpositionWithProduktModel> bestellpositionen, DTOPerson person)
 	{
 		fBestellung = bestellung;
 		fBestellposition = bestellpositionen;
@@ -27,11 +27,11 @@ public class OrderEditorModel {
 		fBestellung = bestellung;
 	}
 
-	public List<DTOBestellposition> getBestellposition() {
+	public List<BestellpositionWithProduktModel> getBestellposition() {
 		return fBestellposition;
 	}
 
-	public void setBestellposition(List<DTOBestellposition> bestellposition) {
+	public void setBestellposition(List<BestellpositionWithProduktModel> bestellposition) {
 		fBestellposition = bestellposition;
 	}
 

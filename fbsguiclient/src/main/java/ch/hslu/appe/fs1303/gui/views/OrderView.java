@@ -15,6 +15,7 @@ import ch.hslu.appe.fs1303.gui.controls.APPEDateTimeField;
 import ch.hslu.appe.fs1303.gui.controls.APPEIntField;
 import ch.hslu.appe.fs1303.gui.controls.APPETableField;
 import ch.hslu.appe.fs1303.gui.datasource.BestellpositionTableDescriptor;
+import ch.hslu.appe.fs1303.gui.models.BestellpositionWithProduktModel;
 import ch.hslu.appe.fs1303.gui.models.OrderEditorModel;
 import ch.hslu.appe.fs1303.gui.presenter.OrderPresenter.iOrderView;
 import ch.hslu.appe.fs1303.gui.presenter.OrderPresenter.iOrderViewListener;
@@ -25,7 +26,7 @@ public class OrderView extends AbstractBaseView<OrderEditorModel, iOrderViewList
 	private APPEDateTimeField fOrderDate;
 	private APPEDateTimeField fDeliveryDateShould;
 	private APPEDateTimeField fDeliveryDateIs;
-	private APPETableField<DTOBestellposition> fBestellpositionenTable;
+	private APPETableField<BestellpositionWithProduktModel> fBestellpositionenTable;
 	private APPEDTOField<DTOPerson> fPersonField;
 	private Button fNewPositionButton;
 
@@ -51,7 +52,7 @@ public class OrderView extends AbstractBaseView<OrderEditorModel, iOrderViewList
 	    
 		Composite bestellSection = createSection(fForm.getBody(), toolkit, "Bestellpositionen");
 	    
-	    fBestellpositionenTable = new APPETableField<DTOBestellposition>(bestellSection, toolkit);
+	    fBestellpositionenTable = new APPETableField<BestellpositionWithProduktModel>(bestellSection, toolkit);
 	    fBestellpositionenTable.setTableDescriptor(new BestellpositionTableDescriptor());
 	    register(fBestellpositionenTable);
 	    
