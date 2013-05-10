@@ -1,12 +1,15 @@
 package ch.hslu.appe.fs1301.gui.controls;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.eclipse.swt.widgets.Text;
 import org.junit.Test;
 
-import ch.hslu.appe.fs1303.gui.controls.APPECurrencyField;
+import ch.hslu.appe.fs1303.gui.controls.APPEDateField;
 import ch.hslu.appe.fs1303.gui.controls.APPETextControl;
 
-public class CurrencyFieldTest extends FieldTestBase<APPECurrencyField, Text, Integer> {
+public class DateFieldTest extends FieldTestBase<APPEDateField, Text, Date> {
 
 	protected Text doMockCreateControl() {
 		return mockCreateControlForTextBox();
@@ -19,7 +22,7 @@ public class CurrencyFieldTest extends FieldTestBase<APPECurrencyField, Text, In
 	
 	@Test
 	public void TestGetFieldClass() {
-		RunFieldClassTest(Integer.class);
+		RunFieldClassTest(Date.class);
 	}
 	
 	@Test
@@ -33,13 +36,8 @@ public class CurrencyFieldTest extends FieldTestBase<APPECurrencyField, Text, In
 	}
 	
 	@Test
-	public void TestGetValueForModel_WhenStringIsNumeric() {
-		RunGetValueForModelTest("12.3", 1230);
-	}
-	
-	@Test(expected = NumberFormatException.class)
-	public void TestGetValueForModel_WhenStringIsNotNumeric() {
-		RunGetValueForModelTest("12d3", null);
+	public void TestGetValueForModel_WhenStringIsCorrect() {
+		RunGetValueForModelTest("5.2.2012", getDateFor(2012, 2, 5));
 	}
 	
 	@Test
@@ -48,12 +46,15 @@ public class CurrencyFieldTest extends FieldTestBase<APPECurrencyField, Text, In
 	}
 	
 	@Test
-	public void TestGetDisplayValue_WhenValueIsNumericLong() {
-		RunGetDisplayValueTest(1234, "12.34");
+	public void TestGetDisplayValue() {
+		RunGetDisplayValueTest(getDateFor(2012,3,5), "05.03.2012");
 	}
 	
-	@Test
-	public void TestGetDisplayValue_WhenValueIsNumericShort() {
-		RunGetDisplayValueTest(34, "0.34");
+	private Date getDateFor(int year, int month, int day) {
+		Calendar cal = Calendar.getInstance();
+		cal.setLenient(false);
+		cal.set(year, month-1, day, 0, 0, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		return cal.getTime();
 	}
 }
