@@ -1,12 +1,17 @@
 package ch.hslu.appe.fs1301.gui.controls;
 
+import org.eclipse.swt.widgets.Text;
 import org.junit.Test;
 
 import ch.hslu.appe.fs1303.gui.controls.APPEIntField;
 import ch.hslu.appe.fs1303.gui.controls.APPETextControl;
 
-public class IntFieldTest extends FieldTestBase<APPEIntField, Integer> {
+public class IntFieldTest extends FieldTestBase<APPEIntField, Text, Integer> {
 
+	protected Text doMockCreateControl() {
+		return mockCreateControlForTextBox();
+	}
+	
 	@Test
 	public void TestBaseClass() {
 		RunBaseClassTest(APPETextControl.class);
@@ -30,11 +35,6 @@ public class IntFieldTest extends FieldTestBase<APPEIntField, Integer> {
 	@Test
 	public void TestGetValueForModel_WhenStringIsNumeric() {
 		RunGetValueForModelTest("123", 123);
-	}
-	
-	@Test
-	public void TestGetValueForModel_WhenStringIsNotNumeric() {
-		RunGetValueForModelTest("12d3", null);
 	}
 	
 	@Test

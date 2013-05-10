@@ -22,7 +22,7 @@ public abstract class APPEControl<T, H extends Control> {
 	protected Label fLabel;
 	protected H fControl;
 	private boolean fNullable;
-	private iValidator fValidator;
+	private iValidator<T> fValidator;
 	
 	protected Object fModel;	
 	protected Method fGetter;
@@ -143,7 +143,9 @@ public abstract class APPEControl<T, H extends Control> {
 		}
 	}
 	
-	public abstract T getValueForModel(String value);
+	public T getValueForModel(String value) {
+		return fValidator.getValueFor(value);
+	}
 	
 	public abstract String getDisplayValue(T value);
 	
@@ -160,11 +162,11 @@ public abstract class APPEControl<T, H extends Control> {
 		fMessage = message;		
 	}
 
-	public iValidator getValidator() {
+	public iValidator<T> getValidator() {
 		return fValidator;
 	}
 
-	public void setValidator(iValidator validator) {
+	public void setValidator(iValidator<T> validator) {
 		fValidator = validator;
 	}
 }

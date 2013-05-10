@@ -20,8 +20,12 @@ import org.powermock.reflect.Whitebox;
 
 import ch.hslu.appe.fs1303.gui.controls.APPECheckBoxField;
 
-public class CheckBoxFieldTest extends FieldTestBase<APPECheckBoxField, Boolean>{
+public class CheckBoxFieldTest extends FieldTestBase<APPECheckBoxField, Button, Boolean>{
 
+	protected Button doMockCreateControl() {
+		return mockCreateControlForButton();
+	}
+	
 	@Test
 	public void TestGetFieldClass() {
 		RunFieldClassTest(boolean.class);

@@ -1,12 +1,17 @@
 package ch.hslu.appe.fs1301.gui.controls;
 
+import org.eclipse.swt.widgets.Text;
 import org.junit.Test;
 
 import ch.hslu.appe.fs1303.gui.controls.APPECurrencyField;
 import ch.hslu.appe.fs1303.gui.controls.APPETextControl;
 
-public class CurrencyFieldTest extends FieldTestBase<APPECurrencyField, Integer> {
+public class CurrencyFieldTest extends FieldTestBase<APPECurrencyField, Text, Integer> {
 
+	protected Text doMockCreateControl() {
+		return mockCreateControlForTextBox();
+	}
+	
 	@Test
 	public void TestBaseClass() {
 		RunBaseClassTest(APPETextControl.class);

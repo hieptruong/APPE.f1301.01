@@ -192,7 +192,7 @@ public class APPEDTOField<T> extends APPETextControl<T> {
 			}
 		});
 		
-		setValidator(new iValidator() {
+		setValidator(new iValidator<T>() {
 			
 			@Override
 			public boolean validate(String input, boolean isNullable) {
@@ -203,6 +203,12 @@ public class APPEDTOField<T> extends APPETextControl<T> {
 				} else {
 					return true;
 				}
+			}
+
+			@Override
+			public T getValueFor(String value) {
+				// Dummy implementation
+				return null;
 			}
 		});
 		

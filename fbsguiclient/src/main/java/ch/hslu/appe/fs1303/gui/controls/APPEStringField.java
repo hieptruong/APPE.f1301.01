@@ -25,9 +25,4 @@ public class APPEStringField extends APPETextControl<String> {
 		
 		return value;
 	}
-
-	@Override
-	public String getValueForModel(String value) {
-		return value;
-	}
 }
