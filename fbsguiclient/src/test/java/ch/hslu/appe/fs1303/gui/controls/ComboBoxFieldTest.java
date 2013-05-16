@@ -1,6 +1,5 @@
 package ch.hslu.appe.fs1303.gui.controls;
 
-import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.fest.assertions.Assertions.assertThat;
@@ -8,26 +7,17 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.easymock.Capture;
 import org.easymock.EasyMock;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
 
 import ch.hslu.appe.fs1301.business.shared.UserRole;
-import ch.hslu.appe.fs1303.gui.controls.APPECheckBoxField;
-import ch.hslu.appe.fs1303.gui.controls.APPEComboBoxField;
 import ch.hslu.appe.fs1303.gui.datasource.ComboDataSource;
 
 @RunWith(PowerMockRunner.class)
@@ -94,105 +84,87 @@ public class ComboBoxFieldTest extends FieldTestBase<APPEComboBoxField, Combo, I
 	
 	@Test
 	public void TestGetValueForModel_WhenStringIsKnown() {
-		RunGetValueForModelTest("NONE", null);
+		SetsDataSourceIntoControl();
+		RunGetValueForModelTest("NONE", UserRole.NONE);
 	}
 	
 	@Test
-	public void TestGetValueForModel_WhenStringIsTrue() {
-		RunGetValueForModelTest("true", null);
+	public void TestGetDisplayValue_WhenValueIsNull() {
+		SetsDataSourceIntoControl();
+		RunGetDisplayValueTest(null, null);
 	}
 	
 	@Test
-	public void TestGetValueForModel_WhenStringIsNotBoolean() {
-		RunGetValueForModelTest("bla", null);
+	public void TestGetDisplayValue_WhenValueIsKnown() {
+		SetsDataSourceIntoControl();
+		RunGetDisplayValueTest(UserRole.NONE, "NONE");
 	}
 	
 	@Test
-	public void TestGetDisplayValue_WhenValueIsFalse() {
-		RunGetDisplayValueTest(null, "false");
+	public void TestGetDisplayValue_WhenValueIsUnknown() {
+		SetsDataSourceIntoControl();
+		RunGetDisplayValueTest(Integer.MAX_VALUE, null);
 	}
 	
 	@Test
-	public void TestGetDisplayValue_WhenValueIsTrue() {
-		RunGetDisplayValueTest(null, "true");
-	}
-	
-	@Test
-	public void SetsValueToTrue_OnSetControlValue_WhenValueIsTrue(){
-		final boolean ExpectedState = true;
-		Button button = PowerMock.createMock(Button.class);
-		Whitebox.setInternalState(fTestee, "fControl", button);
+	public void SetsSelection_OnSetControlValue_WhenValueIsExisting(){
+		final int ExpectedIndex = 1;
 		
-		button.setSelection(ExpectedState);
+		SetsDataSourceIntoControl();
+		PowerMock.reset(fControl);
+		fControl.select(ExpectedIndex);
 		PowerMock.replayAll();
 		
-		fTestee.setControlValue(String.valueOf(ExpectedState));
+		fTestee.setControlValue("CUSTOMER");
 	}
 	
 	@Test
-	public void SetsValueToFalse_OnSetControlValue_WhenValueIsFalse(){
-		final boolean ExpectedState = false;
-		Button button = PowerMock.createMock(Button.class);
-		Whitebox.setInternalState(fTestee, "fControl", button);
+	public void SetsNoSelection_OnSetControlValue_WhenValueIsNotExisting(){
+		final int Value = Integer.MAX_VALUE;
 		
-		button.setSelection(ExpectedState);
+		SetsDataSourceIntoControl();
 		PowerMock.replayAll();
 		
-		fTestee.setControlValue(String.valueOf(ExpectedState));
+		fTestee.setControlValue(String.valueOf(Value));
 	}
 	
 	@Test
-	public void ReturnsTrue_OnGetControlValue_WhenValueIsTrue(){
-		final boolean ExpectedState = false;
-		Button button = PowerMock.createMock(Button.class);
-		Whitebox.setInternalState(fTestee, "fControl", button);
-		
-		expect(button.getSelection()).andReturn(ExpectedState);
+	public void SetsNoSelection_OnSetControlValue_WhenValueIsNull(){
 		PowerMock.replayAll();
 		
-		assertThat(fTestee.getControlValue()).isEqualTo(String.valueOf(ExpectedState));
+		fTestee.setControlValue(null);
 	}
 	
 	@Test
-	public void ReturnsFalse_OnGetControlValue_WhenValueIsFalse(){
-		final boolean ExpectedState = false;
-		Button button = PowerMock.createMock(Button.class);
-		Whitebox.setInternalState(fTestee, "fControl", button);
-		
-		expect(button.getSelection()).andReturn(ExpectedState);
+	public void ReturnsNull_OnGetControlValue_WhenSelectionIndexIsNegativ(){
+		final int ExpectedState = -1;
+
+		PowerMock.reset(fControl);
+		expect(fControl.getSelectionIndex()).andReturn(ExpectedState);
 		PowerMock.replayAll();
 		
-		assertThat(fTestee.getControlValue()).isEqualTo(String.valueOf(ExpectedState));
+		assertThat(fTestee.getControlValue()).isNull();
+	}
+	
+	@Test
+	public void ReturnsCUSTOMER_OnGetControlValue_WhenValueIsCUSTOMER(){
+		final int ExpectedState = 1;
+
+		SetsDataSourceIntoControl();
+		PowerMock.reset(fControl);
+		expect(fControl.getSelectionIndex()).andReturn(ExpectedState);
+		PowerMock.replayAll();
+		
+		assertThat(fTestee.getControlValue()).isEqualTo("CUSTOMER");
 	}
 	
 	@Test
 	public void DoesNothing_OnRemoveModifyListener() {
-		fTestee.removeModifyListener(null);
-	}
-	
-	@Test
-	public void AddsModifyListener() {
-		Button button = PowerMock.createMock(Button.class);
-		ModifyListener listenerMock = PowerMock.createMock(ModifyListener.class);
-		Whitebox.setInternalState(fTestee, "fControl", button);
-		Capture<Listener> cap = new Capture<Listener>();
-		button.addListener(EasyMock.anyInt(), capture(cap));
-		listenerMock.modifyText(null);
+		PowerMock.reset(fControl);
+		fControl.removeModifyListener(isA(ModifyListener.class));
 		PowerMock.replayAll();
 		
-		fTestee.addModifyListener(listenerMock);
-		cap.getValue().handleEvent(null);
-	}
-	
-	@Test
-	public void CreatesSelectionButton_OnCreateControl() {
-		Composite composite = PowerMock.createMock(Composite.class);
-		FormToolkit formToolkit = PowerMock.createMock(FormToolkit.class);
-		Button button = PowerMock.createMock(Button.class);
 		
-		expect(formToolkit.createButton(composite, "", SWT.CHECK)).andReturn(button);
-		button.setLayoutData(isA(GridData.class));
-		PowerMock.replayAll();
-		fTestee.createControl(composite, formToolkit, SWT.None);
+		fTestee.removeModifyListener(PowerMock.createMock(ModifyListener.class));
 	}
 }

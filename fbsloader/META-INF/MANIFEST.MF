@@ -4,7 +4,8 @@ Bundle-Name: Fbsloader
 Bundle-SymbolicName: ch.hslu.appe.fs1303.gui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.e4.ui.workbench.addons.swt;bundle-version="0.10.1"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
