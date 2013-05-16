@@ -11,6 +11,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import ch.hslu.appe.fs1303.gui.datasource.ComboDataSource;
 
+class ComboBoxCreator {
+	public static Combo createCombo(Composite parent, int style) {
+		return new Combo(parent, SWT.DROP_DOWN);
+	}
+}
+
 public class APPEComboBoxField extends APPEControl<Integer, Combo> {
 
 	private List<ComboDataSource> fDataSource;
@@ -22,7 +28,7 @@ public class APPEComboBoxField extends APPEControl<Integer, Combo> {
 
 	@Override
 	public Combo createControl(Composite parent, FormToolkit toolkit, int style) {
-		Combo combo = new Combo(parent, SWT.DROP_DOWN);
+		Combo combo = ComboBoxCreator.createCombo(parent, style);
 		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		toolkit.adapt(combo);
 		return combo;

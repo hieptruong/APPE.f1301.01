@@ -3,7 +3,6 @@ package ch.hslu.appe.fs1303.gui.datasource;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 
-import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellposition;
 import ch.hslu.appe.fs1303.gui.models.BestellpositionWithProduktModel;
 
 public class BestellpositionTableDescriptor extends AbstractTableDescriptor<BestellpositionWithProduktModel> {
