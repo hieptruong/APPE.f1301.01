@@ -1,4 +1,4 @@
-package ch.hslu.appe.fs1301.gui.controls;
+package ch.hslu.appe.fs1303.gui.controls;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
@@ -57,7 +57,7 @@ public abstract class FieldTestBase<TAPPEControl extends APPEControl<TValue, TCo
 		fTestee = (TAPPEControl) fGenericClass.getDeclaredConstructors()[0].newInstance(fParent, fToolkit, fLabelText, fStyle);
 	}
 	
-	protected abstract TControl doMockCreateControl();
+	protected abstract TControl doMockCreateControl() throws Exception;
 
 	@After
 	public void cleanUp(){

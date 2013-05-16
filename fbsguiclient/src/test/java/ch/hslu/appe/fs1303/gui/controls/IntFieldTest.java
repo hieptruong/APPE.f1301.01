@@ -1,4 +1,4 @@
-package ch.hslu.appe.fs1301.gui.controls;
+package ch.hslu.appe.fs1303.gui.controls;
 
 import org.eclipse.swt.widgets.Text;
 import org.junit.Test;

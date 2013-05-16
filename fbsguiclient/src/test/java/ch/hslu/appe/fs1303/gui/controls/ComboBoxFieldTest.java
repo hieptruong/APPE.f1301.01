@@ -1,9 +1,12 @@
-package ch.hslu.appe.fs1301.gui.controls;
+package ch.hslu.appe.fs1303.gui.controls;
 
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.fest.assertions.Assertions.assertThat;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.easymock.Capture;
 import org.easymock.EasyMock;
@@ -11,59 +14,107 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
+import ch.hslu.appe.fs1301.business.shared.UserRole;
 import ch.hslu.appe.fs1303.gui.controls.APPECheckBoxField;
+import ch.hslu.appe.fs1303.gui.controls.APPEComboBoxField;
+import ch.hslu.appe.fs1303.gui.datasource.ComboDataSource;
 
-public class CheckBoxFieldTest extends FieldTestBase<APPECheckBoxField, Button, Boolean>{
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(ComboBoxCreator.class)
+public class ComboBoxFieldTest extends FieldTestBase<APPEComboBoxField, Combo, Integer>{
 
-	protected Button doMockCreateControl() {
-		return mockCreateControlForButton();
+	protected Combo doMockCreateControl() throws Exception {
+		PowerMock.mockStatic(ComboBoxCreator.class);
+		Combo combo = PowerMock.createMock(Combo.class);
+		expect(ComboBoxCreator.createCombo(fParent, fStyle)).andReturn(combo);
+		combo.setLayoutData(isA(GridData.class));
+		fToolkit.adapt(combo);
+		combo.addModifyListener(isA(ModifyListener.class));
+		return combo;
 	}
+	
+	private void setUpEmptyDataSource() {
+		List<ComboDataSource> dataSource = new ArrayList<ComboDataSource>();
+		fTestee.setDataSource(dataSource);
+	}
+	
 	
 	@Test
 	public void TestGetFieldClass() {
-		RunFieldClassTest(boolean.class);
+		setUpEmptyDataSource();
+		RunFieldClassTest(Integer.class);
 	}
 
 	@Test
+	public void RemovesModifyListener() {
+		PowerMock.reset(fControl);
+		ModifyListener listener = PowerMock.createMock(ModifyListener.class);
+		fControl.removeModifyListener(listener);
+		PowerMock.replayAll();
+		
+		fTestee.removeModifyListener(listener);
+	}
+	
+	@Test
+	public void SetsDataSourceIntoControl() {
+		List<ComboDataSource> dataSource = ComboDataSource.getDataSourceForClass(UserRole.class);
+		
+		PowerMock.reset(fControl);
+		fControl.add(isA(String.class));
+		EasyMock.expectLastCall().anyTimes();
+		PowerMock.replayAll();
+		
+		fTestee.setDataSource(dataSource);
+		
+		assertThat(fTestee.getDataSource()).isSameAs(dataSource);
+	}
+	
+	@Test
 	public void TestGetValueForModel_WhenStringIsEmpty() {
-		RunGetValueForModelTest("", false);
+		setUpEmptyDataSource();
+		RunGetValueForModelTest("", null);
 	}
 	
 	@Test
-	public void TestGetValueForModel_WhenStringIsNull() {
-		RunGetValueForModelTest(null, false);
+	public void TestGetValueForModel_WhenStringIsUnknown() {
+		SetsDataSourceIntoControl();
+		RunGetValueForModelTest(null, null);
 	}
 	
 	@Test
-	public void TestGetValueForModel_WhenStringIsFalse() {
-		RunGetValueForModelTest("False", false);
+	public void TestGetValueForModel_WhenStringIsKnown() {
+		RunGetValueForModelTest("NONE", null);
 	}
 	
 	@Test
 	public void TestGetValueForModel_WhenStringIsTrue() {
-		RunGetValueForModelTest("true", true);
+		RunGetValueForModelTest("true", null);
 	}
 	
 	@Test
 	public void TestGetValueForModel_WhenStringIsNotBoolean() {
-		RunGetValueForModelTest("bla", false);
+		RunGetValueForModelTest("bla", null);
 	}
 	
 	@Test
 	public void TestGetDisplayValue_WhenValueIsFalse() {
-		RunGetDisplayValueTest(false, "false");
+		RunGetDisplayValueTest(null, "false");
 	}
 	
 	@Test
 	public void TestGetDisplayValue_WhenValueIsTrue() {
-		RunGetDisplayValueTest(true, "true");
+		RunGetDisplayValueTest(null, "true");
 	}
 	
 	@Test

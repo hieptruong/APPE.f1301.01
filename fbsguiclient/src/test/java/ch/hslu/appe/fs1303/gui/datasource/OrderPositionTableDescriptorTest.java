@@ -51,4 +51,28 @@ public class OrderPositionTableDescriptorTest extends AbstractTableDescriptorTes
 		
 		runReturnsItemAtIndex(data);
 	}
+	
+	@Test
+	public void TestSortOne(){
+		List<BestellpositionWithProduktModel> data = new ArrayList<BestellpositionWithProduktModel>();
+		BestellpositionWithProduktModel dto = new BestellpositionWithProduktModel(new DTOBestellposition(), new DTOProdukt());
+		data.add(dto);
+		data.add(dto);
+		
+		runReturnsItemAtIndex(data);
+	}
+	
+	@Test
+	public void TestSortTwo() {
+		List<BestellpositionWithProduktModel> data = new ArrayList<BestellpositionWithProduktModel>();
+		DTOBestellposition dtoBestellposition = new DTOBestellposition();
+		dtoBestellposition.setId(0);
+		
+		BestellpositionWithProduktModel dto1 = new BestellpositionWithProduktModel(dtoBestellposition, new DTOProdukt());
+		BestellpositionWithProduktModel dto2 = new BestellpositionWithProduktModel(new DTOBestellposition(), new DTOProdukt());
+		data.add(dto2);
+		data.add(dto1);
+		
+		runReturnsItemAtIndex(data);
+	}
 }
