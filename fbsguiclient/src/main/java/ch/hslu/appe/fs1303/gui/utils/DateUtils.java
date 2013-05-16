@@ -15,10 +15,12 @@ public class DateUtils {
 	}
 	
 	public static String getDateAsString(Date date) {
+		if (date == null) return "";
 		return DATE_FORMAT.format(date);
 	}
 	
 	public static String getDateTimeAsString(Date datetime) {
+		if (datetime == null) return "";
 		return DATE_TIME_FORMAT.format(datetime);
 	}
 }

@@ -20,17 +20,6 @@ public class APPEIntField extends APPETextControl<Integer> {
 	}
 
 	@Override
-	public Integer getValueForModel(String value) {
-		if (value == null || value.isEmpty()) return 0;
-		
-		try {
-			return Integer.parseInt(value);
-		} catch (NumberFormatException e) {
-			return null;
-		}
-	}
-
-	@Override
 	public String getDisplayValue(Integer value) {
 		if (value == null) return "";
 		

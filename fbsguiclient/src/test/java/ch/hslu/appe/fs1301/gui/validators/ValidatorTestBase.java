@@ -10,6 +10,7 @@ import org.junit.runners.Parameterized;
 
 import ch.hslu.appe.fs1303.gui.validators.iValidator;
 
+@SuppressWarnings("rawtypes")
 @RunWith(Parameterized.class)
 public abstract class ValidatorTestBase<T extends iValidator> {
 

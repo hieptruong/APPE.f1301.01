@@ -15,5 +15,4 @@ public class APPEDateTimeField extends APPEDateField {
 		fDateFormat = DateUtils.DATE_TIME_FORMAT;
 		setValidator(new DateTimeValidator());
 	}
-
 }

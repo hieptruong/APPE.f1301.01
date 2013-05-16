@@ -1,7 +1,11 @@
 package ch.hslu.appe.fs1303.gui.views;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellposition;
@@ -11,6 +15,7 @@ import ch.hslu.appe.fs1303.gui.controls.APPEDateTimeField;
 import ch.hslu.appe.fs1303.gui.controls.APPEIntField;
 import ch.hslu.appe.fs1303.gui.controls.APPETableField;
 import ch.hslu.appe.fs1303.gui.datasource.BestellpositionTableDescriptor;
+import ch.hslu.appe.fs1303.gui.models.BestellpositionWithProduktModel;
 import ch.hslu.appe.fs1303.gui.models.OrderEditorModel;
 import ch.hslu.appe.fs1303.gui.presenter.OrderPresenter.iOrderView;
 import ch.hslu.appe.fs1303.gui.presenter.OrderPresenter.iOrderViewListener;
@@ -21,8 +26,9 @@ public class OrderView extends AbstractBaseView<OrderEditorModel, iOrderViewList
 	private APPEDateTimeField fOrderDate;
 	private APPEDateTimeField fDeliveryDateShould;
 	private APPEDateTimeField fDeliveryDateIs;
-	private APPETableField<DTOBestellposition> fBestellpositionenTable;
+	private APPETableField<BestellpositionWithProduktModel> fBestellpositionenTable;
 	private APPEDTOField<DTOPerson> fPersonField;
+	private Button fNewPositionButton;
 
 	@Override
 	public void createPageContent(Composite parent, FormToolkit toolkit) {
@@ -35,7 +41,7 @@ public class OrderView extends AbstractBaseView<OrderEditorModel, iOrderViewList
 	    fPersonField = new APPEDTOField<DTOPerson>(generalSection, toolkit, "Person: ", DTOPerson.class, SWT.None);
 	    register(fPersonField);
 	    
-	    fOrderDate = new APPEDateTimeField(generalSection, toolkit, "Bestelldatum: ", SWT.READ_ONLY);
+	    fOrderDate = new APPEDateTimeField(generalSection, toolkit, "Bestelldatum: ", SWT.READ_ONLY);	    
 	    register(fOrderDate);
 	    
 	    fDeliveryDateShould = new APPEDateTimeField(generalSection, toolkit, "Lieferdatum SOLL: ", SWT.READ_ONLY);
@@ -46,8 +52,26 @@ public class OrderView extends AbstractBaseView<OrderEditorModel, iOrderViewList
 	    
 		Composite bestellSection = createSection(fForm.getBody(), toolkit, "Bestellpositionen");
 	    
-	    fBestellpositionenTable = new APPETableField<DTOBestellposition>(bestellSection, toolkit);
+	    fBestellpositionenTable = new APPETableField<BestellpositionWithProduktModel>(bestellSection, toolkit);
 	    fBestellpositionenTable.setTableDescriptor(new BestellpositionTableDescriptor());
+	    register(fBestellpositionenTable);
+	    
+	    fNewPositionButton = toolkit.createButton(bestellSection, "Position hinzufuegen", 0);
+	    fNewPositionButton.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false, 1, 1));
+	    fNewPositionButton.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event arg0) {				
+				fListener.addOrderPosition();
+			}
+		});	 
+	}
+	
+	@Override
+	public void setEditable(boolean editable) {
+		super.setEditable(editable);
+		
+		fNewPositionButton.setEnabled(false);
 	}
 	
 	@Override
