@@ -25,6 +25,7 @@ public abstract class AbstractBaseView<T, H extends iViewListener> implements iV
 
 	protected ScrolledForm fForm;
 	protected Action fSaveAction;
+	protected Action fRefreshAction;
 	protected H fListener;
 	protected T fModel;
 	protected boolean fEditable;
@@ -57,6 +58,19 @@ public abstract class AbstractBaseView<T, H extends iViewListener> implements iV
 			}
 		};
 		
+		fRefreshAction = new Action("Refresh", IAction.AS_PUSH_BUTTON) {
+			
+			@Override
+			public void run() {
+				fListener.reloadModel();
+			}
+			
+			@Override
+			public ImageDescriptor getImageDescriptor() {
+				return APPEActivator.getImageDescriptor("/icons/refresh.png");
+			}
+		};
+		
 		fillToolbar();
 		
 		GridLayout layout = new GridLayout(1, true);	
@@ -75,6 +89,7 @@ public abstract class AbstractBaseView<T, H extends iViewListener> implements iV
 		if (fEditable) {
 			fForm.getToolBarManager().add(fSaveAction);
 		}		
+		fForm.getToolBarManager().add(fRefreshAction);
 		
 		fForm.getToolBarManager().update(true);
 	}

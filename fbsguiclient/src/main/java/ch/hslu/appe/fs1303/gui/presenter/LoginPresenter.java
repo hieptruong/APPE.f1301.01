@@ -3,12 +3,12 @@ package ch.hslu.appe.fs1303.gui.presenter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Composite;
 
-import com.google.inject.Inject;
-
 import ch.hslu.appe.fs1301.business.shared.iSessionAPI;
 import ch.hslu.appe.fs1303.gui.dialogs.LoginDialog;
 
-public class LoginPresenter extends BasePresenter {
+import com.google.inject.Inject;
+
+public class LoginPresenter extends BasePresenter<String> {
 
 	private LoginDialog fLoginDialog;
 	
@@ -36,7 +36,19 @@ public class LoginPresenter extends BasePresenter {
 	}
 
 	@Override
-	public void createPartControl(Composite arg0) {
+	public String loadModel() {
+		return null;
+	}
 
+	@Override
+	public void createControls(Composite composite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void bindModel(String model) {
+		// TODO Auto-generated method stub
+		
 	}
 }
