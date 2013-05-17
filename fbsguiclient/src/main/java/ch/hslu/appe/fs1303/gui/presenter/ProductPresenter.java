@@ -12,7 +12,7 @@ import ch.hslu.appe.fs1303.gui.views.iViewListener;
 
 import com.google.inject.Inject;
 
-public class ProductPresenter extends BasePresenter {
+public class ProductPresenter extends BasePresenter<DTOProdukt> {
 
 	public static final String ID = "ch.hslu.appe.fs1303.gui.presenter.ProductPresenter";
 	
@@ -27,52 +27,62 @@ public class ProductPresenter extends BasePresenter {
 	
 	@Inject
 	private iProductAPI fProductApi;
-
-	private DTOProdukt fProduct;
 	
 	public ProductPresenter() {
 		super();
 	}
 	
 	@Override
-	public void createPartControl(Composite composite) {				
-		fView.createContent(composite);
+	public void setFocus() {
 		
+	}
+
+	@Override
+	public DTOProdukt loadModel() {
 		String modelId = getViewSite().getSecondaryId();
 		if (modelId.startsWith("new")) {
-			fProduct = new DTOProdukt();
+			return new DTOProdukt();
 		} else {
 			try {
-				fProduct = fProductApi.getProductById(Integer.parseInt(getViewSite().getSecondaryId()));
+				return fProductApi.getProductById(Integer.parseInt(getViewSite().getSecondaryId()));
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
-				return;
 			} catch (AccessDeniedException e) {
 				ErrorUtils.handleAccessDenied(getSite().getShell());
-				return;
 			}
 		}
 		
-		setPartName(new ProductLabelProvider().getText(fProduct));
-		fView.bindModel(fProduct);
+		return null;
+	}
+
+	@Override
+	public void createControls(Composite composite) {
+		fView.createContent(composite);
+		
 		fView.setActionListener(new iProductViewListener() {
 			
 			@Override
 			public void onSave() {
 				try {
-					fProduct = fProductApi.saveProduct(fProduct);				
-					fView.bindModel(fProduct);
-					setPartName(new ProductLabelProvider().getText(fProduct));
+					setModel(fProductApi.saveProduct(getModel()));				
+					fView.bindModel(getModel());
+					setPartName(new ProductLabelProvider().getText(getModel()));
 				} catch (AccessDeniedException e) {
 					ErrorUtils.handleAccessDenied(getSite().getShell());
 				}
 			}
+
+			@Override
+			public void reloadModel() {
+				loadAndBindModel();
+			}
 		});
 	}
-	
+
 	@Override
-	public void setFocus() {
-		
+	public void bindModel(DTOProdukt model) {
+		setPartName(new ProductLabelProvider().getText(model));
+		fView.bindModel(model);
 	}
 
 }

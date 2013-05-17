@@ -22,7 +22,7 @@ import ch.hslu.appe.fs1303.gui.views.iViewListener;
 
 import com.google.inject.Inject;
 
-public class PersonPresenter extends BasePresenter {
+public class PersonPresenter extends BasePresenter<PersonEditorModel> {
 
 	public static final String ID = "ch.hslu.appe.fs1303.gui.presenter.PersonPresenter";
 	
@@ -43,46 +43,51 @@ public class PersonPresenter extends BasePresenter {
 	
 	@Inject
 	private iOrderAPI fOrderApi;
-
-	private PersonEditorModel fPersonEditorModel;
 	
 	public PersonPresenter() {
 		super();
 	}
 	
+	
 	@Override
-	public void createPartControl(Composite composite) {
-		fView.createContent(composite);
+	public void setFocus() {
+		
+	}
+
+	@Override
+	public PersonEditorModel loadModel() {
 		String modelId = getViewSite().getSecondaryId();
 		if (modelId.startsWith("new")) {
 			DTOPerson person = new DTOPerson();
-			fPersonEditorModel = new PersonEditorModel(person, new ArrayList<DTOBestellung>(), new ArrayList<DTOBestellung>());
+			return new PersonEditorModel(person, new ArrayList<DTOBestellung>(), new ArrayList<DTOBestellung>());
 		} else {
 			try {
 				DTOPerson person = fPersonApi.getCustomerById(Integer.parseInt(modelId));
 				List<DTOBestellung> orders = fOrderApi.getOrders(ArrayUtils.convertToIntArray(person.getBestellungs1()));
 				List<DTOBestellung> createdOrders = fOrderApi.getOrders(ArrayUtils.convertToIntArray(person.getBestellungs2()));
-				fPersonEditorModel = new PersonEditorModel(person, orders, createdOrders);
+				return new PersonEditorModel(person, orders, createdOrders);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
-				return;
 			} catch (AccessDeniedException e) {
 				ErrorUtils.handleAccessDenied(getSite().getShell());
-				return;
 			}			
-		}
-	
-		setPartName(new PersonLabelProvider().getText(fPersonEditorModel.getPerson()));
+		};
 		
-		fView.bindModel(fPersonEditorModel);
+		return null;
+	}
+
+	@Override
+	public void createControls(Composite composite) {
+		fView.createContent(composite);
+		
 		fView.setActionListener(new iPersonViewListener() {
 			
 			@Override
 			public void onSave() {
 				try {
-					DTOPerson person = fPersonApi.saveCustomer(fPersonEditorModel.getPerson());
-					fPersonEditorModel.setPerson(person);
-					fView.bindModel(fPersonEditorModel);
+					DTOPerson person = fPersonApi.saveCustomer(getModel().getPerson());
+					getModel().setPerson(person);
+					fView.bindModel(getModel());
 					setPartName(new PersonLabelProvider().getText(person));
 				} catch (AccessDeniedException e) {
 					ErrorUtils.handleAccessDenied(getSite().getShell());
@@ -101,17 +106,23 @@ public class PersonPresenter extends BasePresenter {
 			@Override
 			public void onNewOrderButtonClick() {
 				try {
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(OrderPresenter.ID, "new" + fPersonEditorModel.getPerson().getId(), IWorkbenchPage.VIEW_ACTIVATE);
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(OrderPresenter.ID, "new" + getModel().getPerson().getId(), IWorkbenchPage.VIEW_ACTIVATE);
 				} catch (PartInitException e) {
 					e.printStackTrace();
 				}
 			}
+
+			@Override
+			public void reloadModel() {
+				loadAndBindModel();			
+			}
 		});
 	}
-	
+
 	@Override
-	public void setFocus() {
-		
+	public void bindModel(PersonEditorModel model) {
+		setPartName(new PersonLabelProvider().getText(model.getPerson()));
+		fView.bindModel(model);
 	}
 
 }
