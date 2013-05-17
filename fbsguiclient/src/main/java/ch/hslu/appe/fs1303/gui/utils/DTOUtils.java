@@ -12,7 +12,7 @@ import ch.hslu.appe.fs1303.gui.models.quicksearch.PersonQuickSearchModel;
 import ch.hslu.appe.fs1303.gui.models.quicksearch.ProductQuickSearchModel;
 import ch.hslu.appe.fs1303.gui.models.quicksearch.iQuickSearchModel;
 
-public final class DTOUtils {
+public class DTOUtils {
 	private static LabelProvider fPersonLabelProvider;
 	private static LabelProvider fOrderLabelProvider;
 	private static LabelProvider fProductLabelProvider;

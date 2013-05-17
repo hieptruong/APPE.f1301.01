@@ -21,22 +21,29 @@ import org.junit.After;
 import org.junit.Before;
 import org.powermock.api.easymock.PowerMock;
 
-import ch.hslu.appe.fs1303.gui.controls.APPEControl;
-
 public abstract class FieldTestBase<TAPPEControl extends APPEControl<TValue, TControl>, TControl extends Control, TValue>{
 
 	protected TAPPEControl fTestee;
 	private Class<TAPPEControl> fGenericClass;
+	private Class<TValue> fValueClass;
 	protected Composite fParent;
 	protected FormToolkit fToolkit;
 	protected String fLabelText;
 	protected int fStyle;
 	protected TControl fControl;
+	private boolean fExtendedType;
 	
 	@SuppressWarnings("unchecked")
 	public FieldTestBase() {
 		ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
-		fGenericClass = (Class<TAPPEControl>) parameterizedType.getActualTypeArguments()[0];
+		Object obj = parameterizedType.getActualTypeArguments()[0];
+		if (obj instanceof Class<?>) {
+			fGenericClass = (Class<TAPPEControl>) parameterizedType.getActualTypeArguments()[0];
+		}else {
+			fGenericClass = (Class<TAPPEControl>) ((ParameterizedType)obj).getRawType();
+			fValueClass = (Class<TValue>) parameterizedType.getActualTypeArguments()[2];
+			fExtendedType = true;
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -54,7 +61,10 @@ public abstract class FieldTestBase<TAPPEControl extends APPEControl<TValue, TCo
 		fControl = doMockCreateControl();
 		
 		PowerMock.replayAll();
-		fTestee = (TAPPEControl) fGenericClass.getDeclaredConstructors()[0].newInstance(fParent, fToolkit, fLabelText, fStyle);
+		if (fExtendedType) 
+			fTestee = (TAPPEControl) fGenericClass.getDeclaredConstructors()[0].newInstance(fParent, fToolkit, fLabelText, fValueClass, fStyle);
+		else
+			fTestee = (TAPPEControl) fGenericClass.getDeclaredConstructors()[0].newInstance(fParent, fToolkit, fLabelText, fStyle);
 	}
 	
 	protected abstract TControl doMockCreateControl() throws Exception;
