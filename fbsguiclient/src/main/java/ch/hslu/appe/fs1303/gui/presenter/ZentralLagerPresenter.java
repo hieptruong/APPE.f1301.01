@@ -1,9 +1,18 @@
 package ch.hslu.appe.fs1303.gui.presenter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.swt.widgets.Composite;
 
+import ch.hslu.appe.fs1301.business.shared.AccessDeniedException;
+import ch.hslu.appe.fs1301.business.shared.iProductAPI;
+import ch.hslu.appe.fs1301.business.shared.iStockAPI;
+import ch.hslu.appe.fs1301.business.shared.dto.DTOProdukt;
+import ch.hslu.appe.fs1301.business.shared.dto.DTOZentrallagerBestellung;
 import ch.hslu.appe.fs1303.gui.models.ZentralLagerEditorModel;
 import ch.hslu.appe.fs1303.gui.models.ZentralLagerWithProductModel;
+import ch.hslu.appe.fs1303.gui.utils.ErrorUtils;
 import ch.hslu.appe.fs1303.gui.views.iView;
 import ch.hslu.appe.fs1303.gui.views.iViewListener;
 
@@ -21,12 +30,31 @@ public class ZentralLagerPresenter extends BasePresenter<ZentralLagerEditorModel
 	}
 		
 	@Inject
+	private iStockAPI fStockApi;
+	
+	@Inject
+	private iProductAPI fProductApi;
+	
+	@Inject
 	private iZentralLagerView fView;
 	
 	@Override
 	public ZentralLagerEditorModel loadModel() {
-		// TODO Auto-generated method stub
-		return null;
+		List<DTOZentrallagerBestellung> openOrder = fStockApi.getOpenOrder();
+		List<ZentralLagerWithProductModel> orderList = new ArrayList<ZentralLagerWithProductModel>();
+		
+		for (DTOZentrallagerBestellung dtoZentrallagerBestellung : openOrder) {
+			DTOProdukt product;
+			try {
+				product = fProductApi.getProductById(dtoZentrallagerBestellung.getProdukt());
+				orderList.add(new ZentralLagerWithProductModel(dtoZentrallagerBestellung, product));
+			} catch (AccessDeniedException e) {
+				ErrorUtils.handleAccessDenied(getViewSite().getShell());
+				return null;
+			}
+		}
+		
+		return new ZentralLagerEditorModel(orderList);
 	}
 
 	@Override
@@ -48,8 +76,8 @@ public class ZentralLagerPresenter extends BasePresenter<ZentralLagerEditorModel
 			
 			@Override
 			public void confirmOrder(ZentralLagerWithProductModel selectedItem) {
-				// TODO Auto-generated method stub
-				
+				fStockApi.ConfirmOrderReceivedFromStock(selectedItem.getBestellung().getId());
+				loadAndBindModel();
 			}
 		});
 		
