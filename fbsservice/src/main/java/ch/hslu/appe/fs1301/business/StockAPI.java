@@ -27,7 +27,9 @@ public class StockAPI extends BaseAPI implements iStockAPI {
 
 	@Override
 	public void ConfirmOrderReceivedFromStock(int id) {
+		fTransaction.beginTransaction();
 		fStockRepository.ConfirmOrderReceivedFromStock(id);
+		fTransaction.commitTransaction();
 	}
 
 }
