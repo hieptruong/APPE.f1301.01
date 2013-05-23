@@ -42,5 +42,12 @@
             name="Bestell Editor"
             restorable="true">
       </view>
+      <view
+            allowMultiple="true"
+            class="ch.hslu.appe.fs1303.gui.presenter.ZentralLagerPresenter"
+            id="ch.hslu.appe.fs1303.gui.presenter.ZentralLagerPresenter"
+            name="Zentrallager"
+            restorable="true">
+      </view>
    </extension>
 </plugin>

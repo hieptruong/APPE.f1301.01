@@ -2,8 +2,6 @@ package ch.hslu.appe.fs1301.data.shared.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
-
 import java.util.List;
 
 

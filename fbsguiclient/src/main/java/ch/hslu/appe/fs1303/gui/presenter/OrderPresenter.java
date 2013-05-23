@@ -30,7 +30,6 @@ public class OrderPresenter extends BasePresenter<OrderEditorModel> {
 public static final String ID = "ch.hslu.appe.fs1303.gui.presenter.OrderPresenter";
 	
 	public interface iOrderView extends iView<OrderEditorModel, iOrderViewListener> {
-		public void setEditable(boolean editable);
 	}
 	
 	public interface iOrderViewListener extends iViewListener {

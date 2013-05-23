@@ -4,7 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 
-
 /**
  * The persistent class for the Bestellposition database table.
  * 
@@ -14,6 +13,7 @@ import javax.persistence.*;
 public class Bestellposition extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
+	private boolean abgerechnet;
 	private int anzahl;
 	private int stueckpreis;
 	private Bestellung bestellung;
@@ -32,6 +32,16 @@ public class Bestellposition extends BaseEntity implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+
+	@Column(nullable=false)
+	public boolean getAbgerechnet() {
+		return this.abgerechnet;
+	}
+
+	public void setAbgerechnet(boolean abgerechnet) {
+		this.abgerechnet = abgerechnet;
 	}
 
 
