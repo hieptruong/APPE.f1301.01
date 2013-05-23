@@ -24,6 +24,15 @@ public class DateUtilsTest {
 	}
 	
 	@Test
+	public void returnsEmptyString_WhenDateIsNull() {
+		final String ExpectedString = "";
+		
+		String result = DateUtils.getDateAsString(null);
+		
+		assertThat(result).isEqualTo(ExpectedString);
+	}
+	
+	@Test
 	public void returnsCorrectFormattedDateTime() {
 		final String ExpectedString = "10.12.2012 07:23:10";
 		Calendar cal = Calendar.getInstance();
@@ -35,4 +44,14 @@ public class DateUtilsTest {
 		
 		assertThat(result).isEqualTo(ExpectedString);
 	}
+	
+	@Test
+	public void returnsEmptyString_WhenDateTimeIsNull() {
+		final String ExpectedString = "";
+		
+		String result = DateUtils.getDateTimeAsString(null);
+		
+		assertThat(result).isEqualTo(ExpectedString);
+	}
+	
 }

@@ -13,6 +13,7 @@ import ch.hslu.appe.fs1301.data.shared.iOrderPositionRepository;
 import ch.hslu.appe.fs1301.data.shared.iOrderRepository;
 import ch.hslu.appe.fs1301.data.shared.iPersonRepository;
 import ch.hslu.appe.fs1301.data.shared.iProductRepository;
+import ch.hslu.appe.fs1301.data.shared.iStockRepository;
 import ch.hslu.appe.fs1301.data.shared.iTransaction;
 
 import com.google.inject.AbstractModule;
@@ -52,6 +53,7 @@ public class DummyTest {
 		private iOrderPositionRepository fOrderPositionRepository;
 		private iOrderRepository fOrderRepository;
 		private iTransaction fTransaction;
+		private iStockRepository fStockRepository;
 		
 		public MockedModule() {
 			fPersonRepository = PowerMock.createMock(iPersonRepository.class);
@@ -59,6 +61,7 @@ public class DummyTest {
 			fOrderPositionRepository = PowerMock.createMock(iOrderPositionRepository.class);
 			fOrderRepository = PowerMock.createMock(iOrderRepository.class);
 			fTransaction = PowerMock.createMock(iTransaction.class);
+			fStockRepository = PowerMock.createMock(iStockRepository.class);
 		}
 		
 		@Override
@@ -88,6 +91,11 @@ public class DummyTest {
 		@Provides
 		protected iTransaction provideTransaction() {
 			return fTransaction;
+		}
+
+		@Provides
+		protected iStockRepository provideStockRepository() {
+			return fStockRepository;
 		}
 	}
 }
