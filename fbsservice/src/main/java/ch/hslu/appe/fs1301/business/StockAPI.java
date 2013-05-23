@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
+import ch.hslu.appe.fs1301.business.shared.AccessDeniedException;
+import ch.hslu.appe.fs1301.business.shared.UserRole;
 import ch.hslu.appe.fs1301.business.shared.iStockAPI;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOConverter;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOZentrallagerBestellung;
@@ -21,15 +23,18 @@ public class StockAPI extends BaseAPI implements iStockAPI {
 	}
 
 	@Override
-	public List<DTOZentrallagerBestellung> getOpenOrder() {
+	public List<DTOZentrallagerBestellung> getOpenOrders() throws AccessDeniedException {
+		checkRole(UserRole.ADMIN);
+		
 		return DTOConverter.convertZentrallagerBestellung(fStockRepository.getAll());
 	}
 
 	@Override
-	public void ConfirmOrderReceivedFromStock(int id) {
+	public void confirmOrderReceivedFromStock(int id) throws AccessDeniedException {
+		checkRole(UserRole.ADMIN);
+		
 		fTransaction.beginTransaction();
-		fStockRepository.ConfirmOrderReceivedFromStock(id);
+		fStockRepository.confirmOrderReceivedFromStock(id);
 		fTransaction.commitTransaction();
 	}
-
 }

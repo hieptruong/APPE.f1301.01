@@ -10,7 +10,7 @@ import ch.hslu.appe.fs1301.data.shared.entity.ZentrallagerBestellung;
  */
 public interface iStockRepository extends iRepository<ZentrallagerBestellung>{
 
-	public void ConfirmOrderReceivedFromStock(int id);
+	public void confirmOrderReceivedFromStock(int id);
 
 	public List<ZentrallagerBestellung> getAll();
 }

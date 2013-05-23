@@ -40,20 +40,20 @@ public class ZentralLagerPresenter extends BasePresenter<ZentralLagerEditorModel
 	
 	@Override
 	public ZentralLagerEditorModel loadModel() {
-		List<DTOZentrallagerBestellung> openOrder = fStockApi.getOpenOrder();
-		List<ZentralLagerWithProductModel> orderList = new ArrayList<ZentralLagerWithProductModel>();
+		List<ZentralLagerWithProductModel> orderList = new ArrayList<ZentralLagerWithProductModel>();		
 		
-		for (DTOZentrallagerBestellung dtoZentrallagerBestellung : openOrder) {
-			DTOProdukt product;
-			try {
+		try {
+			List<DTOZentrallagerBestellung> openOrdes = fStockApi.getOpenOrders();
+			
+			for (DTOZentrallagerBestellung dtoZentrallagerBestellung : openOrdes) {
+				DTOProdukt product;
 				product = fProductApi.getProductById(dtoZentrallagerBestellung.getProdukt());
 				orderList.add(new ZentralLagerWithProductModel(dtoZentrallagerBestellung, product));
-			} catch (AccessDeniedException e) {
-				ErrorUtils.handleAccessDenied(getViewSite().getShell());
-				return null;
 			}
+		} catch (AccessDeniedException e1) {
+			ErrorUtils.handleAccessDenied(getViewSite().getShell());
+			return null;
 		}
-		
 		return new ZentralLagerEditorModel(orderList);
 	}
 
@@ -76,8 +76,12 @@ public class ZentralLagerPresenter extends BasePresenter<ZentralLagerEditorModel
 			
 			@Override
 			public void confirmOrder(ZentralLagerWithProductModel selectedItem) {
-				fStockApi.ConfirmOrderReceivedFromStock(selectedItem.getBestellung().getId());
-				loadAndBindModel();
+				try {
+					fStockApi.confirmOrderReceivedFromStock(selectedItem.getBestellung().getId());
+					loadAndBindModel();
+				} catch (AccessDeniedException e) {
+					ErrorUtils.handleAccessDenied(getViewSite().getShell());
+				}
 			}
 		});
 		
