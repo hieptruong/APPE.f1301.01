@@ -21,5 +21,7 @@ public interface iAPPEEntityManager extends iTransaction {
 	
 	public<T> List<T> executeQuery(String query, Class<T> entityType);
 
-	void executeInsertQuery(String query);
+	public void executeInsertQuery(String query);
+
+	public void executeProcedure(String name, Object... params);
 }

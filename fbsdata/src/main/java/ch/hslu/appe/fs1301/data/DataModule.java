@@ -21,5 +21,6 @@ public class DataModule extends AbstractModule {
 		bind(iProductRepository.class).to(ProductRepository.class).in(Singleton.class);
 		bind(iOrderRepository.class).to(OrderRepository.class).in(Singleton.class);
 		bind(iOrderPositionRepository.class).to(OrderPositionRepository.class).in(Singleton.class);
+		bind(iStockRepository.class).to(StockRepository.class).in(Singleton.class);
 	}
 }

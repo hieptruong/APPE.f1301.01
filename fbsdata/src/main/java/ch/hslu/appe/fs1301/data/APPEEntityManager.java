@@ -74,4 +74,25 @@ public class APPEEntityManager implements iAPPEEntityManager  {
 		fEntityManager.persist(obj);
 		fEntityManager.flush();
 	}
+	
+	@Override
+	public void executeProcedure(String name, Object... params) {
+		Query procedure = fEntityManager.createNativeQuery(getStoredProcedureName(name, params.length));
+		
+		for(int i = 0; i < params.length; i++) {
+			procedure.setParameter(i+1, params[i]);
+		}
+		
+		procedure.executeUpdate();
+	}
+
+	private String getStoredProcedureName(String name, int length) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("{call ").append(name).append('(');
+		for(int i = 0; i < length; i++) 
+			builder.append("?,");
+		builder.delete(builder.length()-1, builder.length());
+		builder.append(")}");
+		return builder.toString();
+	}
 }
