@@ -15,9 +15,10 @@ public interface iOrderPositionRepository extends iRepository<Bestellposition> {
 	 * @param productId The product to add.
 	 * @param count The number of items to add.
 	 * @param price The price of an item.
+	 * @param if it is orderd from local stock.
 	 * @return If it was successful or not.
 	 */
-	public boolean orderProduct(int orderId, int productId, int count, int piecePrice);
+	public boolean orderProduct(int orderId, int productId, int count, int piecePrice, boolean isOrderdFromLocalStock);
 	/**
 	 * Gets all orderpostions with the provided ids.
 	 * @param The wanted ids.

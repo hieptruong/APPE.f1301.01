@@ -33,11 +33,13 @@ public class EntityTest extends BaseTestClass {
 		position.setProdukt(new Produkt());
 		position.setStueckpreis(20);
 		position.setBestellung(new Bestellung());
+		position.setAbgerechnet(true);
 		
 		assertEquals(expectedId, position.getId());
 		assertEquals(25, position.getAnzahl());
 		assertEquals(Produkt.class, position.getProdukt().getClass());
-		assertEquals(20, position.getStueckpreis());		
+		assertEquals(20, position.getStueckpreis());
+		assertEquals(true, position.getAbgerechnet());
 		assertEquals(Bestellung.class, position.getBestellung().getClass());
 		assertNotNull(position);
 	}

@@ -18,6 +18,8 @@ import ch.hslu.appe.fs1301.data.shared.entity.Person;
 import ch.hslu.appe.fs1301.data.shared.entity.Produkt;
 
 public class OrderPositionRepositoryTest {
+	private final boolean OrderedFromLocalStock = true;
+	//private final boolean OrderedFromCentralStock = false;
 	private OrderPositionRepository fTestee;
 	private static iAPPEEntityManager fEntityManager;
 	private static List<Bestellposition> fCreatedPositions;
@@ -33,9 +35,9 @@ public class OrderPositionRepositoryTest {
 		fPerson = createAndSaveDummyPerson();
 		fOrder = createAndSaveDummyOrder();
 		fProduct = createAndSaveDummyProduct();
-		fCreatedPositions.add(createAndSavePosition());
-		fCreatedPositions.add(createAndSavePosition());
-		fCreatedPositions.add(createAndSavePosition());
+		fCreatedPositions.add(createAndSavePosition(true));
+		fCreatedPositions.add(createAndSavePosition(true));
+		fCreatedPositions.add(createAndSavePosition(false));
 	}
 
 	@AfterClass
@@ -68,23 +70,24 @@ public class OrderPositionRepositoryTest {
 	}
 	
 	@Test
-	public void returnsTrue_OnOrdersProduct_WhenEnoughQuantityIsAvailable() {
+	public void returnsTrue_OnOrdersProduct_WhenEnoughQuantityIsAvailableOnLocalStock() {
 		final int quantity = 10;
-		boolean result = fTestee.orderProduct(fOrder.getId(), fProduct.getId(), quantity, 100);
+		boolean result = fTestee.orderProduct(fOrder.getId(), fProduct.getId(), quantity, 100, OrderedFromLocalStock);
 	
 		assertThat(result).isTrue();
 	}
 	
 	@Test
-	public void returnsFalse_OnOrderProduct_WhenQuantityIsToHigh() {
+	public void returnsFalse_OnOrderProduct_WhenQuantityIsToHighOnLocalStock() {
 		final int quantity = Integer.MAX_VALUE;
-		boolean result = fTestee.orderProduct(fOrder.getId(), fProduct.getId(), quantity, 100);
+		boolean result = fTestee.orderProduct(fOrder.getId(), fProduct.getId(), quantity, 100, OrderedFromLocalStock);
 	
 		assertThat(result).isFalse();
 	}
 	
-	private static Bestellposition createAndSavePosition() {
+	private static Bestellposition createAndSavePosition(boolean delivered) {
 		Bestellposition position = new Bestellposition();
+		position.setAbgerechnet(delivered);
 		
 		setIrrelevantValues(position);
 		fEntityManager.persist(position);
