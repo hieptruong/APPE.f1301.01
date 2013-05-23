@@ -86,7 +86,7 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 		try
 		{
 			for(DTOBestellposition position : positions) {
-				if (!fPositionRepository.orderProduct(order.getId(), position.getProdukt(), position.getAnzahl(), position.getStueckpreis())) {
+				if (!fPositionRepository.orderProduct(order.getId(), position.getProdukt(), position.getAnzahl(), position.getStueckpreis(), true)) {
 					//Not enough in storage
 									
 					String artikelIDForStock = generateArticelIDforStock(position.getProdukt());

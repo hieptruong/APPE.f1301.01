@@ -16,7 +16,7 @@ public class StockRepository extends BaseRepository<ZentrallagerBestellung> impl
 	}
 
 	@Override
-	public void ConfirmOrderReceivedFromStock(int id) {
+	public void confirmOrderReceivedFromStock(int id) {
 		fEntityManager.executeProcedure("StockOrderReceived", id);
 	}
 	

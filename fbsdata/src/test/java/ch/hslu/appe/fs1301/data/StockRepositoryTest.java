@@ -54,7 +54,7 @@ public class StockRepositoryTest {
 	
 	@Test
 	public void ConfirmsStockOrder() {
-		fTestee.ConfirmOrderReceivedFromStock(fCreatedOrders.get(0).getId());		
+		fTestee.confirmOrderReceivedFromStock(fCreatedOrders.get(0).getId());		
 	}
 
 	private static void createAndSaveProduct() {
