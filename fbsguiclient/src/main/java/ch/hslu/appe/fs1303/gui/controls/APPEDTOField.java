@@ -42,7 +42,7 @@ public class APPEDTOField<T> extends APPETextControl<T> {
 
 	}
 	
-	private final class ContentTableAssistPopup extends PopupDecorator implements IContentAssistPresenter {
+	protected final class ContentTableAssistPopup extends PopupDecorator implements IContentAssistPresenter {
 
 		private String fFilter;
 		private iQuickSearchModel<T> fSearchModel;
@@ -222,7 +222,7 @@ public class APPEDTOField<T> extends APPETextControl<T> {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.ARROW_DOWN) {
-					if (fDropDownPopup != null && fDropDownPopup.isShown()) {
+					if (fDropDownPopup.isShown()) {
 						fDropDownPopup.focus();
 					}
 				}
@@ -233,7 +233,7 @@ public class APPEDTOField<T> extends APPETextControl<T> {
 			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.character == SWT.TAB) {
-					if (fDropDownPopup != null && fDropDownPopup.isShown()) {
+					if (fDropDownPopup.isShown()) {
 						fDropDownPopup.focus();
 					}
 				}
@@ -247,13 +247,13 @@ public class APPEDTOField<T> extends APPETextControl<T> {
 			if ((e.stateMask & SWT.MODIFIER_MASK) != 0)
 				return;
 
-			if (fDropDownPopup != null && fDropDownPopup.isShown()) {
+			if (fDropDownPopup.isShown()) {
 				fDropDownPopup.focus();
 			} else {				
 				fDropDownPopup.show(true);
 			}
 		} else if (e.character == SWT.ESC) {
-			if (fDropDownPopup != null && fDropDownPopup.isShown()) {
+			if (fDropDownPopup.isShown()) {
 				fDropDownPopup.close();
 			}
 		} 

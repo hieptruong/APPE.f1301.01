@@ -5,6 +5,8 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.easymock.EasyMock;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -30,6 +32,13 @@ public class DTOUtilsQuickSearchTest {
 		fquickSearchModelClazz = quickSearchModelClazz;
 	}
 	
+	@Before
+	public void setUp() throws Exception {
+		Injector injectorMock = PowerMock.createMock(Injector.class);
+		GuiModule.injector = injectorMock;
+		injectorMock.injectMembers(EasyMock.anyObject());
+		PowerMock.replayAll();
+	}
 	
 	@SuppressWarnings("rawtypes")
 	@Parameters
@@ -45,9 +54,6 @@ public class DTOUtilsQuickSearchTest {
 	@SuppressWarnings("rawtypes")
 	@Test
 	public void ReturnsCorrectQuickSearchModel() {
-		Injector injectorMock = PowerMock.createMock(Injector.class);
-		GuiModule.injector = injectorMock;
-		
 		iQuickSearchModel quickSearchModel = DTOUtils.getQuickSearchModel(fDtoClazz);
 		if (fquickSearchModelClazz == null) {
 			assertThat(quickSearchModel).isNull();

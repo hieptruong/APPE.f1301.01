@@ -8,7 +8,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellposition;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 import ch.hslu.appe.fs1303.gui.controls.APPEDTOField;
 import ch.hslu.appe.fs1303.gui.controls.APPEDateTimeField;

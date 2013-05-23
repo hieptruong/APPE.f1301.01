@@ -25,7 +25,7 @@ import ch.hslu.appe.fs1303.gui.wizards.NewOrderPositionWizard;
 
 import com.google.inject.Inject;
 
-public class OrderPresenter extends BasePresenter {
+public class OrderPresenter extends BasePresenter<OrderEditorModel> {
 
 public static final String ID = "ch.hslu.appe.fs1303.gui.presenter.OrderPresenter";
 	
@@ -48,15 +48,17 @@ public static final String ID = "ch.hslu.appe.fs1303.gui.presenter.OrderPresente
 	
 	@Inject
 	private iProductAPI fProduktApi;
-	
-	private OrderEditorModel fModel;
-	
+
 	@Override
-	public void createPartControl(Composite composite) {
-		fView.createContent(composite);
+	public void setFocus() {
+		
+	}
+
+	@Override
+	public OrderEditorModel loadModel() {
 		String modelId = getViewSite().getSecondaryId();
 		if (modelId.startsWith("new")) {
-			fModel = new OrderEditorModel(new DTOBestellung(), new ArrayList<BestellpositionWithProduktModel>(), null);
+			return new OrderEditorModel(new DTOBestellung(), new ArrayList<BestellpositionWithProduktModel>(), null);
 		} else {
 			try {
 				List<DTOBestellung> orders = fOrderApi.getOrders(Integer.parseInt(modelId));
@@ -70,35 +72,36 @@ public static final String ID = "ch.hslu.appe.fs1303.gui.presenter.OrderPresente
 						bestellPositionWithProdukt.add(bPosition);
 					}
 					
-					fModel = new OrderEditorModel(bestellung, bestellPositionWithProdukt, person);
 					fView.setEditable(false);
+					return new OrderEditorModel(bestellung, bestellPositionWithProdukt, person);
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
-				return;
 			} catch (AccessDeniedException e) {
 				ErrorUtils.handleAccessDenied(getSite().getShell());
-				return;
 			}			
 		}
-	
-		setPartName(new OrderLabelProvider().getText(fModel.getBestellung()));
 		
-		fView.bindModel(fModel);
+		return null;
+	}
+
+	@Override
+	public void createControls(Composite composite) {
+		fView.createContent(composite);		
+		
 		fView.setActionListener(new iOrderViewListener() {
 			
 			@Override
 			public void onSave() {
 				try {
-					
 					List<DTOBestellposition> bestellpositions = new ArrayList<DTOBestellposition>();
-					for (BestellpositionWithProduktModel position : fModel.getBestellposition()) {
+					for (BestellpositionWithProduktModel position : getModel().getBestellposition()) {
 						bestellpositions.add(position.getBestellposition());
 					}
-					DTOBestellung createdOrder = fOrderApi.createNewOrder(fModel.getPerson().getId(), 1, bestellpositions);
+					DTOBestellung createdOrder = fOrderApi.createNewOrder(getModel().getPerson().getId(), 1, bestellpositions);
 					if (createdOrder != null) {
-						fModel.setBestellung(createdOrder);
-						fView.bindModel(fModel);
+						getModel().setBestellung(createdOrder);
+						fView.bindModel(getModel());
 					}
 				} catch (AccessDeniedException e) {				
 					ErrorUtils.handleAccessDenied(getSite().getShell());
@@ -110,15 +113,21 @@ public static final String ID = "ch.hslu.appe.fs1303.gui.presenter.OrderPresente
 				NewOrderPositionWizard wizard = new NewOrderPositionWizard();
 				WizardDialog wDialog = new WizardDialog(getSite().getShell(), wizard);
 				if (wDialog.open() == Window.OK) {
-					fModel.getBestellposition().add(new BestellpositionWithProduktModel(wizard.getModel().getPosition(), wizard.getModel().getProdukt()));
+					getModel().getBestellposition().add(new BestellpositionWithProduktModel(wizard.getModel().getPosition(), wizard.getModel().getProdukt()));
 				}
 				fView.updateFromModel();
+			}
+
+			@Override
+			public void reloadModel() {
+				loadAndBindModel();
 			}
 		});
 	}
 
 	@Override
-	public void setFocus() {
-		
+	public void bindModel(OrderEditorModel model) {
+		setPartName(new OrderLabelProvider().getText(model.getBestellung()));
+		fView.bindModel(model);
 	}
 }

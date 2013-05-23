@@ -25,7 +25,10 @@ public class APPEEntityManager implements iAPPEEntityManager  {
 	}
 	
 	public<T> T getEntityObject(Class<T> entityType, int id) {
-		return fEntityManager.find(entityType, id);
+		T entity = fEntityManager.find(entityType, id);
+		if (entity != null)
+			fEntityManager.refresh(entity);
+		return entity;
 	}
 	
 	public<T> T createEntityObject(Class<T> entityType) throws InstantiationException, IllegalAccessException {
