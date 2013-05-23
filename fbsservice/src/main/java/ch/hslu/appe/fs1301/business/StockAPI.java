@@ -34,7 +34,12 @@ public class StockAPI extends BaseAPI implements iStockAPI {
 		checkRole(UserRole.ADMIN);
 		
 		fTransaction.beginTransaction();
-		fStockRepository.confirmOrderReceivedFromStock(id);
+		try {
+			fStockRepository.confirmOrderReceivedFromStock(id);
+		} catch (Exception exception) {
+			fTransaction.rollbackTransaction();
+			return;
+		}
 		fTransaction.commitTransaction();
 	}
 }

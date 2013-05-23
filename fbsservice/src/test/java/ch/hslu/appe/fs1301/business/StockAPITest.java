@@ -82,8 +82,22 @@ public class StockAPITest {
 	public void forwardsConfirmOrderReceivedFromStock() throws AccessDeniedException {
 		final int ExpectedId = 56;
 		setupCheckRoleIrrelevant();
-		
+		fTransactionMock.beginTransaction();
 		fStockRepositoryMock.confirmOrderReceivedFromStock(ExpectedId);
+		fTransactionMock.commitTransaction();
+		PowerMock.replayAll();
+		
+		fTestee.confirmOrderReceivedFromStock(ExpectedId);
+	}
+	
+	@Test
+	public void rollBacksTransaction_OnConfirmOrderReceivedFromStock_WhenAnExceptionOccurs() throws AccessDeniedException {
+		final int ExpectedId = 56;
+		setupCheckRoleIrrelevant();
+		fTransactionMock.beginTransaction();
+		fStockRepositoryMock.confirmOrderReceivedFromStock(ExpectedId);
+		EasyMock.expectLastCall().andThrow(new RuntimeException());
+		fTransactionMock.rollbackTransaction();
 		PowerMock.replayAll();
 		
 		fTestee.confirmOrderReceivedFromStock(ExpectedId);
