@@ -2,11 +2,10 @@ package ch.hslu.appe.fs1301.business;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import ch.hslu.appe.fs1301.business.shared.AccessDeniedException;
+import ch.hslu.appe.fs1301.business.shared.Ticket;
 import ch.hslu.appe.fs1301.business.shared.UserRole;
 import ch.hslu.appe.fs1301.business.shared.iOrderAPI;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellposition;
@@ -23,7 +22,6 @@ import ch.hslu.appe.fs1301.data.shared.entity.Produkt;
 import ch.hslu.appe.stock.StockException;
 
 import com.google.inject.Inject;
-import com.sun.tools.javac.util.Pair;
 
 public class OrderAPI extends BaseAPI implements iOrderAPI {
 
@@ -80,7 +78,7 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 	}
 	
 	private boolean orderProducts(Bestellung order, List<DTOBestellposition> positions) {
-		Map<Long, Date> tickets = new HashMap<Long, Date>();
+		List<Ticket> tickets = new ArrayList<Ticket>();
 		
 		try
 		{
@@ -89,8 +87,8 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 					//Not enough in storage
 									
 					Produkt produkt = fProductRepository.getById(position.getProdukt());
-					Pair<Long,Date> reserveItem = fInternalStockAPI.reserveItem(produkt, position.getAnzahl() + produkt.getMinimalMenge());
-					tickets.put(reserveItem.fst, reserveItem.snd);
+					Ticket reserveItem = fInternalStockAPI.reserveItem(produkt, position.getAnzahl() + produkt.getMinimalMenge());
+					tickets.add(reserveItem);
 					
 					fPositionRepository.orderProduct(order.getId(), position.getProdukt(), position.getAnzahl(), position.getStueckpreis(), false);
 				}

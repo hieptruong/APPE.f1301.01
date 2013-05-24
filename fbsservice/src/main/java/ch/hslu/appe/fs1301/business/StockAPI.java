@@ -2,9 +2,9 @@ package ch.hslu.appe.fs1301.business;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import ch.hslu.appe.fs1301.business.shared.AccessDeniedException;
+import ch.hslu.appe.fs1301.business.shared.Ticket;
 import ch.hslu.appe.fs1301.business.shared.UserRole;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOConverter;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOZentrallagerBestellung;
@@ -17,7 +17,6 @@ import ch.hslu.appe.stock.StockException;
 import ch.hslu.appe.stock.StockFactory;
 
 import com.google.inject.Inject;
-import com.sun.tools.javac.util.Pair;
 
 public class StockAPI extends BaseAPI implements iInternalStockAPI {
 
@@ -53,21 +52,21 @@ public class StockAPI extends BaseAPI implements iInternalStockAPI {
 	}
 
 	@Override
-	public Date finalizeOrder(Map<Long, Date> tickets) throws StockException {
+	public Date finalizeOrder(List<Ticket> tickets) throws StockException {
 		
 		Date latestDate = new Date();
 		
-		for (Map.Entry<Long, Date> entry : tickets.entrySet()) {
-			if (fStock.orderItem(entry.getKey()) == 0) {
+		for (Ticket ticket : tickets) {
+			if (fStock.orderItem(ticket.getTicket()) == 0) {
 				throw new StockException("Invalid Ticket");
 			}
-			latestDate = latestDate.before(entry.getValue()) ? entry.getValue() : latestDate;
+			latestDate = latestDate.before(ticket.getDeliveryDate()) ? ticket.getDeliveryDate() : latestDate;
 		}
 		
 		return latestDate;
 	}
 	
-	public Pair<Long, Date> reserveItem(Produkt produkt, int anzahl) throws StockException {
+	public Ticket reserveItem(Produkt produkt, int anzahl) throws StockException {
 		String produktID = generateArticelIDforStock(produkt.getId());
 		long ticket = fStock.reserveItem(produktID, anzahl);
 		if (ticket == 0) throw new StockException("Not Enough Items in Stock");
@@ -80,7 +79,7 @@ public class StockAPI extends BaseAPI implements iInternalStockAPI {
 		
 		fStockRepository.persistObject(stockOrder);
 		
-		return new Pair<Long, Date>(ticket, deliveryDate);
+		return new Ticket(ticket, deliveryDate);
 	}
 	
 	private String generateArticelIDforStock(int productID)
@@ -89,10 +88,10 @@ public class StockAPI extends BaseAPI implements iInternalStockAPI {
 	}
 
 	@Override
-	public void cancelReservedTickets(Map<Long, Date> tickets) {
-		for (Map.Entry<Long, Date> entry : tickets.entrySet()) {
+	public void cancelReservedTickets(List<Ticket> tickets) {
+		for (Ticket ticket : tickets) {
 			try {
-				fStock.freeItem(entry.getKey());
+				fStock.freeItem(ticket.getTicket());
 			} catch (StockException e) {
 				e.printStackTrace();
 			}			
