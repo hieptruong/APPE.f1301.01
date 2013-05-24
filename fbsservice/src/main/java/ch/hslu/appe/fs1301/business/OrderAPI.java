@@ -19,9 +19,11 @@ import ch.hslu.appe.fs1301.data.shared.iOrderPositionRepository;
 import ch.hslu.appe.fs1301.data.shared.iOrderRepository;
 import ch.hslu.appe.fs1301.data.shared.iPersonRepository;
 import ch.hslu.appe.fs1301.data.shared.iProductRepository;
+import ch.hslu.appe.fs1301.data.shared.iStockRepository;
 import ch.hslu.appe.fs1301.data.shared.iTransaction;
 import ch.hslu.appe.fs1301.data.shared.entity.Bestellposition;
 import ch.hslu.appe.fs1301.data.shared.entity.Bestellung;
+import ch.hslu.appe.fs1301.data.shared.entity.ZentrallagerBestellung;
 import ch.hslu.appe.stock.Stock;
 import ch.hslu.appe.stock.StockException;
 import ch.hslu.appe.stock.StockFactory;
@@ -34,15 +36,18 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 	private iOrderRepository fOrderRepository;
 	private iOrderPositionRepository fPositionRepository;
 	private iProductRepository fProductRepository;
+	private iStockRepository fStockRepository;
 
 	@Inject
 	public OrderAPI(iTransaction transaction, iInternalSessionAPI sessionAPI, iOrderRepository orderRepository, 
-					iOrderPositionRepository positionRepository, iPersonRepository personRepository, iProductRepository productRepository) {
+					iOrderPositionRepository positionRepository, iPersonRepository personRepository, 
+					iProductRepository productRepository, iStockRepository stockRepository) {
 		super(transaction, sessionAPI);
 		fOrderRepository = orderRepository;
 		fPositionRepository = positionRepository;
 		fPersonRepository = personRepository;
 		fProductRepository = productRepository;
+		fStockRepository = stockRepository;
 	}
 
 	@Override
@@ -78,7 +83,7 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 	
 	private boolean orderProducts(Bestellung order, List<DTOBestellposition> positions) {
 		
-		Map<Object, Object> reservedItems = new HashMap<Object, Object>();
+		Map<Object, Object> reservedTickets = new HashMap<Object, Object>();
 		boolean canOrderAllProducts = true;
 		//order from central stock
 		Stock stock = StockFactory.getStock();	
@@ -98,7 +103,7 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 					
 					if (ticket != 0)
 					{
-						reservedItems.put(artikelIDForStock, ticket);
+						reservedTickets.put(artikelIDForStock, ticket);
 					}
 					else
 					{
@@ -106,17 +111,18 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 						break;
 					}
 				}
-				
-				if (canOrderAllProducts)
-				{
-					order.setLiefertermin_Soll(getLatestDeliveryDateFromStock(stock, reservedItems));
-					orderTicketsFromStock(stock, reservedItems);
-				}
-				else
-				{
-					freeTicketsFromStock(stock, reservedItems);
-			        return false;
-				}
+			}
+			if (canOrderAllProducts)
+			{
+				orderTicketsFromStock(stock, reservedTickets);
+				order.setLiefertermin_Soll(getLatestDeliveryDateFromStock(stock, reservedTickets));
+			
+				saveStockOrdersIntoDatabase(stock, order, positions);
+			}
+			else
+			{
+				freeTicketsFromStock(stock, reservedTickets);
+		        return false;
 			}
 		}
 		catch (StockException ex)
@@ -125,6 +131,27 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 		}
 		
 		return true;
+	}
+	
+	private void saveStockOrdersIntoDatabase(Stock stock, Bestellung order, List<DTOBestellposition> positions) throws StockException
+	{
+		for(DTOBestellposition position : positions) {
+			if (!fPositionRepository.orderProduct(order.getId(), position.getProdukt(), position.getAnzahl(), position.getStueckpreis())) {
+				//Not enough in storage
+								
+				String artikelIDForStock = generateArticelIDforStock(position.getProdukt());
+				
+				int productMinimalCount = fProductRepository.getById(position.getProdukt()).getMinimalMenge();
+				int productCountToOrder = position.getAnzahl();
+				
+				ZentrallagerBestellung stockOrder = new ZentrallagerBestellung();
+				stockOrder.setProdukt(fProductRepository.getById(position.getProdukt()));
+				stockOrder.setAnzahl(productMinimalCount + productCountToOrder);
+				stockOrder.setLiefertermin(stock.getItemDeliveryDate(artikelIDForStock));
+				
+				fStockRepository.persistObject(stockOrder);
+			}
+		}
 	}
 	
 	private String generateArticelIDforStock(int productID)
