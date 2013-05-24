@@ -203,7 +203,7 @@ public class OrderAPITest {
 	
 	@SuppressWarnings("unchecked")
 	@Test
-	public void returnsNull_OnCreateNewOrder_WhenAPositionCanNotBeOrdered() throws AccessDeniedException, StockException {
+	public void returnsNull_OnCreateNewOrder_WhenAPositionIsOrderedFromStock() throws AccessDeniedException, StockException {
 		List<DTOBestellposition> positions = new ArrayList<DTOBestellposition>();
 		DTOBestellposition position = new DTOBestellposition();
 		position.setAnzahl(10);
@@ -213,6 +213,9 @@ public class OrderAPITest {
 		
 		Produkt produktMock = PowerMock.createMock(Produkt.class);
 		Ticket ticket = new Ticket(512412551l, new Date());
+		Bestellung bestellung = new Bestellung();
+		bestellung.setPerson1(PowerMock.createNiceMock(Person.class));
+		bestellung.setPerson2(PowerMock.createNiceMock(Person.class));
 		
 		setupCheckRoleIrrelevant();
 		setupBeginTransaction();
@@ -229,14 +232,46 @@ public class OrderAPITest {
 		expect(fPositionRepositoryMock.orderProduct(EasyMock.anyInt(), EasyMock.anyInt(), EasyMock.anyInt(), EasyMock.anyInt(), EasyMock.anyBoolean())).andReturn(true);
 		expect(fInternalStockAPIMock.finalizeOrder(EasyMock.anyObject(List.class))).andReturn(new Date());
 		fOrderRepositoryMock.persistObject(isA(Bestellung.class));
-		expect(fOrderRepositoryMock.getById(EasyMock.anyInt())).andReturn(null);
+		expect(fOrderRepositoryMock.getById(EasyMock.anyInt())).andReturn(bestellung);
+		
+		fTransactionMock.commitTransaction();
+		
+		PowerMock.replayAll();
+		
+		fTestee.createNewOrder(1, 1, positions);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void returnsNull_OnCreateNewOrder_WhenAPositionIsOrderedFromStock_StockException() throws AccessDeniedException, StockException {
+		List<DTOBestellposition> positions = new ArrayList<DTOBestellposition>();
+		DTOBestellposition position = new DTOBestellposition();
+		position.setAnzahl(10);
+		position.setProdukt(1);
+		position.setStueckpreis(50);
+		positions.add(position);
+		
+		Produkt produktMock = PowerMock.createMock(Produkt.class);
+		
+		setupCheckRoleIrrelevant();
+		setupBeginTransaction();
+		expect(fPersonRepositoryMock.getById(EasyMock.anyInt())).andReturn(null);
+		expect(fSessionAPIMock.getAuthenticatedUser()).andReturn(null);
+		fOrderRepositoryMock.persistObject(isA(Bestellung.class));
+		
+		//Return false => not accepted by repo, abort order
+		expect(fPositionRepositoryMock.orderProduct(EasyMock.anyInt(), EasyMock.anyInt(), EasyMock.anyInt(), EasyMock.anyInt(), EasyMock.anyBoolean())).
+			andReturn(false);
+		expect(fProductRepositoryMock.getById(EasyMock.anyInt())).andReturn(produktMock);
+		expect(produktMock.getMinimalMenge()).andReturn(5);
+		expect(fInternalStockAPIMock.reserveItem(produktMock, 5+10)).andThrow(new StockException("Invalid Produkt"));
+		fInternalStockAPIMock.cancelReservedTickets(EasyMock.anyObject(List.class));
 		
 		setupRollbackTransaction();
 		
 		PowerMock.replayAll();
 		
-		DTOBestellung dtoBestellung = fTestee.createNewOrder(1, 1, positions);
-		assertThat(dtoBestellung).isNull();
+		fTestee.createNewOrder(1, 1, positions);
 	}
 	
 	@SuppressWarnings("unchecked")
