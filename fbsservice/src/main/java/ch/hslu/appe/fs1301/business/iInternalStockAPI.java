@@ -28,5 +28,5 @@ public interface iInternalStockAPI extends iStockAPI {
 	 * Frees all produkts that have been reserved by the tickets
 	 * @param tickets The Tickets
 	 */
-	public void cancelReservedTickets(List<Ticket> tickets);
+	public void cancelReservedTickets(List<Ticket> tickets) throws StockException;
 }

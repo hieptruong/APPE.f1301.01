@@ -77,7 +77,7 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 		}
 	}
 	
-	private boolean orderProducts(Bestellung order, List<DTOBestellposition> positions) {
+	private boolean orderProducts(Bestellung order, List<DTOBestellposition> positions) throws StockException {
 		List<Ticket> tickets = new ArrayList<Ticket>();
 		
 		try

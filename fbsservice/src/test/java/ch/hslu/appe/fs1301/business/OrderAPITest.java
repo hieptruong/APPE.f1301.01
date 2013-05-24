@@ -1,12 +1,13 @@
 package ch.hslu.appe.fs1301.business;
 
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.easymock.Capture;
@@ -31,6 +32,7 @@ import ch.hslu.appe.fs1301.data.shared.entity.Bestellposition;
 import ch.hslu.appe.fs1301.data.shared.entity.Bestellung;
 import ch.hslu.appe.fs1301.data.shared.entity.Person;
 import ch.hslu.appe.fs1301.data.shared.entity.Produkt;
+import ch.hslu.appe.stock.StockException;
 
 public class OrderAPITest {
 	private OrderAPI fTestee;
@@ -163,8 +165,9 @@ public class OrderAPITest {
 		assertThat(dtoBestellung).isNull();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
-	public void returnsDTO_OnCreateNewOrder() throws AccessDeniedException {
+	public void returnsDTO_OnCreateNewOrder() throws AccessDeniedException, StockException {
 		final int CustomerId = 123;
 		final int ExpectedId = 2345;
 		final int Source = OrderSource.FAX;
@@ -183,6 +186,8 @@ public class OrderAPITest {
 		expect(fSessionAPIMock.getAuthenticatedUser()).andReturn(userMock);
 		fOrderRepositoryMock.persistObject(capture(cap));
 		expect(fOrderRepositoryMock.getById(EasyMock.anyInt())).andReturn(bestellung);
+		expect(fInternalStockAPIMock.finalizeOrder(EasyMock.anyObject(List.class))).andReturn(new Date());
+		fOrderRepositoryMock.persistObject(isA(Bestellung.class));
 		fTransactionMock.commitTransaction();
 		PowerMock.replayAll();
 		
@@ -221,8 +226,9 @@ public class OrderAPITest {
 		assertThat(dtoBestellung).isNull();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
-	public void ordersAllPosition_OnCreateNewOrder() throws AccessDeniedException {
+	public void ordersAllPosition_OnCreateNewOrder() throws AccessDeniedException, StockException {
 		DTOBestellposition expectedPositionOne = createOrderPosition(1,2,3,4);
 		DTOBestellposition expectedPositionTwo = createOrderPosition(5, 6, 7, 8);
 		List<DTOBestellposition> positions = new ArrayList<DTOBestellposition>();
@@ -243,6 +249,9 @@ public class OrderAPITest {
 		//expect two calls to position repo to order the products
 		expect(fPositionRepositoryMock.orderProduct(0, expectedPositionOne.getProdukt(), expectedPositionOne.getAnzahl(), expectedPositionOne.getStueckpreis(), true)).andReturn(true);
 		expect(fPositionRepositoryMock.orderProduct(0, expectedPositionTwo.getProdukt(), expectedPositionTwo.getAnzahl(), expectedPositionTwo.getStueckpreis(), true)).andReturn(true);
+		expect(fInternalStockAPIMock.finalizeOrder(EasyMock.anyObject(List.class))).andReturn(new Date());
+		fOrderRepositoryMock.persistObject(isA(Bestellung.class));
+		
 		fTransactionMock.commitTransaction();
 		PowerMock.replayAll();
 		

@@ -57,7 +57,7 @@ public class StockAPI extends BaseAPI implements iInternalStockAPI {
 		Date latestDate = new Date();
 		
 		for (Ticket ticket : tickets) {
-			if (fStock.orderItem(ticket.getTicket()) == 0) {
+			if (fStock.orderItem(ticket.getTicket()) == -1) {
 				throw new StockException("Invalid Ticket");
 			}
 			latestDate = latestDate.before(ticket.getDeliveryDate()) ? ticket.getDeliveryDate() : latestDate;
@@ -69,7 +69,7 @@ public class StockAPI extends BaseAPI implements iInternalStockAPI {
 	public Ticket reserveItem(Produkt produkt, int anzahl) throws StockException {
 		String produktID = generateArticelIDforStock(produkt.getId());
 		long ticket = fStock.reserveItem(produktID, anzahl);
-		if (ticket == 0) throw new StockException("Not Enough Items in Stock");
+		if (ticket == -1) throw new StockException("Not Enough Items in Stock");
 		Date deliveryDate = fStock.getItemDeliveryDate(produktID);
 		
 		ZentrallagerBestellung stockOrder = new ZentrallagerBestellung();
@@ -88,13 +88,9 @@ public class StockAPI extends BaseAPI implements iInternalStockAPI {
 	}
 
 	@Override
-	public void cancelReservedTickets(List<Ticket> tickets) {
+	public void cancelReservedTickets(List<Ticket> tickets) throws StockException {
 		for (Ticket ticket : tickets) {
-			try {
-				fStock.freeItem(ticket.getTicket());
-			} catch (StockException e) {
-				e.printStackTrace();
-			}			
+			fStock.freeItem(ticket.getTicket());
 		}
 	}
 }
