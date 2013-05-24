@@ -14,6 +14,7 @@ import ch.hslu.appe.fs1303.gui.actions.NewPersonAction;
 import ch.hslu.appe.fs1303.gui.actions.NewProductAction;
 import ch.hslu.appe.fs1303.gui.actions.SearchPersonAction;
 import ch.hslu.appe.fs1303.gui.actions.SearchProductAction;
+import ch.hslu.appe.fs1303.gui.actions.ZentralLagerAction;
 
 /**
  * An action bar advisor is responsible for creating, adding, and disposing of
@@ -32,6 +33,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private SearchProductAction fSearchProduktAction;
 	private NewPersonAction fNewPersonAction;
 	private NewProductAction fNewProductAction;
+	private ZentralLagerAction fZentralLagerAction;
 
 	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
 		super(configurer);
@@ -54,6 +56,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		
 		fNewProductAction = new NewProductAction();
 		register(fNewProductAction);
+		
+		fZentralLagerAction = new ZentralLagerAction();
+		register(fZentralLagerAction);
 	}
 	
 	@Override
@@ -70,6 +75,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		fileMenu.add(newMenu);
 		fileMenu.add(fSearchPersonAction);
 		fileMenu.add(fSearchProduktAction);
+		fileMenu.add(fZentralLagerAction);
 		fileMenu.add(new Separator());
 		fileMenu.add(fQuitAction);
 		menuBar.add(fileMenu);

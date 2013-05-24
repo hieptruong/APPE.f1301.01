@@ -5,7 +5,7 @@ import ch.hslu.appe.fs1301.data.shared.entity.ZentrallagerBestellung;
 
 /**
 * Auto-Generated DTOs
-* Thu Apr 25 17:36:49 CEST 2013
+* Thu May 23 16:36:28 CEST 2013
 */
 public class DTOZentrallagerBestellung {
 	private Integer fId;

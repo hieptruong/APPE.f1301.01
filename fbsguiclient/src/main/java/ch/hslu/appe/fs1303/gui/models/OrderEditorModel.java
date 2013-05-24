@@ -2,7 +2,6 @@ package ch.hslu.appe.fs1303.gui.models;
 
 import java.util.List;
 
-import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellposition;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellung;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOPerson;
 
