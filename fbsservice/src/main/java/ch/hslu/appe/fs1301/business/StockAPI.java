@@ -27,7 +27,7 @@ public class StockAPI extends BaseAPI implements iInternalStockAPI {
 	protected StockAPI(iStockRepository stockRepository, iTransaction transaction, iInternalSessionAPI sessionAPI) {
 		super(transaction, sessionAPI);
 		fStockRepository = stockRepository;
-		fStock = StockFactory.getStock();	
+		fStock = StockFactory.getStock();
 	}
 
 	@Override

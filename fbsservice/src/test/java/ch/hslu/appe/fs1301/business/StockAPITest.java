@@ -114,24 +114,27 @@ public class StockAPITest {
 		
 		PowerMock.replayAll();
 		
-		fTestee.reserveItem(produktMock, 20);
+		fTestee.reserveItem(produktMock, 3);
 	}
 	
 	@Test
-	public void reserveItem_AndFinalizeOrder() throws StockException {
+	public void reserveItem_AndFinalizeOrder() throws StockException, InterruptedException {
 		List<Ticket> tickets = new ArrayList<Ticket>();
 		
 		Produkt produktMock = PowerMock.createMock(Produkt.class);
 		Produkt produktMock2 = PowerMock.createMock(Produkt.class);
-		expect(produktMock.getId()).andReturn(50);
-		expect(produktMock2.getId()).andReturn(30);
+		expect(produktMock.getId()).andReturn(1);
+		expect(produktMock2.getId()).andReturn(2);
 		fStockRepositoryMock.persistObject(EasyMock.anyObject(ZentrallagerBestellung.class));
 		EasyMock.expectLastCall().times(2);
 		
 		PowerMock.replayAll();
 		
-		tickets.add(fTestee.reserveItem(produktMock, 20));
-		tickets.add(fTestee.reserveItem(produktMock2, 30));
+		tickets.add(fTestee.reserveItem(produktMock, 1));
+		// Sleeping for 1 because Stock API is retarded.
+		Thread.sleep(1);
+		tickets.add(fTestee.reserveItem(produktMock2, 2));
+		
 		fTestee.finalizeOrder(tickets);
 	}
 	
@@ -148,11 +151,11 @@ public class StockAPITest {
 	@Test(expected = StockException.class)
 	public void reserveItem_AndThrowStockException() throws StockException {
 		Produkt produktMock = PowerMock.createMock(Produkt.class);
-		expect(produktMock.getId()).andReturn(10);
+		expect(produktMock.getId()).andReturn(60);
 		
 		PowerMock.replayAll();
 		
-		fTestee.reserveItem(produktMock, 1000);
+		fTestee.reserveItem(produktMock, 150);
 	}
 	
 	@Test
