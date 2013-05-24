@@ -117,6 +117,34 @@ public class StockAPITest {
 		fTestee.reserveItem(produktMock, 20);
 	}
 	
+	@Test
+	public void reserveItem_AndFinalizeOrder() throws StockException {
+		List<Ticket> tickets = new ArrayList<Ticket>();
+		
+		Produkt produktMock = PowerMock.createMock(Produkt.class);
+		Produkt produktMock2 = PowerMock.createMock(Produkt.class);
+		expect(produktMock.getId()).andReturn(50);
+		expect(produktMock2.getId()).andReturn(30);
+		fStockRepositoryMock.persistObject(EasyMock.anyObject(ZentrallagerBestellung.class));
+		EasyMock.expectLastCall().times(2);
+		
+		PowerMock.replayAll();
+		
+		tickets.add(fTestee.reserveItem(produktMock, 20));
+		tickets.add(fTestee.reserveItem(produktMock2, 30));
+		fTestee.finalizeOrder(tickets);
+	}
+	
+	@Test(expected = StockException.class)
+	public void reserveItem_AndFinalizeOrder_ThrowStockException() throws StockException {
+		List<Ticket> tickets = new ArrayList<Ticket>();
+		tickets.add(new Ticket(124124l, new Date()));
+		
+		PowerMock.replayAll();
+		
+		fTestee.finalizeOrder(tickets);
+	}
+	
 	@Test(expected = StockException.class)
 	public void reserveItem_AndThrowStockException() throws StockException {
 		Produkt produktMock = PowerMock.createMock(Produkt.class);

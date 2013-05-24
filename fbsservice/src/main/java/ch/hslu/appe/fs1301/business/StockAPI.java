@@ -57,7 +57,7 @@ public class StockAPI extends BaseAPI implements iInternalStockAPI {
 		Date latestDate = new Date();
 		
 		for (Ticket ticket : tickets) {
-			if (fStock.orderItem(ticket.getTicket()) == -1) {
+			if (fStock.orderItem(ticket.getTicket()) == 0) {
 				throw new StockException("Invalid Ticket");
 			}
 			latestDate = latestDate.before(ticket.getDeliveryDate()) ? ticket.getDeliveryDate() : latestDate;
