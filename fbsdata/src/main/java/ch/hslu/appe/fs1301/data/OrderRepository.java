@@ -1,5 +1,6 @@
 package ch.hslu.appe.fs1301.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.hslu.appe.fs1301.data.shared.iAPPEEntityManager;
@@ -20,15 +21,13 @@ public class OrderRepository extends BaseRepository<Bestellung> implements iOrde
 		if (ids.length == 0)
 			throw new IllegalArgumentException("ids");
 		
-		StringBuilder query = new StringBuilder(100);
-		query.append("SELECT b FROM Bestellung b WHERE b.id in (");
-		for(int id : ids) {
-			query.append(id);
-			query.append(',');
+		List<Bestellung> orders = new ArrayList<Bestellung>();
+		for (int i = 0; i < ids.length; i++) {
+			Bestellung order = getById(ids[i]);
+			if (order != null)
+				orders.add(order);
 		}
-		query.setCharAt(query.length() - 1, ')');
-		
-		return executeQuery(query);
+		return orders;
 	}
 
 }
