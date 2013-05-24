@@ -16,21 +16,9 @@ public class OrderPositionRepository extends BaseRepository<Bestellposition> imp
 	}
 
 	@Override
-	public boolean orderProduct(int orderId, int productId, int count, int piecePrice, boolean isOrderdFromStock) {
-		StringBuilder query = new StringBuilder(100);
-		query.append("Insert into Bestellposition Values (0,");
-		query.append(count).append(',');
-		query.append(piecePrice).append(',');
-		query.append(productId).append(',');
-		query.append(orderId).append(',');
-		query.append(isOrderdFromStock).append(')');
-		
-		try {
-			fEntityManager.executeInsertQuery(query.toString());
-			return true;
-		} catch (Exception exception) {
-			return false;
-		}
+	public boolean orderProduct(int orderId, int productId, int count, int piecePrice, boolean isOrderdFromLocalStock) {		
+		Object result = fEntityManager.executeFunction("OrderProduct", orderId, count, productId, piecePrice, isOrderdFromLocalStock);
+		return result instanceof Long ? false : true;
 	}
 
 	@Override

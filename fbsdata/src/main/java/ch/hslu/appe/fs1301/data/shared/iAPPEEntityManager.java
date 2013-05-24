@@ -24,4 +24,6 @@ public interface iAPPEEntityManager extends iTransaction {
 	public void executeInsertQuery(String query);
 
 	public void executeProcedure(String name, Object... params);
+
+	public Object executeFunction(String name, Object... params);
 }

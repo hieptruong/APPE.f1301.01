@@ -1,37 +1,56 @@
-CREATE TRIGGER Product_Update_Trigger
-BEFORE Update ON Produkt
-FOR EACH ROW 
-BEGIN
-	IF NEW.Lagerbestand < 0 THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "Not enough quantity.";
-	END IF;
-END
-
 DELIMITER //
-DROP TRIGGER IF EXISTS Order_Product_Trigger//
+DROP PROCEDURE IF EXISTS OrderProduct//
 
-CREATE TRIGGER Order_Product_Trigger
-BEFORE INSERT ON Bestellposition
-FOR EACH ROW 
+CREATE PROCEDURE OrderProduct(orderId int, count int, productid int, price int, fromLocalStock bool)
+RETURNS INT
 BEGIN
-	IF NEW.Abgerechnet THEN
-		UPDATE Produkt 
-		Set Lagerbestand = Lagerbestand - NEW.Anzahl
-		WHERE ID = NEW.Produkt_ID;
+	IF fromLocalStock THEN
+		IF NOT CanOrderProduct(productid, count) THEN
+			RETURN 0;
+		ELSE
+			INSERT INTO Bestellposition VALUES (NULL, count, price, productid, orderid, false);
+			RETURN UpdateStorage(last_insert_id());
+		END IF;
+	ELSE
+		INSERT INTO Bestellposition VALUES (NULL, count, price, productid, orderid, fromLocalStock);
+		RETURN 1;
 	END IF;
 END//
 
-DROP TRIGGER IF EXISTS Order_Product_Update_Trigger//
+DROP PROCEDURE IF EXISTS UpdateStorage//
 
-CREATE TRIGGER Order_Product_Update_Trigger
-BEFORE UPDATE ON Bestellposition
-FOR EACH ROW 
+CREATE PROCEDURE UpdateStorage(positionid int)
+RETURNS BOOL
 BEGIN
-	IF NEW.Abgerechnet AND NOT OLD.Abgerechnet THEN
-		UPDATE Produkt 
-		Set Lagerbestand = Lagerbestand - NEW.Anzahl
-		WHERE ID = NEW.Produkt_ID;
+	DECLARE productid INT;
+	DECLARE count INT;
+	DECLARE alreadyDone BOOL;
+
+	SELECT Produkt_ID, Anzahl, Abgerechnet into @productid, @count, @alreadyDone from Bestellposition where ID = positionid;
+
+	IF @alreadyDone THEN
+		RETURN 0;
 	END IF;
+
+	IF NOT CanOrderProduct(@productid, @count) THEN
+		RETURN 0;		
+	ELSE
+		UPDATE Produkt Set Lagerbestand = Lagerbestand - @count WHERE ID = @productid;
+		UPDATE Bestellposition SET Abgerechnet = true WHERE ID = positionid;
+		RETURN 1;
+	END IF;
+END//
+
+DROP FUNCTION IF EXISTS CanOrderProduct//
+
+CREATE FUNCTION CanOrderProduct(productid int, count int)
+RETURNS BOOL
+BEGIN
+	DECLARE remCount INT;
+
+	SELECT Lagerbestand into @remCount from Produkt Where Id = productid;
+
+	RETURN @remCount - count >= 0;
 END//
 
 DELIMITER ;

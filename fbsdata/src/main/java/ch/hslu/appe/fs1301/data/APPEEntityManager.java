@@ -86,6 +86,17 @@ public class APPEEntityManager implements iAPPEEntityManager  {
 		procedure.executeUpdate();
 	}
 
+	@Override
+	public Object executeFunction(String name, Object... params) {
+		Query procedure = fEntityManager.createNativeQuery(getStoredProcedureName(name, params.length));
+		
+		for(int i = 0; i < params.length; i++) {
+			procedure.setParameter(i+1, params[i]);
+		}
+		
+		return procedure.getSingleResult();
+	}
+	
 	private String getStoredProcedureName(String name, int length) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("{call ").append(name).append('(');
