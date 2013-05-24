@@ -20,6 +20,7 @@ import org.powermock.api.easymock.PowerMock;
 
 import ch.hslu.appe.fs1301.business.shared.AccessDeniedException;
 import ch.hslu.appe.fs1301.business.shared.OrderSource;
+import ch.hslu.appe.fs1301.business.shared.Ticket;
 import ch.hslu.appe.fs1301.business.shared.UserRole;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellposition;
 import ch.hslu.appe.fs1301.business.shared.dto.DTOBestellung;
@@ -200,15 +201,18 @@ public class OrderAPITest {
 		assertThat(dtoBestellung.getId()).isEqualTo(ExpectedId);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
-	@Ignore
-	public void returnsNull_OnCreateNewOrder_WhenAPositionCanNotBeOrdered() throws AccessDeniedException {
+	public void returnsNull_OnCreateNewOrder_WhenAPositionCanNotBeOrdered() throws AccessDeniedException, StockException {
 		List<DTOBestellposition> positions = new ArrayList<DTOBestellposition>();
 		DTOBestellposition position = new DTOBestellposition();
 		position.setAnzahl(10);
 		position.setProdukt(1);
 		position.setStueckpreis(50);
 		positions.add(position);
+		
+		Produkt produktMock = PowerMock.createMock(Produkt.class);
+		Ticket ticket = new Ticket(512412551l, new Date());
 		
 		setupCheckRoleIrrelevant();
 		setupBeginTransaction();
@@ -219,7 +223,16 @@ public class OrderAPITest {
 		//Return false => not accepted by repo, abort order
 		expect(fPositionRepositoryMock.orderProduct(EasyMock.anyInt(), EasyMock.anyInt(), EasyMock.anyInt(), EasyMock.anyInt(), EasyMock.anyBoolean())).
 			andReturn(false);
+		expect(fProductRepositoryMock.getById(EasyMock.anyInt())).andReturn(produktMock);
+		expect(produktMock.getMinimalMenge()).andReturn(5);
+		expect(fInternalStockAPIMock.reserveItem(produktMock, 5+10)).andReturn(ticket);
+		expect(fPositionRepositoryMock.orderProduct(EasyMock.anyInt(), EasyMock.anyInt(), EasyMock.anyInt(), EasyMock.anyInt(), EasyMock.anyBoolean())).andReturn(true);
+		expect(fInternalStockAPIMock.finalizeOrder(EasyMock.anyObject(List.class))).andReturn(new Date());
+		fOrderRepositoryMock.persistObject(isA(Bestellung.class));
+		expect(fOrderRepositoryMock.getById(EasyMock.anyInt())).andReturn(null);
+		
 		setupRollbackTransaction();
+		
 		PowerMock.replayAll();
 		
 		DTOBestellung dtoBestellung = fTestee.createNewOrder(1, 1, positions);
