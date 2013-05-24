@@ -3,11 +3,8 @@ package ch.hslu.appe.fs1301.business;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.Set;
 
 import ch.hslu.appe.fs1301.business.shared.AccessDeniedException;
 import ch.hslu.appe.fs1301.business.shared.UserRole;
@@ -19,16 +16,14 @@ import ch.hslu.appe.fs1301.data.shared.iOrderPositionRepository;
 import ch.hslu.appe.fs1301.data.shared.iOrderRepository;
 import ch.hslu.appe.fs1301.data.shared.iPersonRepository;
 import ch.hslu.appe.fs1301.data.shared.iProductRepository;
-import ch.hslu.appe.fs1301.data.shared.iStockRepository;
 import ch.hslu.appe.fs1301.data.shared.iTransaction;
 import ch.hslu.appe.fs1301.data.shared.entity.Bestellposition;
 import ch.hslu.appe.fs1301.data.shared.entity.Bestellung;
-import ch.hslu.appe.fs1301.data.shared.entity.ZentrallagerBestellung;
-import ch.hslu.appe.stock.Stock;
+import ch.hslu.appe.fs1301.data.shared.entity.Produkt;
 import ch.hslu.appe.stock.StockException;
-import ch.hslu.appe.stock.StockFactory;
 
 import com.google.inject.Inject;
+import com.sun.tools.javac.util.Pair;
 
 public class OrderAPI extends BaseAPI implements iOrderAPI {
 
@@ -36,18 +31,18 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 	private iOrderRepository fOrderRepository;
 	private iOrderPositionRepository fPositionRepository;
 	private iProductRepository fProductRepository;
-	private iStockRepository fStockRepository;
+	private iInternalStockAPI fInternalStockAPI;
 
 	@Inject
 	public OrderAPI(iTransaction transaction, iInternalSessionAPI sessionAPI, iOrderRepository orderRepository, 
 					iOrderPositionRepository positionRepository, iPersonRepository personRepository, 
-					iProductRepository productRepository, iStockRepository stockRepository) {
+					iProductRepository productRepository, iInternalStockAPI internalStockAPI) {
 		super(transaction, sessionAPI);
 		fOrderRepository = orderRepository;
 		fPositionRepository = positionRepository;
 		fPersonRepository = personRepository;
 		fProductRepository = productRepository;
-		fStockRepository = stockRepository;
+		fInternalStockAPI = internalStockAPI;
 	}
 
 	@Override
@@ -71,7 +66,10 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 				fTransaction.rollbackTransaction();
 				return null;
 			}
-					
+			
+			// The DeliveryDate could have been changed by orderProducts.
+			fOrderRepository.persistObject(order);
+			
 			DTOBestellung dtoBestellung = new DTOBestellung(fOrderRepository.getById(order.getId()));
 			fTransaction.commitTransaction();
 			return dtoBestellung;
@@ -82,11 +80,7 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 	}
 	
 	private boolean orderProducts(Bestellung order, List<DTOBestellposition> positions) {
-		
-		Map<Object, Object> reservedTickets = new HashMap<Object, Object>();
-		boolean canOrderAllProducts = true;
-		//order from central stock
-		Stock stock = StockFactory.getStock();	
+		Map<Long, Date> tickets = new HashMap<Long, Date>();
 		
 		try
 		{
@@ -94,130 +88,25 @@ public class OrderAPI extends BaseAPI implements iOrderAPI {
 				if (!fPositionRepository.orderProduct(order.getId(), position.getProdukt(), position.getAnzahl(), position.getStueckpreis(), true)) {
 					//Not enough in storage
 									
-					String artikelIDForStock = generateArticelIDforStock(position.getProdukt());
+					Produkt produkt = fProductRepository.getById(position.getProdukt());
+					Pair<Long,Date> reserveItem = fInternalStockAPI.reserveItem(produkt, position.getAnzahl() + produkt.getMinimalMenge());
+					tickets.put(reserveItem.fst, reserveItem.snd);
 					
-					int productMinimalCount = fProductRepository.getById(position.getProdukt()).getMinimalMenge();
-					int productCountToOrder = position.getAnzahl();
-	
-					long ticket = stock.reserveItem(artikelIDForStock, productCountToOrder + productMinimalCount);
-					
-					if (ticket != 0)
-					{
-						reservedTickets.put(artikelIDForStock, ticket);
-					}
-					else
-					{
-						canOrderAllProducts = false;
-						break;
-					}
+					fPositionRepository.orderProduct(order.getId(), position.getProdukt(), position.getAnzahl(), position.getStueckpreis(), false);
 				}
 			}
-			if (canOrderAllProducts)
-			{
-				orderTicketsFromStock(stock, reservedTickets);
-				order.setLiefertermin_Soll(getLatestDeliveryDateFromStock(stock, reservedTickets));
 			
-				saveStockOrdersIntoDatabase(stock, order, positions);
-			}
-			else
-			{
-				freeTicketsFromStock(stock, reservedTickets);
-		        return false;
-			}
+			Date deliveryDate = fInternalStockAPI.finalizeOrder(tickets);
+			order.setLiefertermin_Soll(deliveryDate);
+			order.setLiefertermin_Ist(deliveryDate);
 		}
 		catch (StockException ex)
 		{
+			fInternalStockAPI.cancelReservedTickets(tickets);
 			return false;
 		}
 		
 		return true;
-	}
-	
-	private void saveStockOrdersIntoDatabase(Stock stock, Bestellung order, List<DTOBestellposition> positions) throws StockException
-	{
-		for(DTOBestellposition position : positions) {
-			if (!fPositionRepository.orderProduct(order.getId(), position.getProdukt(), position.getAnzahl(), position.getStueckpreis())) {
-				//Not enough in storage
-								
-				String artikelIDForStock = generateArticelIDforStock(position.getProdukt());
-				
-				int productMinimalCount = fProductRepository.getById(position.getProdukt()).getMinimalMenge();
-				int productCountToOrder = position.getAnzahl();
-				
-				ZentrallagerBestellung stockOrder = new ZentrallagerBestellung();
-				stockOrder.setProdukt(fProductRepository.getById(position.getProdukt()));
-				stockOrder.setAnzahl(productMinimalCount + productCountToOrder);
-				stockOrder.setLiefertermin(stock.getItemDeliveryDate(artikelIDForStock));
-				
-				fStockRepository.persistObject(stockOrder);
-			}
-		}
-	}
-	
-	private String generateArticelIDforStock(int productID)
-	{
-		StringBuilder artikelIDForStockBuilder = new StringBuilder(productID);
-		while(artikelIDForStockBuilder.length() <= 6) {
-			artikelIDForStockBuilder.append("0");
-		}
-		String artikelIDForStock = artikelIDForStockBuilder.toString();
-		
-		return artikelIDForStock;
-	}
-	
-	private Date getLatestDeliveryDateFromStock(Stock stock, Map<Object, Object> reservedItems) throws StockException
-	{
-		Date latestDate = new Date();
-		
-		Set s= reservedItems.entrySet();
-        Iterator it= s.iterator();
-
-        while(it.hasNext())
-        {
-            Map.Entry m =(Map.Entry)it.next();
-
-            String articelID = (String)m.getKey();
-            long ticket = Long.valueOf((String) m.getValue());
-            
-            if (stock.getItemDeliveryDate(articelID).after(latestDate))
-            {
-            	latestDate = stock.getItemDeliveryDate(articelID);
-            }
-        }
- 
-        return latestDate;
-	}
-	
-	private void orderTicketsFromStock(Stock stock, Map<Object, Object> reservedItems) throws StockException
-	{
-		Set s= reservedItems.entrySet();
-        Iterator it= s.iterator();
-
-        while(it.hasNext())
-        {
-            Map.Entry m =(Map.Entry)it.next();
-
-            String articelID = (String)m.getKey();
-            long ticket = Long.valueOf((String) m.getValue());
-            
-            stock.orderItem(ticket);
-        }
-	}
-	
-	private void freeTicketsFromStock(Stock stock, Map<Object, Object> reservedItems) throws StockException
-	{
-		Set s= reservedItems.entrySet();
-        Iterator it= s.iterator();
-
-        while(it.hasNext())
-        {
-            Map.Entry m =(Map.Entry)it.next();
-
-            String articelID = (String)m.getKey();
-            long ticket = Long.valueOf((String) m.getValue());
-            
-            stock.freeItem(ticket);
-        }
 	}
 
 	@Override

@@ -40,6 +40,7 @@ public class OrderAPITest {
 	private iOrderPositionRepository fPositionRepositoryMock;
 	private iPersonRepository fPersonRepositoryMock;
 	private iProductRepository fProductRepositoryMock;
+	private iInternalStockAPI fInternalStockAPIMock;
 	
 	@Before
 	public void setUp() {
@@ -49,7 +50,8 @@ public class OrderAPITest {
 		fPositionRepositoryMock = PowerMock.createMock(iOrderPositionRepository.class);
 		fPersonRepositoryMock = PowerMock.createMock(iPersonRepository.class);
 		fProductRepositoryMock = PowerMock.createMock(iProductRepository.class);
-		fTestee = new OrderAPI(fTransactionMock, fSessionAPIMock, fOrderRepositoryMock, fPositionRepositoryMock, fPersonRepositoryMock, fProductRepositoryMock);
+		fInternalStockAPIMock = PowerMock.createMock(iInternalStockAPI.class);
+		fTestee = new OrderAPI(fTransactionMock, fSessionAPIMock, fOrderRepositoryMock, fPositionRepositoryMock, fPersonRepositoryMock, fProductRepositoryMock, fInternalStockAPIMock);
 	}
 
 	@After

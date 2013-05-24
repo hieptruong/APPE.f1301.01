@@ -23,6 +23,8 @@ public class ServiceModule extends AbstractModule {
 		bind(iPersonAPI.class).to(PersonAPI.class).in(Singleton.class);
 		bind(iProductAPI.class).to(ProductAPI.class).in(Singleton.class);
 		bind(iOrderAPI.class).to(OrderAPI.class).in(Singleton.class);
-		bind(iStockAPI.class).to(StockAPI.class).in(Singleton.class);
+		bind(StockAPI.class).in(Singleton.class);
+		bind(iStockAPI.class).to(StockAPI.class);
+		bind(iInternalStockAPI.class).to(StockAPI.class);
 	}
 }
