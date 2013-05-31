@@ -50,4 +50,16 @@
             restorable="true">
       </view>
    </extension>
+   <extension
+         id="appe_product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="ch.hslu.appe.fs1303.gui.Application3"
+            name="APPE GUI Client">
+         <property
+               name="appName"
+               value="APPE GUI Client">
+         </property>
+      </product>
+   </extension>
 </plugin>
